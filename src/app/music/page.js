@@ -320,7 +320,7 @@ export default function MusicPage()   {
                   <p className="text-base text-[#202020] mb-8 leading-relaxed font-benton">
                     For the EP cover, I embraced my creativity and resourcefulness. Using model train parts,
                     a piece of foam, and a candle box from IKEA, I crafted a visually captivating cover that
-                    embodied the essence of "Outside." It was a way to bring the physical world into the project
+                    embodied the essence of Outside. It was a way to bring the physical world into the project
                     and reflect the vibe of the project.
                   </p>
                   
@@ -583,7 +583,7 @@ export default function MusicPage()   {
                     <p className="text-lg text-[#202020] mt-8 w-[80%] leading-relaxed font-benton">
                       For the EP cover, I embraced my creativity and resourcefulness. Using model train parts,
                       a piece of foam, and a candle box from IKEA, I crafted a visually captivating cover that
-                      embodied the essence of "Outside." It was a way to bring the physical world into the project
+                      embodied the essence of Outside. It was a way to bring the physical world into the project
                       and reflect the vibe of the project.
                     </p>
                   </div>
