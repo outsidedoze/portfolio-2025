@@ -1,6 +1,6 @@
 'use client'
 import Image from 'next/image'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useRouter } from 'next/navigation'
 
@@ -11,7 +11,7 @@ export default function CreativePage() {
   const collageImages = [
     { 
       src: '/images/creative/desk.png', 
-      desktop: { left: -200, top: 150, width: 2000, height: 1134 },
+      desktop: { left: -230, top: 150, width: 2000, height: 1134 },
       mobile: { left: -1950, top: -300, width: 4500, height: 907, scale: 0.8, zIndex: 1 }
     },
     { 
@@ -111,7 +111,39 @@ export default function CreativePage() {
     landmade: {
       title: "Landmade",
       tagline: "Handcrafted goods, direct from artisans.",
-      description: "Full-scope brand identity and e-commerce design for this marketplace connecting craftspeople with consumers. Developed a system that showcased makers' stories."
+      description: "Full-scope brand identity and e-commerce design for this marketplace connecting craftspeople with consumers. Developed a system that showcased makers' stories.",
+      sections: {
+        branding: {
+          title: "Branding",
+          tagline: "The core identity for Landmade.",
+          description: "Exploring the visual language and foundational elements that define the Landmade brand, from wordmark to initial icon concepts."
+        },
+        photoshoot: {
+          title: "Photoshoot",
+          tagline: "Capturing the essence of handcrafted goods.",
+          description: "Behind-the-scenes and final images from photoshoots designed to highlight the authentic craftsmanship of Landmade products."
+        },
+        pricebook: {
+          title: "Price Book",
+          tagline: "Pricing and product catalog details.",
+          description: "A comprehensive guide to product offerings, pricing structures, and specifications for Landmade's artisan collection."
+        },
+        website: {
+          title: "Website",
+          tagline: "Bringing the marketplace online.",
+          description: "User experience and interface design for the Landmade e-commerce platform, focusing on seamless navigation and artisan storytelling."
+        },
+        finishesbox: {
+          title: "Finishes Box",
+          tagline: "Tangible brand experience for customers.",
+          description: "Design and creation of a physical sample box showcasing the quality and variety of materials and finishes used in Landmade products."
+        },
+        displaymedia: {
+          title: "Display Media",
+          tagline: "Visual storytelling in various channels.",
+          description: "Development of digital and print media assets for marketing and promotional campaigns, extending the Landmade brand across platforms."
+        }
+      }
     },
     colorblock: {
       title: "Colorblock",
@@ -132,6 +164,18 @@ export default function CreativePage() {
   const [windowWidth, setWindowWidth] = useState(0)
   const [windowHeight, setWindowHeight] = useState(0)
   const [isMobile, setIsMobile] = useState(false)
+  // --- ScrollSpy state for overlays ---
+  const [activeSection, setActiveSection] = useState('branding');
+  const sections = [
+    { id: 'branding', label: 'Branding' },
+    { id: 'photoshoot', label: 'Photoshoot' },
+    { id: 'pricebook', label: 'Price Book' },
+    { id: 'website', label: 'Website' },
+    { id: 'finishesbox', label: 'Finishes Box' },
+    { id: 'displaymedia', label: 'Display Media' },
+    // Add more sections here as needed
+  ];
+  // --- ---
 
   useEffect(() => {
     setHasMounted(true)
@@ -287,106 +331,34 @@ export default function CreativePage() {
               exit={{ x: '-100%' }}
               transition={{ duration: 0.6, ease: 'easeInOut' }}
               className="fixed top-0 left-0 w-full h-full z-[999] bg-[#FAF8E9] flex flex-col md:flex-row"
-              style={{ cursor: 'auto' }} // Restore normal cursor in the overlay
+              style={{ cursor: 'auto' }}
             >
-              {/* Back button */}
-              <button
-                onClick={() => setActiveOverlay(null)}
-                className="absolute top-6 left-6 z-[1000] cursor-pointer"
-              >
-                <Image src="/images/back-arrow.svg" alt="Back" width={40} height={40} />
-              </button>
-
               {/* Left Scrollable Column with Project Images */}
-              <div 
-                className="order-2 md:order-1 md:w-[60%] w-full h-full overflow-y-scroll p-6 md:p-12 flex flex-col items-center"
-                style={{
-                  scrollbarWidth: 'thin',
-                  scrollbarColor: '#202020 #FAF8E9',
-                }}
-              >
-                <style jsx global>{`
-                  /* Webkit browsers (Chrome, Safari) */
-                  .order-2::-webkit-scrollbar {
-                    width: 8px;
-                  }
-                  .order-2::-webkit-scrollbar-track {
-                    background: #FAF8E9;
-                  }
-                  .order-2::-webkit-scrollbar-thumb {
-                    background-color: #202020;
-                    border-radius: 4px;
-                    border: 2px solid #FAF8E9;
-                  }
-                `}</style>
-                
-                {activeOverlay === 'landmade' ? (
-                  // Landmade specific layout - stacked with no padding
-                  <div className="w-full">
-                    {/* First image - full width, no margin */}
-                    <Image
-                      src="/images/creative/landmade/lm-pb-coer-v2.jpg"
-                      alt="Landmade project cover v2"
-                      width={800}
-                      height={600}
-                      className="w-full h-auto object-contain"
-                    />
-                    
-                    {/* Second image - full width, no margin */}
-                    <Image
-                      src="/images/creative/landmade/lm-pb-coer-v3.jpg"
-                      alt="Landmade project cover v3"
-                      width={800}
-                      height={600}
-                      className="w-full h-auto object-contain"
-                    />
-                    
-                    {/* PDF as images - convert your PDF pages to JPG first */}
-                    <Image
-                      src="/images/creative/landmade/landmade-brandstandards-page1.jpg"
-                      alt="Landmade brand standards page 1"
-                      width={800}
-                      height={1000}
-                      className="w-full h-auto object-contain"
-                    />
-                    
-                    <Image
-                      src="/images/creative/landmade/landmade-brandstandards-page2.jpg"
-                      alt="Landmade brand standards page 2"
-                      width={800}
-                      height={1000}
-                      className="w-full h-auto object-contain"
-                    />
-                    
-                    {/* Add more pages as needed */}
-                  </div>
-                ) : (
-                  // Other projects - standard 3 images with spacing
-                  <div className="w-full space-y-8">
-                    <Image
-                      src={`/images/creative/${activeOverlay}/${activeOverlay}-cover.jpg`}
-                      alt={`${activeOverlay} project cover`}
-                      width={800}
-                      height={800}
-                      className="w-full h-auto object-contain"
-                    />
-                    
-                    {Array.from({ length: 3 }).map((_, idx) => (
-                      <Image
-                        key={idx}
-                        src={`/images/creative/${activeOverlay}/${activeOverlay}-${idx + 1}.jpg`}
-                        alt={`${activeOverlay} project image ${idx + 1}`}
-                        width={800}
-                        height={800}
-                        className="w-full h-auto object-contain"
-                      />
-                    ))}
-                  </div>
-                )}
-              </div>
-
-              {/* Right Fixed Column with Project Info */}
+              <LeftColumnImages
+                activeOverlay={activeOverlay}
+                setActiveOverlay={setActiveOverlay}
+                setActiveSection={setActiveSection}
+                sections={sections}
+              />
+              {/* Right Fixed Column with Project Info and Sticky Nav */}
               <div className="order-1 md:order-2 md:w-[40%] w-full h-full overflow-y-auto p-6 md:p-12 relative text-center md:text-left">
+                {/* Sticky ScrollSpyNav at top left */}
+                <div className="sticky top-0 left-0 z-10 pt-2 pb-4" style={{ background: 'none' }}>
+                  <ScrollSpyNav
+                    sections={sections}
+                    activeSection={activeSection}
+                    onNavClick={(id) => {
+                      // Scroll the left column to the section
+                      const leftCol = document.querySelector('.order-2');
+                      if (leftCol) {
+                        const sectionEl = leftCol.querySelector(`#${id}`);
+                        if (sectionEl) {
+                          sectionEl.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
+                        }
+                      }
+                    }}
+                  />
+                </div>
                 {/* Mobile view star */}
                 <div className="md:hidden relative w-[220px] h-[220px] mx-auto mb-6">
                   {/* Back star (shadow) */}
@@ -435,7 +407,7 @@ export default function CreativePage() {
                   
                   {/* Star text */}
                   <div
-                    className="absolute font-bold font-benton text-[1.5rem] z-10"
+                    className="absolute font-benton-compressed text-[2rem] z-10"
                     style={{
                       left: '110px',
                       top: '110px',
@@ -499,7 +471,7 @@ export default function CreativePage() {
                     
                     {/* Star text */}
                     <div
-                      className="absolute font-bold font-benton text-[3.5vw] z-10"
+                      className="absolute font-benton-compressed text-[4.5vw] z-10"
                       style={{
                         left: '50%',
                         top: '50%',
@@ -517,11 +489,17 @@ export default function CreativePage() {
                   </div>
                 </div>
                 
-                <div className="mt-[25vh] md:mt-[400px] text-[#202020] font-benton text-4xl md:text-6xl leading-tight">
-                  {projectDescriptions[activeOverlay]?.tagline || "Creative project showcase"}
+                <div className="mt-[10vh] md:mt-[200px] text-[#202020] font-benton-compressed text-6xl md:text-8xl leading-none text-right">
+                  {activeOverlay === 'landmade' ?
+                    projectDescriptions.landmade.sections[activeSection]?.tagline || "Creative project showcase"
+                    : projectDescriptions[activeOverlay]?.tagline || "Creative project showcase"
+                  }
                 </div>
-                <p className="text-base md:text-lg text-[#202020] mt-6 md:mt-8 leading-relaxed font-benton">
-                  {projectDescriptions[activeOverlay]?.description || "Project description coming soon."}
+                <p className="text-base md:text-lg text-[#202020] mt-6 md:mt-8 leading-normal font-benton text-right">
+                  {activeOverlay === 'landmade' ?
+                    projectDescriptions.landmade.sections[activeSection]?.description || "Description coming soon."
+                    : projectDescriptions[activeOverlay]?.description || "Project description coming soon."
+                  }
                 </p>
               </div>
             </motion.div>
@@ -530,4 +508,225 @@ export default function CreativePage() {
       </div>
     </main>
   )
+}
+
+// --- Helper component for left column images and arrow ---
+function ScrollSpyNav({ sections, activeSection, onNavClick }) {
+  // For animated highlight bar
+  const navRefs = useRef([]);
+  const [highlightStyle, setHighlightStyle] = useState({ top: 0, width: 0, height: 0 });
+
+  useEffect(() => {
+    const idx = sections.findIndex(s => s.id === activeSection);
+    if (navRefs.current[idx]) {
+      const el = navRefs.current[idx];
+      const lineHeight = 2; // Desired height of the horizontal line
+      const lineWidth = 15; // Desired width of the horizontal line
+      setHighlightStyle({
+        top: el.offsetTop + (el.offsetHeight / 2) - (lineHeight / 2),
+        width: lineWidth,
+        height: lineHeight
+      });
+    }
+  }, [activeSection, sections]);
+
+  return (
+    <nav className="relative flex flex-col items-start font-benton-compressed text-[1.5rem] sticky top-0 left-0 z-10" style={{padding: 0, margin: 0, background: 'none'}}>
+      {/* Animated highlight bar */}
+      <motion.div
+        layout
+        transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+        className="absolute left-[-1.5rem] rounded bg-[#202020]"
+        style={{
+          top: highlightStyle.top,
+          height: highlightStyle.height,
+          width: highlightStyle.width,
+          borderRadius: '2px',
+        }}
+      />
+      {sections.map((section, idx) => (
+        <button
+          key={section.id}
+          ref={el => navRefs.current[idx] = el}
+          onClick={() => onNavClick(section.id)}
+          className={`relative text-left transition-colors duration-300 w-full ${activeSection === section.id ? 'font-bold' : 'font-normal'}`}
+          style={{ background: 'none', border: 'none', padding: 0, margin: 0, cursor: 'pointer', minHeight: '2.5rem', display: 'flex', alignItems: 'center', color: activeSection === section.id ? '#202020' : '#bdbdbd', transition: 'color 0.3s' }}
+        >
+          {section.label}
+        </button>
+      ))}
+    </nav>
+  );
+}
+
+function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, sections }) {
+  const firstImgRef = useRef(null);
+  const leftColRef = useRef(null);
+
+  // ScrollSpy: update active section on scroll
+  useEffect(() => {
+    const ref = leftColRef.current;
+    if (!ref) return;
+    const handleScroll = () => {
+      const parentRect = ref.getBoundingClientRect();
+      const viewportMidpoint = parentRect.height / 2; // Midpoint of the scrollable area
+
+      for (const section of sections) {
+        const el = ref.querySelector(`#${section.id}`);
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          // Calculate section's position relative to the scroll container's top
+          const sectionTopRelativeToParent = rect.top - parentRect.top;
+          const sectionBottomRelativeToParent = rect.bottom - parentRect.top;
+
+          // Check if the section's top is above the midpoint AND its bottom is below the midpoint
+          // This means the section is currently "crossing" the midpoint
+          if (sectionTopRelativeToParent <= viewportMidpoint && sectionBottomRelativeToParent > viewportMidpoint) {
+            setActiveSection(section.id);
+            break;
+          }
+        }
+      }
+    };
+    ref.addEventListener('scroll', handleScroll);
+    handleScroll();
+    return () => ref.removeEventListener('scroll', handleScroll);
+  }, [sections, setActiveSection]);
+
+  return (
+    <div 
+      ref={leftColRef}
+      className="order-2 md:order-1 md:w-[60%] w-full h-full overflow-y-scroll relative p-0 m-0"
+      style={{
+        scrollbarWidth: 'thin',
+        scrollbarColor: '#202020 #FAF8E9',
+        padding: 0,
+        margin: 0,
+      }}
+    >
+      <style jsx global>{`
+        .order-2::-webkit-scrollbar { width: 8px; }
+        .order-2::-webkit-scrollbar-track { background: #FAF8E9; }
+        .order-2::-webkit-scrollbar-thumb { background-color: #202020; border-radius: 4px; border: 2px solid #FAF8E9; }
+      `}</style>
+      {/* Back button */}
+      <button
+        onClick={() => setActiveOverlay(null)}
+        className="absolute top-6 left-6 z-[1000] cursor-pointer"
+        style={{ pointerEvents: 'auto' }}
+      >
+        <Image src="/images/back-arrow.svg" alt="Back" width={40} height={40} />
+      </button>
+      {activeOverlay === 'landmade' ? (
+        <div className="w-full">
+          <div id="branding">
+            <Image
+              ref={firstImgRef}
+              src="/images/creative/landmade/landmade-1.jpg"
+              alt="Landmade project image 1"
+              width={800}
+              height={600}
+              className="w-full object-contain"
+              style={{margin: 0, padding: 0}}
+            />
+            <Image
+              src="/images/creative/landmade/landmade-2.jpg"
+              alt="Landmade project image 2"
+              width={800}
+              height={600}
+              className="w-full object-contain"
+              style={{margin: 0, padding: 0}}
+            />
+          </div>
+          <div id="photoshoot">
+            <Image
+              src="/images/creative/landmade/landmade-3.gif"
+              alt="Landmade project image 3"
+              width={800}
+              height={600}
+              className="w-full object-contain"
+              style={{margin: 0, padding: 0}}
+            />
+          </div>
+          <div id="pricebook">
+            <Image
+              src="/images/creative/landmade/landmade-4.jpg"
+              alt="Landmade project image 4"
+              width={800}
+              height={600}
+              className="w-full object-contain"
+              style={{margin: 0, padding: 0}}
+            />
+            <Image
+              src="/images/creative/landmade/landmade-5.gif"
+              alt="Landmade project image 5"
+              width={800}
+              height={600}
+              className="w-full object-contain"
+              style={{margin: 0, padding: 0}}
+            />
+            <Image
+              src="/images/creative/landmade/landmade-6.jpg"
+              alt="Landmade project image 6"
+              width={800}
+              height={600}
+              className="w-full object-contain"
+              style={{margin: 0, padding: 0}}
+            />
+          </div>
+          <div id="website">
+            <Image
+              src="/images/creative/landmade/landmade-7.gif"
+              alt="Landmade project image 7"
+              width={800}
+              height={600}
+              className="w-full object-contain"
+              style={{margin: 0, padding: 0}}
+            />
+          </div>
+          <div id="finishesbox">
+            <Image
+              src="/images/creative/landmade/landmade-8.jpg"
+              alt="Landmade project image 8"
+              width={800}
+              height={600}
+              className="w-full object-contain"
+              style={{margin: 0, padding: 0}}
+            />
+          </div>
+          <div id="displaymedia">
+            <Image
+              src="/images/creative/landmade/landmade-9.jpg"
+              alt="Landmade project image 9"
+              width={800}
+              height={600}
+              className="w-full object-contain"
+              style={{margin: 0, padding: 0}}
+            />
+          </div>
+        </div>
+      ) : (
+        <div className="w-full h-full flex flex-col gap-0 p-0 m-0">
+          <Image
+            ref={firstImgRef}
+            src={`/images/creative/${activeOverlay}/${activeOverlay}-cover.jpg`}
+            alt={`${activeOverlay} project cover`}
+            width={800}
+            height={800}
+            className="w-full h-full object-cover p-0 m-0"
+          />
+          {Array.from({ length: 3 }).map((_, idx) => (
+            <Image
+              key={idx}
+              src={`/images/creative/${activeOverlay}/${activeOverlay}-${idx + 1}.jpg`}
+              alt={`${activeOverlay} project image ${idx + 1}`}
+              width={800}
+              height={800}
+              className="w-full h-full object-cover p-0 m-0"
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  );
 }

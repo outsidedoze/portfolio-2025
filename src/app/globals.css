@@ -41,3 +41,9 @@ body {
 .animate-marquee {
   animation: marquee 20s linear infinite;
 }
+
+.font-benton-compressed {
+  font-family: "benton-modern-display-compre", serif;
+  font-weight: 700; /* Make sure this matches your boldest available */
+  font-style: normal;
+}

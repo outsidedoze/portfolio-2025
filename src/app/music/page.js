@@ -330,74 +330,66 @@ export default function MusicPage()   {
                     alt="Outside project"
                     width={800}
                     height={800}
-                    className="w-full h-auto object-contain mb-8"
+                    className="w-full h-full object-cover"
                     priority
                   />
-                  
-                  <div className="w-full space-y-8">
+                  <div className="w-full h-full">
                     <Image
                       src="/images/outside/IMG_0799.jpeg"
                       alt="Outside project"
                       width={800}
                       height={600}
-                      className="w-full h-auto object-contain mb-6"
+                      className="w-full h-full object-cover"
                     />
-                    
                     <div className="grid grid-cols-2 gap-4">
                       <Image
                         src="/images/outside/59815894100__84E974C9-8D63-4EA1-B181-950697974B94-1.jpeg"
                         alt="Outside project"
                         width={400}
                         height={600}
-                        className="w-full h-auto object-contain"
+                        className="w-full h-full object-cover"
                       />
-                      
                       <Image
                         src="/images/outside/IMG_2976.jpeg"
                         alt="Outside project"
                         width={400}
                         height={600}
-                        className="w-full h-auto object-contain"
+                        className="w-full h-full object-cover"
                       />
                     </div>
-                    
                     <Image
                       src="/images/outside/IMG_0798-1.jpeg"
                       alt="Outside project"
                       width={800}
                       height={600}
-                      className="w-full h-auto object-contain mb-6"
+                      className="w-full h-full object-cover"
                     />
-                    
                     <Image
                       src="/images/outside/IMG_1248.jpeg"
                       alt="Outside project"
                       width={800}
                       height={600}
-                      className="w-full h-auto object-contain mb-6"
+                      className="w-full h-full object-cover"
                     />
-                    
                     <Image
                       src="/images/outside/IMG_1250.jpeg"
                       alt="Outside project"
                       width={800}
                       height={600}
-                      className="w-full h-auto object-contain mb-6"
+                      className="w-full h-full object-cover"
                     />
-                    
                     {/* Videos */}
                     <video 
                       controls 
-                      className="w-full h-auto mb-6"
+                      className="w-full h-full object-cover"
                       poster="/images/outside/IMG_0799.jpeg"
                     >
                       <source src="/images/outside/815f4145a2d14eaca2f0dd7f2e350ce8.mp4" type="video/mp4" />
                       Your browser does not support the video tag.
                     </video>
-                    
                     <video 
                       controls 
-                      className="w-full h-auto mb-6"
+                      className="w-full h-full object-cover"
                     >
                       <source src="/images/outside/IMG_0782.mov" type="video/quicktime" />
                       Your browser does not support the video tag.
@@ -435,74 +427,66 @@ export default function MusicPage()   {
                     alt="Outside project"
                     width={800}
                     height={800}
-                    className="w-full h-auto object-contain mb-8"
+                    className="w-full h-full object-cover"
                     priority
                   />
-                  
-                  <div className="w-full space-y-8">
+                  <div className="w-full h-full">
                     <Image
                       src="/images/outside/IMG_0799.jpeg"
                       alt="Outside project"
                       width={800}
                       height={600}
-                      className="w-full h-auto object-contain mb-6"
+                      className="w-full h-full object-cover"
                     />
-                    
                     <div className="grid grid-cols-2 gap-4">
                       <Image
                         src="/images/outside/59815894100__84E974C9-8D63-4EA1-B181-950697974B94-1.jpeg"
                         alt="Outside project"
                         width={400}
                         height={600}
-                        className="w-full h-auto object-contain"
+                        className="w-full h-full object-cover"
                       />
-                      
                       <Image
                         src="/images/outside/IMG_2976.jpeg"
                         alt="Outside project"
                         width={400}
                         height={600}
-                        className="w-full h-auto object-contain"
+                        className="w-full h-full object-cover"
                       />
                     </div>
-                    
                     <Image
                       src="/images/outside/IMG_0798-1.jpeg"
                       alt="Outside project"
                       width={800}
                       height={600}
-                      className="w-full h-auto object-contain mb-6"
+                      className="w-full h-full object-cover"
                     />
-                    
                     <Image
                       src="/images/outside/IMG_1248.jpeg"
                       alt="Outside project"
                       width={800}
                       height={600}
-                      className="w-full h-auto object-contain mb-6"
+                      className="w-full h-full object-cover"
                     />
-                    
                     <Image
                       src="/images/outside/IMG_1250.jpeg"
                       alt="Outside project"
                       width={800}
                       height={600}
-                      className="w-full h-auto object-contain mb-6"
+                      className="w-full h-full object-cover"
                     />
-                    
                     {/* Videos */}
                     <video 
                       controls 
-                      className="w-full h-auto mb-6"
+                      className="w-full h-full object-cover"
                       poster="/images/outside/IMG_0799.jpeg"
                     >
                       <source src="/images/outside/815f4145a2d14eaca2f0dd7f2e350ce8.mp4" type="video/mp4" />
                       Your browser does not support the video tag.
                     </video>
-                    
                     <video 
                       controls 
-                      className="w-full h-auto mb-6"
+                      className="w-full h-full object-cover"
                     >
                       <source src="/images/outside/IMG_0782.mov" type="video/quicktime" />
                       Your browser does not support the video tag.
