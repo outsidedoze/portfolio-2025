@@ -339,93 +339,148 @@ export default function CreativePage() {
                 setActiveOverlay={setActiveOverlay}
                 setActiveSection={setActiveSection}
                 sections={sections}
+                activeSection={activeSection}
               />
               {/* Right Fixed Column with Project Info and Sticky Nav */}
-              <div className="order-1 md:order-2 md:w-[40%] w-full h-full overflow-y-auto p-6 md:p-12 relative text-center md:text-left">
-                {/* Sticky ScrollSpyNav at top left */}
-                <div className="sticky top-0 left-0 z-10 pt-2 pb-4" style={{ background: 'none' }}>
-                  <ScrollSpyNav
-                    sections={sections}
-                    activeSection={activeSection}
-                    onNavClick={(id) => {
-                      // Scroll the left column to the section
-                      const leftCol = document.querySelector('.order-2');
-                      if (leftCol) {
-                        const sectionEl = leftCol.querySelector(`#${id}`);
-                        if (sectionEl) {
-                          sectionEl.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
-                        }
-                      }
-                    }}
-                  />
-                </div>
-                {/* Mobile view star */}
-                <div className="md:hidden relative w-[220px] h-[220px] mx-auto mb-6">
-                  {/* Back star (shadow) */}
-                  <motion.div
-                    className="absolute"
-                    style={{ left: '-20px', top: '20px' }}
-                    animate={{ 
-                      rotate: 360 
-                    }}
-                    transition={{ 
-                      duration: 15,
-                      repeat: Infinity,
-                      ease: "linear"
-                    }}
+              <div className="order-1 md:order-2 md:w-[40%] w-full md:h-full md:overflow-y-auto p-6 md:p-12 relative text-center md:text-left">
+                {/* MOBILE LAYOUT */}
+                <div className="md:hidden">
+                  {/* Back button for mobile - top left */}
+                  <button
+                    onClick={() => setActiveOverlay(null)}
+                    className="fixed top-4 left-4 z-[1000] cursor-pointer"
+                    style={{ pointerEvents: 'auto' }}
                   >
-                    <Image
-                      src="/images/star-background.svg"
-                      alt="Star Badge Shadow"
-                      width={220}
-                      height={220}
-                      className="object-contain"
+                    <Image 
+                      src="/images/back-arrow.svg" 
+                      alt="Back" 
+                      width={32} 
+                      height={32} 
                     />
-                  </motion.div>
-                  
-                  {/* Front star */}
-                  <motion.div
-                    className="absolute"
-                    style={{ left: '0', top: '0' }}
-                    animate={{ 
-                      rotate: 360 
-                    }}
-                    transition={{ 
-                      duration: 15,
-                      repeat: Infinity,
-                      ease: "linear"
-                    }}
-                  >
-                    <Image
-                      src="/images/star-front.svg"
-                      alt="Star Badge"
-                      width={220}
-                      height={220}
-                      className="object-contain"
-                    />
-                  </motion.div>
-                  
-                  {/* Star text */}
-                  <div
-                    className="absolute font-benton-compressed text-[2rem] z-10"
-                    style={{
-                      left: '110px',
-                      top: '110px',
-                      transform: 'translate(-50%, -50%)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      textAlign: 'center',
-                      color: '#202020',
-                      pointerEvents: 'none'
-                    }}
-                  >
-                    {projectDescriptions[activeOverlay]?.title || activeOverlay}
+                  </button>
+
+                  {/* Mobile view star and title - AT TOP, positioned absolutely to overflow window */}
+                  <div className="absolute left-1/2 transform -translate-x-1/2 w-[120px] h-[120px]" style={{ top: '-30px' }}>
+                    {/* Back star (shadow) */}
+                    <motion.div
+                      className="absolute"
+                      style={{ left: '-12px', top: '12px' }}
+                      animate={{ 
+                        rotate: 360 
+                      }}
+                      transition={{ 
+                        duration: 15,
+                        repeat: Infinity,
+                        ease: "linear"
+                      }}
+                    >
+                      <Image
+                        src="/images/star-background.svg"
+                        alt="Star Badge Shadow"
+                        width={120}
+                        height={120}
+                        className="object-contain"
+                      />
+                    </motion.div>
+                    
+                    {/* Front star */}
+                    <motion.div
+                      className="absolute"
+                      style={{ left: '0', top: '0' }}
+                      animate={{ 
+                        rotate: 360 
+                      }}
+                      transition={{ 
+                        duration: 15,
+                        repeat: Infinity,
+                        ease: "linear"
+                      }}
+                    >
+                      <Image
+                        src="/images/star-front.svg"
+                        alt="Star Badge"
+                        width={120}
+                        height={120}
+                        className="object-contain"
+                      />
+                    </motion.div>
+                    
+                    {/* Star text */}
+                    <div
+                      className="absolute font-benton-compressed text-[1.1rem] z-10"
+                      style={{
+                        left: '60px',
+                        top: '60px',
+                        transform: 'translate(-50%, -50%)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        textAlign: 'center',
+                        color: '#202020',
+                        pointerEvents: 'none'
+                      }}
+                    >
+                      {projectDescriptions[activeOverlay]?.title || activeOverlay}
+                    </div>
                   </div>
+
+                  {/* Title and description - with top margin to account for star */}
+                  <div className="text-center" style={{ marginTop: '80px', marginBottom: '10px' }}>
+                    <div className="text-[#202020] font-benton-compressed text-4xl leading-none mb-4">
+                      {activeOverlay === 'landmade' ?
+                        projectDescriptions.landmade.sections[activeSection]?.tagline || "Creative project showcase"
+                        : projectDescriptions[activeOverlay]?.tagline || "Creative project showcase"
+                      }
+                    </div>
+                    <p className="text-base text-[#202020] leading-normal font-benton">
+                      {activeOverlay === 'landmade' ?
+                        projectDescriptions.landmade.sections[activeSection]?.description || "Description coming soon."
+                        : projectDescriptions[activeOverlay]?.description || "Project description coming soon."
+                      }
+                    </p>
+                  </div>
+
+                  {/* Navigation menu - horizontal and center aligned at bottom - FOR LANDMADE ONLY */}
+                  {activeOverlay === 'landmade' && (
+                    <div className="flex justify-center">
+                      <HorizontalScrollSpyNav
+                        sections={sections}
+                        activeSection={activeSection}
+                        onNavClick={(id) => {
+                          const leftCol = document.querySelector('.order-2');
+                          if (leftCol) {
+                            const sectionEl = leftCol.querySelector(`#${id}`);
+                            if (sectionEl) {
+                              sectionEl.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
+                            }
+                          }
+                        }}
+                      />
+                    </div>
+                  )}
                 </div>
 
-                {/* Desktop view star */}
+                {/* DESKTOP LAYOUT */}
                 <div className="hidden md:block">
+                  {/* Sticky ScrollSpyNav at top left */}
+                  <div className="sticky top-0 left-0 z-10 pt-2 pb-4" style={{ background: 'none' }}>
+                    <ScrollSpyNav
+                      sections={sections}
+                      activeSection={activeSection}
+                      onNavClick={(id) => {
+                        // Scroll the left column to the section
+                        const leftCol = document.querySelector('.order-2');
+                        if (leftCol) {
+                          const sectionEl = leftCol.querySelector(`#${id}`);
+                          if (sectionEl) {
+                            sectionEl.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
+                          }
+                        }
+                      }}
+                    />
+                  </div>
+
+                  {/* Desktop view star */}
                   <div className="absolute" style={{ top: '-30px', right: '-70px', width: '25vw', height: '25vw', maxWidth: '425px', maxHeight: '425px' }}>
                     {/* Back star (shadow) */}
                     <motion.div
@@ -487,20 +542,20 @@ export default function CreativePage() {
                       {projectDescriptions[activeOverlay]?.title || activeOverlay}
                     </div>
                   </div>
+                  
+                  <div className="mt-[200px] text-[#202020] font-benton-compressed text-6xl md:text-8xl leading-none text-right">
+                    {activeOverlay === 'landmade' ?
+                      projectDescriptions.landmade.sections[activeSection]?.tagline || "Creative project showcase"
+                      : projectDescriptions[activeOverlay]?.tagline || "Creative project showcase"
+                    }
+                  </div>
+                  <p className="text-base md:text-lg text-[#202020] mt-6 md:mt-8 leading-normal font-benton text-right">
+                    {activeOverlay === 'landmade' ?
+                      projectDescriptions.landmade.sections[activeSection]?.description || "Description coming soon."
+                      : projectDescriptions[activeOverlay]?.description || "Project description coming soon."
+                    }
+                  </p>
                 </div>
-                
-                <div className="mt-[10vh] md:mt-[200px] text-[#202020] font-benton-compressed text-6xl md:text-8xl leading-none text-right">
-                  {activeOverlay === 'landmade' ?
-                    projectDescriptions.landmade.sections[activeSection]?.tagline || "Creative project showcase"
-                    : projectDescriptions[activeOverlay]?.tagline || "Creative project showcase"
-                  }
-                </div>
-                <p className="text-base md:text-lg text-[#202020] mt-6 md:mt-8 leading-normal font-benton text-right">
-                  {activeOverlay === 'landmade' ?
-                    projectDescriptions.landmade.sections[activeSection]?.description || "Description coming soon."
-                    : projectDescriptions[activeOverlay]?.description || "Project description coming soon."
-                  }
-                </p>
               </div>
             </motion.div>
           )}
@@ -559,7 +614,50 @@ function ScrollSpyNav({ sections, activeSection, onNavClick }) {
   );
 }
 
-function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, sections }) {
+// New horizontal navigation component for mobile
+function HorizontalScrollSpyNav({ sections, activeSection, onNavClick }) {
+  const firstLine = sections.slice(0, 4); // Branding, Photoshoot, Price Book, Website
+  const secondLine = sections.slice(4, 6); // Finishes Box, Display Media
+  
+  return (
+    <nav className="flex flex-col items-center gap-y-2 font-benton-compressed text-sm">
+      {/* First line - 4 items */}
+      <div className="flex gap-x-4">
+        {firstLine.map((section) => (
+          <button
+            key={section.id}
+            onClick={() => onNavClick(section.id)}
+            className={`relative transition-colors duration-300 px-2 py-1 ${activeSection === section.id ? 'font-bold text-[#202020]' : 'font-normal text-[#bdbdbd]'}`}
+            style={{ background: 'none', border: 'none', cursor: 'pointer' }}
+          >
+            {section.label}
+            {activeSection === section.id && (
+              <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-4 h-0.5 bg-[#202020] rounded"></div>
+            )}
+          </button>
+        ))}
+      </div>
+      {/* Second line - 2 items */}
+      <div className="flex gap-x-4">
+        {secondLine.map((section) => (
+          <button
+            key={section.id}
+            onClick={() => onNavClick(section.id)}
+            className={`relative transition-colors duration-300 px-2 py-1 ${activeSection === section.id ? 'font-bold text-[#202020]' : 'font-normal text-[#bdbdbd]'}`}
+            style={{ background: 'none', border: 'none', cursor: 'pointer' }}
+          >
+            {section.label}
+            {activeSection === section.id && (
+              <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-4 h-0.5 bg-[#202020] rounded"></div>
+            )}
+          </button>
+        ))}
+      </div>
+    </nav>
+  );
+}
+
+function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, sections, activeSection }) {
   const firstImgRef = useRef(null);
   const leftColRef = useRef(null);
 
@@ -569,29 +667,70 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
     if (!ref) return;
     const handleScroll = () => {
       const parentRect = ref.getBoundingClientRect();
-      const viewportMidpoint = parentRect.height / 2; // Midpoint of the scrollable area
+      const viewportMidpoint = parentRect.height / 2;
+      let activeFound = false;
+      let newActiveSection = null;
 
-      for (const section of sections) {
-        const el = ref.querySelector(`#${section.id}`);
-        if (el) {
-          const rect = el.getBoundingClientRect();
-          // Calculate section's position relative to the scroll container's top
-          const sectionTopRelativeToParent = rect.top - parentRect.top;
-          const sectionBottomRelativeToParent = rect.bottom - parentRect.top;
+      // Check if we're near the bottom of the scroll container
+      const scrollTop = ref.scrollTop;
+      const scrollHeight = ref.scrollHeight;
+      const clientHeight = ref.clientHeight;
+      const isNearBottom = scrollTop + clientHeight >= scrollHeight - 50; // 50px threshold
 
-          // Check if the section's top is above the midpoint AND its bottom is below the midpoint
-          // This means the section is currently "crossing" the midpoint
-          if (sectionTopRelativeToParent <= viewportMidpoint && sectionBottomRelativeToParent > viewportMidpoint) {
-            setActiveSection(section.id);
-            break;
+      // If near bottom, set last section as active
+      if (isNearBottom) {
+        newActiveSection = sections[sections.length - 1].id;
+      } else {
+        for (const section of sections) {
+          const el = ref.querySelector(`#${section.id}`);
+          if (el) {
+            const rect = el.getBoundingClientRect();
+            const sectionTopRelativeToParent = rect.top - parentRect.top;
+            const sectionBottomRelativeToParent = rect.bottom - parentRect.top;
+
+            // Check if the section's top is above the midpoint AND its bottom is below the midpoint
+            if (sectionTopRelativeToParent <= viewportMidpoint && sectionBottomRelativeToParent > viewportMidpoint) {
+              newActiveSection = section.id;
+              activeFound = true;
+              break;
+            }
           }
         }
+
+        // Fallback: if no section is crossing midpoint, find the one closest to top
+        if (!activeFound) {
+          let closestSection = null;
+          let closestDistance = Infinity;
+
+          for (const section of sections) {
+            const el = ref.querySelector(`#${section.id}`);
+            if (el) {
+              const rect = el.getBoundingClientRect();
+              const sectionTopRelativeToParent = rect.top - parentRect.top;
+              const distance = Math.abs(sectionTopRelativeToParent);
+              
+              if (distance < closestDistance && sectionTopRelativeToParent <= viewportMidpoint) {
+                closestDistance = distance;
+                closestSection = section.id;
+              }
+            }
+          }
+
+          if (closestSection) {
+            newActiveSection = closestSection;
+          }
+        }
+      }
+
+      // Only update if the section actually changed
+      if (newActiveSection && newActiveSection !== activeSection) {
+        setActiveSection(newActiveSection);
       }
     };
     ref.addEventListener('scroll', handleScroll);
     handleScroll();
     return () => ref.removeEventListener('scroll', handleScroll);
-  }, [sections, setActiveSection]);
+  }, [sections, activeSection]); // Removed setActiveSection from dependencies
 
   return (
     <div 
@@ -609,13 +748,19 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
         .order-2::-webkit-scrollbar-track { background: #FAF8E9; }
         .order-2::-webkit-scrollbar-thumb { background-color: #202020; border-radius: 4px; border: 2px solid #FAF8E9; }
       `}</style>
-      {/* Back button */}
+      {/* Back button - DESKTOP ONLY */}
       <button
         onClick={() => setActiveOverlay(null)}
-        className="absolute top-6 left-6 z-[1000] cursor-pointer"
+        className="hidden md:block fixed top-6 left-6 z-[1000] cursor-pointer"
         style={{ pointerEvents: 'auto' }}
       >
-        <Image src="/images/back-arrow.svg" alt="Back" width={40} height={40} />
+        <Image 
+          src="/images/back-arrow.svg" 
+          alt="Back" 
+          width={40} 
+          height={40} 
+          style={{ filter: 'drop-shadow(0 1px 3px rgba(0, 0, 0, 0.12))' }}
+        />
       </button>
       {activeOverlay === 'landmade' ? (
         <div className="w-full">
@@ -676,7 +821,7 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
           </div>
           <div id="website">
             <Image
-              src="/images/creative/landmade/landmade-7.gif"
+              src="/images/creative/landmade/website.gif"
               alt="Landmade project image 7"
               width={800}
               height={600}
