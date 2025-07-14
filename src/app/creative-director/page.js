@@ -91,17 +91,58 @@ export default function CreativePage() {
     sorette: {
       title: "Sorette",
       tagline: "Elevated essentials for modern motherhood.",
-      description: "Designed for a European-inspired wellness brand built for expecting moms. I led visual identity and UX storytelling across packaging, e-commerce, and social."
+      description: "Designed for a European-inspired wellness brand built for expecting moms. I led visual identity and UX storytelling across packaging, e-commerce, and social.",
+      sections: {
+        webdesign: {
+          title: "Web Design",
+          tagline: "Elevated essentials for modern motherhood.",
+          description: "Designed for a European-inspired wellness brand built for expecting moms. I led visual identity and UX storytelling across packaging, e-commerce, and social."
+        }
+      }
     },
     gas: {
       title: "The Gas Station",
       tagline: "Supercharging Gen Z social connections.",
-      description: "Product design for a viral social app acquired by Discord. I led design strategy from early sketches through user testing to launch and beyond."
+      description: "Product design for a viral social app acquired by Discord. I led design strategy from early sketches through user testing to launch and beyond.",
+      sections: {
+        supercoolsign: {
+          title: "Super Cool Sign",
+          tagline: "Eye-catching signage design.",
+          description: "Creating bold, attention-grabbing signage that captures the energy and vibe of The Gas Station brand experience."
+        },
+        moodboard: {
+          title: "Mood Board",
+          tagline: "Visual inspiration and direction.",
+          description: "Curated mood board showcasing the aesthetic inspiration, color palettes, and visual references that guided the brand development process."
+        },
+        branding: {
+          title: "Branding",
+          tagline: "Supercharging Gen Z social connections.",
+          description: "Product design for a viral social app acquired by Discord. I led design strategy from early sketches through user testing to launch and beyond."
+        }
+      }
     },
     omi: {
       title: "Omi Health",
       tagline: "Revolutionizing personal care with innovation.",
-      description: "Brand identity and packaging design for a breakthrough personal care brand. Created a bold visual system that stands out in a crowded marketplace."
+      description: "Brand identity and packaging design for a breakthrough personal care brand. Created a bold visual system that stands out in a crowded marketplace.",
+      sections: {
+        branding: {
+          title: "Branding",
+          tagline: "Bold brand identity for personal care.",
+          description: "Creating a distinctive visual language that communicates innovation and wellness in the personal care space."
+        },
+        posters: {
+          title: "Posters",
+          tagline: "Impactful visual communications.",
+          description: "Dynamic poster designs that capture the energy and innovation of the Omi Health brand across various applications."
+        },
+        website: {
+          title: "Website",
+          tagline: "Digital experience design.",
+          description: "User-centered web design that seamlessly integrates the brand identity with intuitive navigation and compelling storytelling."
+        }
+      }
     },
     chambord: {
       title: "Chambord",
@@ -148,7 +189,14 @@ export default function CreativePage() {
     colorblock: {
       title: "Colorblock",
       tagline: "Bold color theory meets practical design.",
-      description: "Art direction for an experimental color theory project. Created a design system that pushes boundaries while maintaining visual harmony."
+      description: "Art direction for an experimental color theory project. Created a design system that pushes boundaries while maintaining visual harmony.",
+      sections: {
+        branding: {
+          title: "Branding",
+          tagline: "Bold color theory meets practical design.",
+          description: "Art direction for an experimental color theory project. Created a design system that pushes boundaries while maintaining visual harmony."
+        }
+      }
     },
     them: {
       title: "Them",
@@ -164,18 +212,69 @@ export default function CreativePage() {
   const [windowWidth, setWindowWidth] = useState(0)
   const [windowHeight, setWindowHeight] = useState(0)
   const [isMobile, setIsMobile] = useState(false)
+  const [isCollapsed, setIsCollapsed] = useState(false)
+  const [hasToggled, setHasToggled] = useState(false)
+  const [figmaLoading, setFigmaLoading] = useState({})
   // --- ScrollSpy state for overlays ---
   const [activeSection, setActiveSection] = useState('branding');
-  const sections = [
-    { id: 'branding', label: 'Branding' },
-    { id: 'photoshoot', label: 'Photoshoot' },
-    { id: 'pricebook', label: 'Price Book' },
-    { id: 'website', label: 'Website' },
-    { id: 'finishesbox', label: 'Finishes Box' },
-    { id: 'displaymedia', label: 'Display Media' },
-    // Add more sections here as needed
-  ];
+  
+  // Dynamic sections based on active overlay
+  const getSections = (overlay) => {
+    if (overlay === 'landmade') {
+      return [
+        { id: 'branding', label: 'Branding' },
+        { id: 'photoshoot', label: 'Photoshoot' },
+        { id: 'pricebook', label: 'Price Book' },
+        { id: 'website', label: 'Website' },
+        { id: 'finishesbox', label: 'Finishes Box' },
+        { id: 'displaymedia', label: 'Display Media' },
+      ];
+    } else if (overlay === 'omi') {
+      return [
+        { id: 'branding', label: 'Branding' },
+        { id: 'posters', label: 'Posters' },
+        { id: 'website', label: 'Website' },
+      ];
+    } else if (overlay === 'colorblock') {
+      return [
+        { id: 'branding', label: 'Branding' },
+      ];
+    } else if (overlay === 'gas') {
+      return [
+        { id: 'supercoolsign', label: 'Super Cool Sign' },
+        { id: 'moodboard', label: 'Mood Board' },
+        { id: 'branding', label: 'Branding' },
+      ];
+    } else if (overlay === 'sorette') {
+      return [
+        { id: 'webdesign', label: 'Web Design' },
+      ];
+    }
+    return [];
+  };
+  
+  const sections = getSections(activeOverlay);
   // --- ---
+
+  useEffect(() => {
+    if (activeOverlay) {
+      setIsCollapsed(false)
+      // Reset loading states for Figma embeds
+      setFigmaLoading({})
+      // Set the default active section to the first section of the overlay
+      if (activeOverlay === 'landmade') {
+        setActiveSection('branding')
+      } else if (activeOverlay === 'omi') {
+        setActiveSection('branding')
+      } else if (activeOverlay === 'colorblock') {
+        setActiveSection('branding')
+      } else if (activeOverlay === 'gas') {
+        setActiveSection('supercoolsign')
+      } else if (activeOverlay === 'sorette') {
+        setActiveSection('webdesign')
+      }
+    }
+  }, [activeOverlay])
 
   useEffect(() => {
     setHasMounted(true)
@@ -208,6 +307,23 @@ export default function CreativePage() {
         cursor: 'none', // Hide the default cursor
       }}
     >
+      {/* Home Icon - Top Left - Only on main creative page */}
+      {!activeOverlay && (
+        <button
+          onClick={() => router.push('/')}
+          className="fixed top-6 left-6 z-[1001] cursor-pointer hover:scale-110 transition-transform duration-200"
+          style={{ pointerEvents: 'auto' }}
+        >
+          <Image 
+            src="/images/home-icon.svg" 
+            alt="Home" 
+            width={60} 
+            height={60} 
+            className="drop-shadow-lg"
+          />
+        </button>
+      )}
+
       {/* Scrolling Text Banner with top-0 and color #FFFDE6 */}
       <div className="absolute top-0 left-0 w-full z-50 overflow-hidden">
         <div className="flex whitespace-nowrap animate-marquee text-[10rem] font-bold font-benton space-x-16 w-[200%] leading-[1.2]" style={{ color: '#FFFDE6' }}>
@@ -302,13 +418,7 @@ export default function CreativePage() {
                       }}
                     >
                       {img.overlay ? (
-                        <div onClick={() => {
-                          if (img.overlay === 'them') {
-                            router.push('/creative-director/them')
-                          } else {
-                            setActiveOverlay(img.overlay)
-                          }
-                        }}>
+                        <div onClick={() => setActiveOverlay(img.overlay)}>
                           {content}
                         </div>
                       ) : (
@@ -322,9 +432,9 @@ export default function CreativePage() {
           </div>
         </div>
 
-        {/* Project Overlays (excluding them) */}
+        {/* Project Overlays */}
         <AnimatePresence>
-          {activeOverlay && activeOverlay !== 'them' && (
+          {activeOverlay && (
             <motion.div
               initial={{ x: '-100%' }}
               animate={{ x: 0 }}
@@ -340,223 +450,362 @@ export default function CreativePage() {
                 setActiveSection={setActiveSection}
                 sections={sections}
                 activeSection={activeSection}
+                isCollapsed={isCollapsed}
+                isMobile={isMobile}
+                figmaLoading={figmaLoading}
+                setFigmaLoading={setFigmaLoading}
               />
+              
               {/* Right Fixed Column with Project Info and Sticky Nav */}
-              <div className="order-1 md:order-2 md:w-[40%] w-full md:h-full md:overflow-y-auto p-6 md:p-12 relative text-center md:text-left">
-                {/* MOBILE LAYOUT */}
-                <div className="md:hidden">
-                  {/* Back button for mobile - top left */}
-                  <button
-                    onClick={() => setActiveOverlay(null)}
-                    className="fixed top-4 left-4 z-[1000] cursor-pointer"
-                    style={{ pointerEvents: 'auto' }}
+              <AnimatePresence mode="wait">
+                {!isCollapsed && (
+                  <motion.div
+                    key="expanded"
+                    initial={hasToggled ? { y: '-100%' } : false}
+                    animate={{ y: 0 }}
+                    exit={{ y: '-100%' }}
+                    transition={{ duration: 0.3, ease: 'easeInOut' }}
+                    className="order-1 md:order-2 md:w-[40%] w-full md:h-full h-auto p-6 md:p-12 pb-16 relative text-center md:text-left overflow-visible md:overflow-hidden"
                   >
-                    <Image 
-                      src="/images/back-arrow.svg" 
-                      alt="Back" 
-                      width={32} 
-                      height={32} 
-                    />
-                  </button>
+                  {/* MOBILE LAYOUT */}
+                  <div className="md:hidden">
+                    {/* Back button for mobile - top left */}
+                    <button
+                      onClick={() => {
+                        setActiveOverlay(null)
+                        setHasToggled(false)
+                      }}
+                      className="fixed top-4 left-4 z-[1000] cursor-pointer"
+                      style={{ pointerEvents: 'auto' }}
+                    >
+                      <Image 
+                        src="/images/back-arrow.svg" 
+                        alt="Back" 
+                        width={32} 
+                        height={32} 
+                      />
+                    </button>
 
-                  {/* Mobile view star and title - AT TOP, positioned absolutely to overflow window */}
-                  <div className="absolute left-1/2 transform -translate-x-1/2 w-[120px] h-[120px]" style={{ top: '-30px' }}>
-                    {/* Back star (shadow) */}
-                    <motion.div
-                      className="absolute"
-                      style={{ left: '-12px', top: '12px' }}
-                      animate={{ 
-                        rotate: 360 
-                      }}
-                      transition={{ 
-                        duration: 15,
-                        repeat: Infinity,
-                        ease: "linear"
-                      }}
-                    >
-                      <Image
-                        src="/images/star-background.svg"
-                        alt="Star Badge Shadow"
-                        width={120}
-                        height={120}
-                        className="object-contain"
-                      />
-                    </motion.div>
-                    
-                    {/* Front star */}
-                    <motion.div
-                      className="absolute"
-                      style={{ left: '0', top: '0' }}
-                      animate={{ 
-                        rotate: 360 
-                      }}
-                      transition={{ 
-                        duration: 15,
-                        repeat: Infinity,
-                        ease: "linear"
-                      }}
-                    >
-                      <Image
-                        src="/images/star-front.svg"
-                        alt="Star Badge"
-                        width={120}
-                        height={120}
-                        className="object-contain"
-                      />
-                    </motion.div>
-                    
-                    {/* Star text */}
-                    <div
-                      className="absolute font-benton-compressed text-[1.1rem] z-10"
-                      style={{
-                        left: '60px',
-                        top: '60px',
-                        transform: 'translate(-50%, -50%)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        textAlign: 'center',
-                        color: '#202020',
-                        pointerEvents: 'none'
-                      }}
-                    >
-                      {projectDescriptions[activeOverlay]?.title || activeOverlay}
+                    {/* Mobile view star and title - AT TOP, positioned absolutely to overflow window */}
+                    <div className="absolute left-1/2 transform -translate-x-1/2 w-[100px] h-[100px]" style={{ top: '-25px' }}>
+                      {/* Back star (shadow) */}
+                      <motion.div
+                        className="absolute"
+                        style={{ left: '-10px', top: '10px' }}
+                        animate={{ 
+                          rotate: 360 
+                        }}
+                        transition={{ 
+                          duration: 15,
+                          repeat: Infinity,
+                          ease: "linear"
+                        }}
+                      >
+                        <Image
+                          src="/images/star-background.svg"
+                          alt="Star Badge Shadow"
+                          width={100}
+                          height={100}
+                          className="object-contain"
+                        />
+                      </motion.div>
+                      
+                      {/* Front star */}
+                      <motion.div
+                        className="absolute"
+                        style={{ left: '0', top: '0' }}
+                        animate={{ 
+                          rotate: 360 
+                        }}
+                        transition={{ 
+                          duration: 15,
+                          repeat: Infinity,
+                          ease: "linear"
+                        }}
+                      >
+                        <Image
+                          src="/images/star-front.svg"
+                          alt="Star Badge"
+                          width={100}
+                          height={100}
+                          className="object-contain"
+                        />
+                      </motion.div>
+                      
+                      {/* Star text */}
+                      <div
+                        className="absolute font-benton-compressed text-[1rem] z-10"
+                        style={{
+                          left: '50px',
+                          top: '50px',
+                          transform: 'translate(-50%, -50%)',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          textAlign: 'center',
+                          color: '#202020',
+                          pointerEvents: 'none',
+                          lineHeight: '0.8'
+                        }}
+                      >
+                        {projectDescriptions[activeOverlay]?.title || activeOverlay}
+                      </div>
                     </div>
+
+                    {/* Title and description - with top margin to account for star */}
+                    <div className="text-center" style={{ marginTop: '70px', marginBottom: '10px' }}>
+                      <div className="text-[#202020] font-benton-compressed text-2xl md:text-4xl leading-none mb-4">
+                        {(activeOverlay === 'landmade' && projectDescriptions.landmade.sections[activeSection]) ?
+                          projectDescriptions.landmade.sections[activeSection].tagline :
+                          (activeOverlay === 'omi' && projectDescriptions.omi.sections[activeSection]) ?
+                          projectDescriptions.omi.sections[activeSection].tagline :
+                          (activeOverlay === 'colorblock' && projectDescriptions.colorblock.sections[activeSection]) ?
+                          projectDescriptions.colorblock.sections[activeSection].tagline :
+                          (activeOverlay === 'gas' && projectDescriptions.gas.sections[activeSection]) ?
+                          projectDescriptions.gas.sections[activeSection].tagline :
+                          (activeOverlay === 'sorette' && projectDescriptions.sorette.sections[activeSection]) ?
+                          projectDescriptions.sorette.sections[activeSection].tagline :
+                          projectDescriptions[activeOverlay]?.tagline || "Creative project showcase"
+                        }
+                      </div>
+                      <p className="text-sm md:text-base text-[#202020] leading-normal font-benton">
+                        {(activeOverlay === 'landmade' && projectDescriptions.landmade.sections[activeSection]) ?
+                          projectDescriptions.landmade.sections[activeSection].description :
+                          (activeOverlay === 'omi' && projectDescriptions.omi.sections[activeSection]) ?
+                          projectDescriptions.omi.sections[activeSection].description :
+                          (activeOverlay === 'colorblock' && projectDescriptions.colorblock.sections[activeSection]) ?
+                          projectDescriptions.colorblock.sections[activeSection].description :
+                          (activeOverlay === 'gas' && projectDescriptions.gas.sections[activeSection]) ?
+                          projectDescriptions.gas.sections[activeSection].description :
+                          (activeOverlay === 'sorette' && projectDescriptions.sorette.sections[activeSection]) ?
+                          projectDescriptions.sorette.sections[activeSection].description :
+                          projectDescriptions[activeOverlay]?.description || "Project description coming soon."
+                        }
+                      </p>
+                    </div>
+
+                    {/* Navigation menu - horizontal and center aligned at bottom - FOR LANDMADE, OMI, COLORBLOCK, GAS, AND SORETTE */}
+                    {(activeOverlay === 'landmade' || activeOverlay === 'omi' || activeOverlay === 'colorblock' || activeOverlay === 'gas' || activeOverlay === 'sorette') && (
+                      <div className="flex justify-center">
+                        <HorizontalScrollSpyNav
+                          sections={sections}
+                          activeSection={activeSection}
+                          onNavClick={(id) => {
+                            const leftCol = document.querySelector('.order-2');
+                            if (leftCol) {
+                              const sectionEl = leftCol.querySelector(`#${id}`);
+                              if (sectionEl) {
+                                sectionEl.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
+                              }
+                            }
+                          }}
+                        />
+                      </div>
+                    )}
                   </div>
 
-                  {/* Title and description - with top margin to account for star */}
-                  <div className="text-center" style={{ marginTop: '80px', marginBottom: '10px' }}>
-                    <div className="text-[#202020] font-benton-compressed text-4xl leading-none mb-4">
-                      {activeOverlay === 'landmade' ?
-                        projectDescriptions.landmade.sections[activeSection]?.tagline || "Creative project showcase"
-                        : projectDescriptions[activeOverlay]?.tagline || "Creative project showcase"
+                  {/* Collapse toggle - positioned at bottom of overlay - MOBILE ONLY */}
+                  <div className="md:hidden absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 z-[1002]">
+                    <button
+                      onClick={() => {
+                        setHasToggled(true)
+                        setIsCollapsed(true)
+                      }}
+                      className="bg-[#FAF8E9] rounded-full w-10 h-10 flex items-center justify-center cursor-pointer hover:bg-[#F5F3E5] transition-colors border border-[#202020]/10"
+                      style={{ pointerEvents: 'auto' }}
+                    >
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#202020" strokeWidth="2">
+                        <path d="M18 15l-6-6-6 6"/>
+                      </svg>
+                    </button>
+                  </div>
+
+                  {/* DESKTOP LAYOUT */}
+                  <div className="hidden md:block">
+                    {/* Sticky ScrollSpyNav at top left - only for projects with sections */}
+                    {(activeOverlay === 'landmade' || activeOverlay === 'omi' || activeOverlay === 'colorblock' || activeOverlay === 'gas' || activeOverlay === 'sorette') && (
+                      <div className="sticky top-0 left-0 z-10 pt-2 pb-4" style={{ background: 'none' }}>
+                        <ScrollSpyNav
+                          sections={sections}
+                          activeSection={activeSection}
+                          onNavClick={(id) => {
+                            // Scroll the left column to the section
+                            const leftCol = document.querySelector('.order-2');
+                            if (leftCol) {
+                              const sectionEl = leftCol.querySelector(`#${id}`);
+                              if (sectionEl) {
+                                sectionEl.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
+                              }
+                            }
+                          }}
+                        />
+                      </div>
+                    )}
+
+                    {/* Desktop view star */}
+                    <div className="absolute" style={{ top: '-30px', right: '-70px', width: '25vw', height: '25vw', maxWidth: '425px', maxHeight: '425px' }}>
+                      {/* Back star (shadow) */}
+                      <motion.div
+                        className="absolute"
+                        style={{ left: '-50px', top: '30px', width: '100%', height: '100%' }}
+                        animate={{ 
+                          rotate: 360 
+                        }}
+                        transition={{ 
+                          duration: 15,
+                          repeat: Infinity,
+                          ease: "linear"
+                        }}
+                      >
+                        <Image
+                          src="/images/star-background.svg"
+                          alt="Star Badge Shadow"
+                          fill
+                          className="object-contain"
+                        />
+                      </motion.div>
+                      
+                      {/* Front star */}
+                      <motion.div
+                        className="absolute"
+                        style={{ left: '0', top: '0', width: '100%', height: '100%' }}
+                        animate={{ 
+                          rotate: 360 
+                        }}
+                        transition={{ 
+                          duration: 15,
+                          repeat: Infinity,
+                          ease: "linear"
+                        }}
+                      >
+                        <Image
+                          src="/images/star-front.svg"
+                          alt="Star Badge"
+                          fill
+                          className="object-contain"
+                        />
+                      </motion.div>
+                      
+                      {/* Star text */}
+                      <div
+                        className="absolute font-benton-compressed text-[4.5vw] z-10"
+                        style={{
+                          left: '50%',
+                          top: '50%',
+                          transform: 'translate(-50%, -50%)',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          textAlign: 'center',
+                          color: '#202020',
+                          pointerEvents: 'none',
+                          lineHeight: '0.8'
+                        }}
+                      >
+                        {projectDescriptions[activeOverlay]?.title || activeOverlay}
+                      </div>
+                    </div>
+                    
+                    <div className={`${(activeOverlay === 'landmade' || activeOverlay === 'omi' || activeOverlay === 'colorblock' || activeOverlay === 'gas' || activeOverlay === 'sorette') ? 'mt-[250px]' : 'mt-[350px]'} text-[#202020] font-benton-compressed text-6xl md:text-8xl text-right`} style={{ lineHeight: '0.8' }}>
+                      {(activeOverlay === 'landmade' && projectDescriptions.landmade.sections[activeSection]) ?
+                        projectDescriptions.landmade.sections[activeSection].tagline :
+                        (activeOverlay === 'omi' && projectDescriptions.omi.sections[activeSection]) ?
+                        projectDescriptions.omi.sections[activeSection].tagline :
+                        (activeOverlay === 'colorblock' && projectDescriptions.colorblock.sections[activeSection]) ?
+                        projectDescriptions.colorblock.sections[activeSection].tagline :
+                        (activeOverlay === 'gas' && projectDescriptions.gas.sections[activeSection]) ?
+                        projectDescriptions.gas.sections[activeSection].tagline :
+                        (activeOverlay === 'sorette' && projectDescriptions.sorette.sections[activeSection]) ?
+                        projectDescriptions.sorette.sections[activeSection].tagline :
+                        projectDescriptions[activeOverlay]?.tagline || "Creative project showcase"
                       }
                     </div>
-                    <p className="text-base text-[#202020] leading-normal font-benton">
-                      {activeOverlay === 'landmade' ?
-                        projectDescriptions.landmade.sections[activeSection]?.description || "Description coming soon."
-                        : projectDescriptions[activeOverlay]?.description || "Project description coming soon."
+                    <p className="text-base md:text-lg text-[#202020] mt-6 md:mt-8 leading-normal font-benton text-right">
+                      {(activeOverlay === 'landmade' && projectDescriptions.landmade.sections[activeSection]) ?
+                        projectDescriptions.landmade.sections[activeSection].description :
+                        (activeOverlay === 'omi' && projectDescriptions.omi.sections[activeSection]) ?
+                        projectDescriptions.omi.sections[activeSection].description :
+                        (activeOverlay === 'colorblock' && projectDescriptions.colorblock.sections[activeSection]) ?
+                        projectDescriptions.colorblock.sections[activeSection].description :
+                        (activeOverlay === 'gas' && projectDescriptions.gas.sections[activeSection]) ?
+                        projectDescriptions.gas.sections[activeSection].description :
+                        (activeOverlay === 'sorette' && projectDescriptions.sorette.sections[activeSection]) ?
+                        projectDescriptions.sorette.sections[activeSection].description :
+                        projectDescriptions[activeOverlay]?.description || "Project description coming soon."
                       }
                     </p>
                   </div>
+                </motion.div>
+                )}
+              </AnimatePresence>
 
-                  {/* Navigation menu - horizontal and center aligned at bottom - FOR LANDMADE ONLY */}
-                  {activeOverlay === 'landmade' && (
-                    <div className="flex justify-center">
-                      <HorizontalScrollSpyNav
-                        sections={sections}
-                        activeSection={activeSection}
-                        onNavClick={(id) => {
-                          const leftCol = document.querySelector('.order-2');
-                          if (leftCol) {
-                            const sectionEl = leftCol.querySelector(`#${id}`);
-                            if (sectionEl) {
-                              sectionEl.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
-                            }
-                          }
-                        }}
+              {/* Collapsed Tab - Mobile Only - AT TOP */}
+              <AnimatePresence mode="wait">
+                {isCollapsed && (
+                  <motion.div
+                    key="collapsed"
+                    initial={hasToggled ? { y: '-100%' } : false}
+                    animate={{ y: 0 }}
+                    exit={{ y: '-100%' }}
+                    transition={{ duration: 0.3, ease: 'easeInOut' }}
+                    className="md:hidden fixed top-0 left-0 right-0 z-[1000] bg-[#FAF8E9] border-b border-[#202020]/20"
+                  >
+                  <div className="flex items-center justify-between p-4">
+                    {/* Back button */}
+                    <button
+                      onClick={() => {
+                        setActiveOverlay(null)
+                        setHasToggled(false)
+                      }}
+                      className="cursor-pointer"
+                      style={{ pointerEvents: 'auto' }}
+                    >
+                      <Image 
+                        src="/images/back-arrow.svg" 
+                        alt="Back" 
+                        width={24} 
+                        height={24} 
                       />
+                    </button>
+
+                    {/* Current section name */}
+                    <div className="flex-1 text-center font-benton-compressed text-lg text-[#202020]">
+                      {(activeOverlay === 'landmade' && projectDescriptions.landmade.sections[activeSection]) ?
+                        projectDescriptions.landmade.sections[activeSection].title :
+                        (activeOverlay === 'omi' && projectDescriptions.omi.sections[activeSection]) ?
+                        projectDescriptions.omi.sections[activeSection].title :
+                        (activeOverlay === 'colorblock' && projectDescriptions.colorblock.sections[activeSection]) ?
+                        projectDescriptions.colorblock.sections[activeSection].title :
+                        (activeOverlay === 'gas' && projectDescriptions.gas.sections[activeSection]) ?
+                        projectDescriptions.gas.sections[activeSection].title :
+                        (activeOverlay === 'sorette' && projectDescriptions.sorette.sections[activeSection]) ?
+                        projectDescriptions.sorette.sections[activeSection].title :
+                        projectDescriptions[activeOverlay]?.title || activeOverlay
+                      }
                     </div>
-                  )}
-                </div>
 
-                {/* DESKTOP LAYOUT */}
-                <div className="hidden md:block">
-                  {/* Sticky ScrollSpyNav at top left */}
-                  <div className="sticky top-0 left-0 z-10 pt-2 pb-4" style={{ background: 'none' }}>
-                    <ScrollSpyNav
-                      sections={sections}
-                      activeSection={activeSection}
-                      onNavClick={(id) => {
-                        // Scroll the left column to the section
-                        const leftCol = document.querySelector('.order-2');
-                        if (leftCol) {
-                          const sectionEl = leftCol.querySelector(`#${id}`);
-                          if (sectionEl) {
-                            sectionEl.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
-                          }
-                        }
-                      }}
-                    />
+                    {/* Empty space for symmetry */}
+                    <div className="w-6"></div>
                   </div>
 
-                  {/* Desktop view star */}
-                  <div className="absolute" style={{ top: '-30px', right: '-70px', width: '25vw', height: '25vw', maxWidth: '425px', maxHeight: '425px' }}>
-                    {/* Back star (shadow) */}
-                    <motion.div
-                      className="absolute"
-                      style={{ left: '-50px', top: '30px', width: '100%', height: '100%' }}
-                      animate={{ 
-                        rotate: 360 
+                  {/* Bottom expand toggle - half circle */}
+                  <div className="absolute -bottom-5 left-1/2 transform -translate-x-1/2 z-[1002]">
+                    <button
+                      onClick={() => {
+                        setHasToggled(true)
+                        setIsCollapsed(false)
                       }}
-                      transition={{ 
-                        duration: 15,
-                        repeat: Infinity,
-                        ease: "linear"
-                      }}
+                      className="bg-[#FAF8E9] rounded-full w-10 h-10 flex items-center justify-center cursor-pointer hover:bg-[#F5F3E5] transition-colors border border-[#202020]/10"
+                      style={{ pointerEvents: 'auto' }}
                     >
-                      <Image
-                        src="/images/star-background.svg"
-                        alt="Star Badge Shadow"
-                        fill
-                        className="object-contain"
-                      />
-                    </motion.div>
-                    
-                    {/* Front star */}
-                    <motion.div
-                      className="absolute"
-                      style={{ left: '0', top: '0', width: '100%', height: '100%' }}
-                      animate={{ 
-                        rotate: 360 
-                      }}
-                      transition={{ 
-                        duration: 15,
-                        repeat: Infinity,
-                        ease: "linear"
-                      }}
-                    >
-                      <Image
-                        src="/images/star-front.svg"
-                        alt="Star Badge"
-                        fill
-                        className="object-contain"
-                      />
-                    </motion.div>
-                    
-                    {/* Star text */}
-                    <div
-                      className="absolute font-benton-compressed text-[4.5vw] z-10"
-                      style={{
-                        left: '50%',
-                        top: '50%',
-                        transform: 'translate(-50%, -50%)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        textAlign: 'center',
-                        color: '#202020',
-                        pointerEvents: 'none'
-                      }}
-                    >
-                      {projectDescriptions[activeOverlay]?.title || activeOverlay}
-                    </div>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#202020" strokeWidth="2">
+                        <path d="M6 9l6 6 6-6"/>
+                      </svg>
+                    </button>
                   </div>
-                  
-                  <div className="mt-[200px] text-[#202020] font-benton-compressed text-6xl md:text-8xl leading-none text-right">
-                    {activeOverlay === 'landmade' ?
-                      projectDescriptions.landmade.sections[activeSection]?.tagline || "Creative project showcase"
-                      : projectDescriptions[activeOverlay]?.tagline || "Creative project showcase"
-                    }
-                  </div>
-                  <p className="text-base md:text-lg text-[#202020] mt-6 md:mt-8 leading-normal font-benton text-right">
-                    {activeOverlay === 'landmade' ?
-                      projectDescriptions.landmade.sections[activeSection]?.description || "Description coming soon."
-                      : projectDescriptions[activeOverlay]?.description || "Project description coming soon."
-                    }
-                  </p>
-                </div>
-              </div>
+                </motion.div>
+                )}
+              </AnimatePresence>
             </motion.div>
           )}
         </AnimatePresence>
@@ -616,12 +865,14 @@ function ScrollSpyNav({ sections, activeSection, onNavClick }) {
 
 // New horizontal navigation component for mobile
 function HorizontalScrollSpyNav({ sections, activeSection, onNavClick }) {
-  const firstLine = sections.slice(0, 4); // Branding, Photoshoot, Price Book, Website
-  const secondLine = sections.slice(4, 6); // Finishes Box, Display Media
+  // Dynamically split sections for different layouts
+  const midpoint = Math.ceil(sections.length / 2);
+  const firstLine = sections.slice(0, midpoint);
+  const secondLine = sections.slice(midpoint);
   
   return (
     <nav className="flex flex-col items-center gap-y-2 font-benton-compressed text-sm">
-      {/* First line - 4 items */}
+      {/* First line */}
       <div className="flex gap-x-4">
         {firstLine.map((section) => (
           <button
@@ -637,68 +888,53 @@ function HorizontalScrollSpyNav({ sections, activeSection, onNavClick }) {
           </button>
         ))}
       </div>
-      {/* Second line - 2 items */}
-      <div className="flex gap-x-4">
-        {secondLine.map((section) => (
-          <button
-            key={section.id}
-            onClick={() => onNavClick(section.id)}
-            className={`relative transition-colors duration-300 px-2 py-1 ${activeSection === section.id ? 'font-bold text-[#202020]' : 'font-normal text-[#bdbdbd]'}`}
-            style={{ background: 'none', border: 'none', cursor: 'pointer' }}
-          >
-            {section.label}
-            {activeSection === section.id && (
-              <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-4 h-0.5 bg-[#202020] rounded"></div>
-            )}
-          </button>
-        ))}
-      </div>
+      {/* Second line - only show if there are items */}
+      {secondLine.length > 0 && (
+        <div className="flex gap-x-4">
+          {secondLine.map((section) => (
+            <button
+              key={section.id}
+              onClick={() => onNavClick(section.id)}
+              className={`relative transition-colors duration-300 px-2 py-1 ${activeSection === section.id ? 'font-bold text-[#202020]' : 'font-normal text-[#bdbdbd]'}`}
+              style={{ background: 'none', border: 'none', cursor: 'pointer' }}
+            >
+              {section.label}
+              {activeSection === section.id && (
+                <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-4 h-0.5 bg-[#202020] rounded"></div>
+              )}
+            </button>
+          ))}
+        </div>
+      )}
     </nav>
   );
 }
 
-function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, sections, activeSection }) {
+function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, sections, activeSection, isCollapsed, isMobile, figmaLoading, setFigmaLoading }) {
   const firstImgRef = useRef(null);
   const leftColRef = useRef(null);
 
   // ScrollSpy: update active section on scroll
   useEffect(() => {
     const ref = leftColRef.current;
-    if (!ref) return;
+    if (!ref || sections.length === 0) return;
+    
     const handleScroll = () => {
       const parentRect = ref.getBoundingClientRect();
-      const viewportMidpoint = parentRect.height / 2;
-      let activeFound = false;
       let newActiveSection = null;
 
       // Check if we're near the bottom of the scroll container
       const scrollTop = ref.scrollTop;
       const scrollHeight = ref.scrollHeight;
       const clientHeight = ref.clientHeight;
-      const isNearBottom = scrollTop + clientHeight >= scrollHeight - 50; // 50px threshold
+      const isNearBottom = scrollTop + clientHeight >= scrollHeight - 100;
 
       // If near bottom, set last section as active
-      if (isNearBottom) {
+      if (isNearBottom && sections.length > 0) {
         newActiveSection = sections[sections.length - 1].id;
       } else {
-        for (const section of sections) {
-          const el = ref.querySelector(`#${section.id}`);
-          if (el) {
-            const rect = el.getBoundingClientRect();
-            const sectionTopRelativeToParent = rect.top - parentRect.top;
-            const sectionBottomRelativeToParent = rect.bottom - parentRect.top;
-
-            // Check if the section's top is above the midpoint AND its bottom is below the midpoint
-            if (sectionTopRelativeToParent <= viewportMidpoint && sectionBottomRelativeToParent > viewportMidpoint) {
-              newActiveSection = section.id;
-              activeFound = true;
-              break;
-            }
-          }
-        }
-
-        // Fallback: if no section is crossing midpoint, find the one closest to top
-        if (!activeFound) {
+        if (isMobile) {
+          // Mobile: find the section whose top is closest to the top of viewport (but still visible)
           let closestSection = null;
           let closestDistance = Infinity;
 
@@ -706,12 +942,19 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
             const el = ref.querySelector(`#${section.id}`);
             if (el) {
               const rect = el.getBoundingClientRect();
-              const sectionTopRelativeToParent = rect.top - parentRect.top;
-              const distance = Math.abs(sectionTopRelativeToParent);
+              const sectionTop = rect.top - parentRect.top;
+              const sectionHeight = rect.height;
               
-              if (distance < closestDistance && sectionTopRelativeToParent <= viewportMidpoint) {
-                closestDistance = distance;
-                closestSection = section.id;
+              // For short sections, be more lenient with detection
+              const threshold = sectionHeight < 200 ? 150 : 100;
+              
+              // Section is visible and its top is within viewport
+              if (sectionTop <= threshold && sectionTop >= -rect.height) {
+                const distance = Math.abs(sectionTop);
+                if (distance < closestDistance) {
+                  closestDistance = distance;
+                  closestSection = section.id;
+                }
               }
             }
           }
@@ -719,18 +962,47 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
           if (closestSection) {
             newActiveSection = closestSection;
           }
+        } else {
+          // Desktop: use midpoint logic but with adjustments for short sections
+          const viewportMidpoint = parentRect.height / 2;
+          
+          for (const section of sections) {
+            const el = ref.querySelector(`#${section.id}`);
+            if (el) {
+              const rect = el.getBoundingClientRect();
+              const sectionTopRelativeToParent = rect.top - parentRect.top;
+              const sectionBottomRelativeToParent = rect.bottom - parentRect.top;
+              const sectionHeight = rect.height;
+
+              // For very short sections, use top-quarter detection instead of midpoint
+              if (sectionHeight < 200) {
+                const topQuarter = parentRect.height * 0.3;
+                if (sectionTopRelativeToParent <= topQuarter && sectionBottomRelativeToParent > 0) {
+                  newActiveSection = section.id;
+                  break;
+                }
+              } else {
+                // Normal midpoint detection for taller sections
+                if (sectionTopRelativeToParent <= viewportMidpoint && sectionBottomRelativeToParent > viewportMidpoint) {
+                  newActiveSection = section.id;
+                  break;
+                }
+              }
+            }
+          }
         }
       }
 
-      // Only update if the section actually changed
-      if (newActiveSection && newActiveSection !== activeSection) {
+      // Only update if the section actually changed and sections exist
+      if (newActiveSection && newActiveSection !== activeSection && sections.length > 0) {
         setActiveSection(newActiveSection);
       }
     };
+    
     ref.addEventListener('scroll', handleScroll);
     handleScroll();
     return () => ref.removeEventListener('scroll', handleScroll);
-  }, [sections, activeSection]); // Removed setActiveSection from dependencies
+  }, [sections, isMobile]); // Key fix: removed activeSection from dependencies
 
   return (
     <div 
@@ -762,7 +1034,89 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
           style={{ filter: 'drop-shadow(0 1px 3px rgba(0, 0, 0, 0.12))' }}
         />
       </button>
-      {activeOverlay === 'landmade' ? (
+      {activeOverlay === 'them' ? (
+        <div className="w-full h-full relative">
+          {/* Figma iframe - always visible so it can show native loading */}
+          <iframe
+            src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FKGwBk0wU1OutwWrJsYqOta%2FThem-Logo-Mockups%3Fnode-id%3D0-1%26t%3D5D33dShOKNFeALqi-1"
+            allowFullScreen
+            className="w-full h-full"
+            style={{
+              border: 'none',
+              margin: 0,
+              padding: 0
+            }}
+            onLoad={() => setFigmaLoading(prev => ({ ...prev, them: false }))}
+          />
+          
+          {/* Loading animation overlay - fades out when Figma fully loads */}
+          <AnimatePresence>
+            {figmaLoading['them'] !== false && (
+              <motion.div
+                initial={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.5, ease: "easeInOut" }}
+                className="absolute inset-0 bg-[#FAF8E9] flex items-center justify-center z-10"
+              >
+                <div className="flex flex-col items-center gap-4">
+                  <motion.div
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                    className="w-16 h-16 border-4 border-[#202020]/20 border-t-[#202020] rounded-full"
+                  />
+                  <div className="text-[#202020] font-benton text-sm">Loading Figma board...</div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      ) : activeOverlay === 'sorette' ? (
+        <div className="w-full">
+          <div id="webdesign">
+            <Image
+              ref={firstImgRef}
+              src="/images/creative/sorette/sorette-1.jpg"
+              alt="Sorette project image 1"
+              width={800}
+              height={600}
+              className="w-full object-contain"
+              style={{margin: 0, padding: 0}}
+            />
+            <Image
+              src="/images/creative/sorette/sorette-2.jpg"
+              alt="Sorette project image 2"
+              width={800}
+              height={600}
+              className="w-full object-contain"
+              style={{margin: 0, padding: 0}}
+            />
+            <Image
+              src="/images/creative/sorette/sorette-3.jpg"
+              alt="Sorette project image 3"
+              width={800}
+              height={600}
+              className="w-full object-contain"
+              style={{margin: 0, padding: 0}}
+            />
+            <Image
+              src="/images/creative/sorette/sorette-4.jpg"
+              alt="Sorette project image 4"
+              width={800}
+              height={600}
+              className="w-full object-contain"
+              style={{margin: 0, padding: 0}}
+            />
+            <Image
+              src="/images/creative/sorette/sorette-5.jpg"
+              alt="Sorette project image 5"
+              width={800}
+              height={600}
+              className="w-full object-contain"
+              style={{margin: 0, padding: 0}}
+            />
+          </div>
+        </div>
+      ) : activeOverlay === 'landmade' ? (
         <div className="w-full">
           <div id="branding">
             <Image
@@ -828,11 +1182,27 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
               className="w-full object-contain"
               style={{margin: 0, padding: 0}}
             />
+            <Image
+              src="/images/creative/landmade/website-3.jpg"
+              alt="Landmade website image 3"
+              width={800}
+              height={600}
+              className="w-full object-contain"
+              style={{margin: 0, padding: 0}}
+            />
+            <Image
+              src="/images/creative/landmade/website-4.jpg"
+              alt="Landmade website image 4"
+              width={800}
+              height={600}
+              className="w-full object-contain"
+              style={{margin: 0, padding: 0}}
+            />
           </div>
           <div id="finishesbox">
             <Image
-              src="/images/creative/landmade/landmade-8.jpg"
-              alt="Landmade project image 8"
+              src={isMobile ? "/images/creative/landmade/finishes-box-mobile.jpg" : "/images/creative/landmade/landmade-8.jpg"}
+              alt="Landmade finishes box"
               width={800}
               height={600}
               className="w-full object-contain"
@@ -849,6 +1219,200 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
               style={{margin: 0, padding: 0}}
             />
           </div>
+        </div>
+      ) : activeOverlay === 'omi' ? (
+        <div className="w-full">
+          <div id="branding">
+            <Image
+              ref={firstImgRef}
+              src="/images/creative/omi/omi-heading.jpg"
+              alt="Omi heading image"
+              width={800}
+              height={600}
+              className="w-full object-contain"
+              style={{margin: 0, padding: 0}}
+            />
+            <Image
+              src="/images/creative/omi/omi-branding.jpg"
+              alt="Omi branding image"
+              width={800}
+              height={600}
+              className="w-full object-contain"
+              style={{margin: 0, padding: 0}}
+            />
+          </div>
+          <div id="posters">
+            <Image
+              src="/images/creative/omi/poster-1.jpg"
+              alt="Omi poster 1"
+              width={800}
+              height={600}
+              className="w-full object-contain"
+              style={{margin: 0, padding: 0}}
+            />
+          </div>
+          <div id="website">
+            <Image
+              src="/images/creative/omi/website-v1.jpg"
+              alt="Omi website v1"
+              width={800}
+              height={600}
+              className="w-full object-contain"
+              style={{margin: 0, padding: 0}}
+            />
+            <Image
+              src="/images/creative/omi/website-v2.jpg"
+              alt="Omi website v2"
+              width={800}
+              height={600}
+              className="w-full object-contain"
+              style={{margin: 0, padding: 0}}
+            />
+            <Image
+              src="/images/creative/omi/website-1.jpg"
+              alt="Omi website 1"
+              width={800}
+              height={600}
+              className="w-full object-contain"
+              style={{margin: 0, padding: 0}}
+            />
+            <Image
+              src="/images/creative/omi/website-2.jpg"
+              alt="Omi website 2"
+              width={800}
+              height={600}
+              className="w-full object-contain"
+              style={{margin: 0, padding: 0}}
+            />
+          </div>
+        </div>
+      ) : activeOverlay === 'colorblock' ? (
+        <div className="w-full">
+          <div id="branding">
+            <Image
+              ref={firstImgRef}
+              src="/images/creative/colorblock/colorblock-1.jpg"
+              alt="Colorblock branding image 1"
+              width={800}
+              height={600}
+              className="w-full object-contain"
+              style={{margin: 0, padding: 0}}
+            />
+            <Image
+              src="/images/creative/colorblock/colorblock-2.jpg"
+              alt="Colorblock branding image 2"
+              width={800}
+              height={600}
+              className="w-full object-contain"
+              style={{margin: 0, padding: 0}}
+            />
+            <Image
+              src="/images/creative/colorblock/colorblock-3.jpg"
+              alt="Colorblock branding image 3"
+              width={800}
+              height={600}
+              className="w-full object-contain"
+              style={{margin: 0, padding: 0}}
+            />
+          </div>
+        </div>
+      ) : activeOverlay === 'gas' ? (
+        <div className="w-full">
+          <div id="supercoolsign">
+            <Image
+              ref={firstImgRef}
+              src="/images/creative/gasstation/gasstation-1.jpg"
+              alt="Gas Station super cool sign"
+              width={800}
+              height={600}
+              className="w-full object-contain"
+              style={{margin: 0, padding: 0}}
+            />
+          </div>
+          <div id="moodboard">
+            {/* Figma mood board embed */}
+            <div className="w-full relative" style={{margin: 0, padding: 0, height: '600px'}}>
+              {/* Figma iframe - always visible so it can show native loading */}
+              <iframe
+                src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fboard%2FW6qSZ5aoDaX15uaeEegX0t%2FGas-Station-VT-Mood-Board%3Fnode-id%3D0-1%26t%3Dqd8RBECDX53xS7wA-1"
+                allowFullScreen
+                className="w-full h-full"
+                style={{
+                  border: 'none',
+                  margin: 0,
+                  padding: 0
+                }}
+                onLoad={() => setFigmaLoading(prev => ({ ...prev, gasMoodboard: false }))}
+              />
+              
+              {/* Loading animation overlay - fades out when Figma fully loads */}
+              <AnimatePresence>
+                {figmaLoading['gasMoodboard'] !== false && (
+                  <motion.div
+                    initial={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.5, ease: "easeInOut" }}
+                    className="absolute inset-0 bg-[#FAF8E9] flex items-center justify-center z-10"
+                  >
+                    <div className="flex flex-col items-center gap-4">
+                      <motion.div
+                        animate={{ rotate: 360 }}
+                        transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                        className="w-16 h-16 border-4 border-[#202020]/20 border-t-[#202020] rounded-full"
+                      />
+                      <div className="text-[#202020] font-benton text-sm">Loading mood board...</div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          </div>
+          <div id="branding">
+            <Image
+              src="/images/creative/gasstation/final-logo.jpg"
+              alt="Gas Station final logo"
+              width={800}
+              height={600}
+              className="w-full object-contain"
+              style={{margin: 0, padding: 0}}
+            />
+            <Image
+              src="/images/creative/gasstation/gasstation-logo-v1.jpg"
+              alt="Gas Station branding image 2"
+              width={800}
+              height={600}
+              className="w-full object-contain"
+              style={{margin: 0, padding: 0}}
+            />
+            <Image
+              src="/images/creative/gasstation/gasstation-4.jpg"
+              alt="Gas Station branding image 4"
+              width={800}
+              height={600}
+              className="w-full object-contain"
+              style={{margin: 0, padding: 0}}
+            />
+            <Image
+              src="/images/creative/gasstation/gasstation-5.jpg"
+              alt="Gas Station branding image 5"
+              width={800}
+              height={600}
+              className="w-full object-contain"
+              style={{margin: 0, padding: 0}}
+            />
+          </div>
+        </div>
+      ) : activeOverlay === 'chambord' ? (
+        <div className="w-full">
+          <Image
+            ref={firstImgRef}
+            src="/images/creative/chambord/chambord-1.jpg"
+            alt="Chambord project image 1"
+            width={800}
+            height={600}
+            className="w-full object-contain"
+            style={{margin: 0, padding: 0}}
+          />
         </div>
       ) : (
         <div className="w-full h-full flex flex-col gap-0 p-0 m-0">
