@@ -57,6 +57,12 @@ export default function CreativePage() {
       overlay: 'them'
     },
     { 
+      src: '/images/creative/crosswater.png', 
+      desktop: { left: 480, top: 650, width: 350, height: 280, zIndex: 1 },
+      mobile: { left: -250, top: 700, width: 450, height: 200, scale: 0.6, zIndex: 16 },
+      overlay: 'crosswater'
+    },
+    { 
       src: '/images/creative/screen.png', 
       desktop: { left: 76, top: 198, width: 1273, height: 327 },
       mobile: { left: -700, top: -200, width: 1891, height: 229, scale: 0.7, zIndex: 19 }
@@ -65,6 +71,12 @@ export default function CreativePage() {
       src: '/images/creative/keysandmouse.png', 
       desktop: { left: 380, top: 809, width: 778, height: 258 },
       mobile: { left: -650, top: 1520, width: 1845, height: 181, scale: 0.7, zIndex: 16 }
+    },
+    { 
+      src: '/images/creative/benttree.png', 
+      desktop: { left: 520, top: 470, width: 150, height: 150 },
+      mobile: { left: 200, top: 900, width: 200, height: 200, scale: 0.8, zIndex: 18 },
+      overlay: 'benttree'
     },
     { 
       src: '/images/creative/arm-l.png', 
@@ -95,8 +107,8 @@ export default function CreativePage() {
       sections: {
         webdesign: {
           title: "Web Design",
-          tagline: "Elevated essentials for modern motherhood.",
-          description: "Designed for a European-inspired wellness brand built for expecting moms. I led visual identity and UX storytelling across packaging, e-commerce, and social."
+          tagline: "Elevated, modern, trendy design",
+          description: "that's what I do best. Truly - with web design - I strive to push boundaries, think outside of the box and the template cookie cutter woes. Thats exactly what I did for Sorette - a online shop for pregnancy, mom, and baby safe products. The webiste has changed a bit since my initial design, so I'm showing the initial mockups here. if you want to check it out in practice, head to shopsorette.com"
         }
       }
     },
@@ -107,18 +119,18 @@ export default function CreativePage() {
       sections: {
         supercoolsign: {
           title: "Super Cool Sign",
-          tagline: "Eye-catching signage design.",
-          description: "Creating bold, attention-grabbing signage that captures the energy and vibe of The Gas Station brand experience."
+          tagline: "Look at this super cool sign!",
+          description: "I made a branding package for a dispensary called The Gas Station in Rutland, VT. It's always super rad seeing your work being implemented in the real world."
         },
         moodboard: {
           title: "Mood Board",
-          tagline: "Visual inspiration and direction.",
-          description: "Curated mood board showcasing the aesthetic inspiration, color palettes, and visual references that guided the brand development process."
+          tagline: "The building was a Texaco gas station in the 50s,",
+          description: "so we wanted to keep true to the brand's history and keep the 50s gas station vibe while also making it feel modern and fresh. Scroll around the Figma mood board to see the foundation we created."
         },
         branding: {
           title: "Branding",
-          tagline: "Supercharging Gen Z social connections.",
-          description: "Product design for a viral social app acquired by Discord. I led design strategy from early sketches through user testing to launch and beyond."
+          tagline: "Super proud of where this one landed.",
+          description: "Look - it wasn't easy. My process shows it all - lots of versions, lots of directions. But I'm proud of the end result - and the client was really happy as well, which is all that matters. Oh...and Oily is pretty cool too haha"
         }
       }
     },
@@ -129,25 +141,25 @@ export default function CreativePage() {
       sections: {
         branding: {
           title: "Branding",
-          tagline: "Bold brand identity for personal care.",
-          description: "Creating a distinctive visual language that communicates innovation and wellness in the personal care space."
+          tagline: "Modernizing pet healthcare.",
+          description: "Omi Health was in a pinch - they needed branding quick, didn't have a huge budget, but had an amazing mission. Luckily, I'm a sucker for my dog, so I agreed to help. I created a quick, simple word mark for them and color scheme rich in textures and gradients." 
         },
         posters: {
           title: "Posters",
-          tagline: "Impactful visual communications.",
-          description: "Dynamic poster designs that capture the energy and innovation of the Omi Health brand across various applications."
+          tagline: "I'M TRYING TO GET YOUR ATTENTION.",
+          description: "THAT'S WHAT POSTERS SHOULD DO. THATS WHAT I TIRED TO DO. "
         },
         website: {
           title: "Website",
-          tagline: "Digital experience design.",
-          description: "User-centered web design that seamlessly integrates the brand identity with intuitive navigation and compelling storytelling."
+          tagline: "Designing on the fly and being adaptive",
+          description: "are some of my finest tuned skills, and they shine here. As you can see by the multiple versions we created, as the client refined their understanding of the brand identity, I refined the website to match. We brought it from SUPER playful, to more refined and adult. I feel it landed really smoothly, on the right runway, in the correct city. If you want to check out the site functioning, head to joinomi.com"
         }
       }
     },
     chambord: {
       title: "Chambord",
-      tagline: "Luxury liqueur with a French twist.",
-      description: "Campaign development for this iconic brand. Crafted digital and print experiences that elevated the brand's premium positioning while driving engagement."
+      tagline: "Here I am again, modernizing",
+      description: "another logo in desperate need. During my time at Forte Brands, we brought on a fireclay farm sink company called Chambord. No - not the booze - the sinks haha. They had a super dated, maybe even from the earlty 1900's logo for all I know. My job was to tweak it and modernize while keeping it recognizable. Done."
     },
     landmade: {
       title: "Landmade",
@@ -156,33 +168,33 @@ export default function CreativePage() {
       sections: {
         branding: {
           title: "Branding",
-          tagline: "The core identity for Landmade.",
-          description: "Exploring the visual language and foundational elements that define the Landmade brand, from wordmark to initial icon concepts."
+          tagline: "These are some Boujee ass bathtubs",
+          description: "and the branding needed to match the pricetag. Somtimes a $15,000 price tag. I know. While at Forte Brands, we launched a line of bathtubs that are 100% recycleable - serioulsy they just decompose over time - and we wanted branding that felt elegant and could fit in houses with closets full of Dior and Louis, while also keeping to it's commitment to the earth. I used organic shapes, a simple word mark, and a NEVER PURE WHITE AND NEVER PURE BLACK mentality, just like nature."
         },
         photoshoot: {
           title: "Photoshoot",
-          tagline: "Capturing the essence of handcrafted goods.",
-          description: "Behind-the-scenes and final images from photoshoots designed to highlight the authentic craftsmanship of Landmade products."
+          tagline: "Breaking the fourth wall of corny bathroom shoots.",
+          description: "We wantd the brand to feel honest, pure, elegant, and exciting. With that in mind, we decided to shoot the tubs in a studio, no running water, no smoke and mirrors and implication of running water. Just the tubs, a room, a backdrop, and some humans interacting with them. "
         },
         pricebook: {
           title: "Price Book",
-          tagline: "Pricing and product catalog details.",
-          description: "A comprehensive guide to product offerings, pricing structures, and specifications for Landmade's artisan collection."
+          tagline: "One of my proudest designs.",
+          description: "This price book is truly one of my greatest works. It's cover is made of recycled, card stock paper. Each bath is paried with an element of nature, and while everything is structured on a grid, I wasn't afraid to break the grid and create some randomness just like in nature."
         },
         website: {
           title: "Website",
-          tagline: "Bringing the marketplace online.",
-          description: "User experience and interface design for the Landmade e-commerce platform, focusing on seamless navigation and artisan storytelling."
+          tagline: "Did I mention I develop sites too?",
+          description: "This was another webiste that I tried to break the rules on. Each tub was paired with a Sounds like feature with a song. The grid was respected, but not to a fault. Images float, each bath is given a story. check it out at landmade.us"
         },
         finishesbox: {
           title: "Finishes Box",
-          tagline: "Tangible brand experience for customers.",
-          description: "Design and creation of a physical sample box showcasing the quality and variety of materials and finishes used in Landmade products."
+          tagline: "Just pure fun.",
+          description: "Creating this box is the type of project I foam at the mouth for. I love problem solving, crafting from scratch, and making real life things."
         },
         displaymedia: {
           title: "Display Media",
-          tagline: "Visual storytelling in various channels.",
-          description: "Development of digital and print media assets for marketing and promotional campaigns, extending the Landmade brand across platforms."
+          tagline: "Eye-catching lightboxes for Showrooms",
+          description: "that also tell a story. That was the goal. Again, we wanted to reinforce Landmade's commitment to the Earth, and wanted these to stand out from the typical bathroom display media."
         }
       }
     },
@@ -193,15 +205,54 @@ export default function CreativePage() {
       sections: {
         branding: {
           title: "Branding",
-          tagline: "Bold color theory meets practical design.",
-          description: "Art direction for an experimental color theory project. Created a design system that pushes boundaries while maintaining visual harmony."
+          tagline: "Where you go to turn nothing into something",
+          description: "After banging my head against the wall for far too long on this logo - I realized something. Colorblock, a creative-based coworknig space startup, is as simple as a place creatives go to turn nothing into somethign. Boom - logo done. Sometimes - simplicity is the only way. "
         }
       }
     },
     them: {
       title: "Them",
-      tagline: "Inclusive content for the modern era.",
-      description: "Editorial design and art direction for a groundbreaking publication. Developed visual storytelling that resonates with diverse audiences."
+      tagline: "Here's a peak into my process",
+      description: "Go ahead. Indulge yourself. Scroll around the figma board and into my brain. Them was an idea my partner and I have that was birthed on the fact that we share pants. Yes - I wear my girlfriends pants on the regular and I don't see the big deal about it. They fit better, they're cooler. anyway - that's a discussion for another day. We decided to create a gender-less clothing line together starting with a pair of jeans. It's still in the works but here's the process behind the logo! Which do you prefer? Let me know in the comments lol or better yet - in my interview!  "
+    },
+    crosswater: {
+      title: "Crosswater",
+      tagline: "Creative project showcase.",
+      description: "Project description coming soon.",
+      sections: {
+        photoshoot: {
+          title: "Photoshoot",
+          tagline: "Ok...I'm not a photographer",
+          description: "BUT - my team at Forte Brands desperately needed some consistent, on brand, and modern imagery of each of our faucets. So I built a 2 foot by 2 foot box out of 2x4 (shoutout Home Depot for cutting everything there for me) and slapped some marble tiles on it that I drilled into MYSELF succsesfully. I then built a makeshift studio in my extra bedroom, using a canvas backdrop and lights of amazon. Total cost: $500. Here are the results. I'd say pretty good ROI, right?"
+        },
+        brandingrefresh: {
+          title: "Branding Refresh",
+          tagline: "The old branding was not meeting the moment",
+          description: "It was dated, early 2000's modern bleh, not like Von Dutch cool early 2000s - more like what we thought the future was going to look like back then. Boy were we wrong. Anyway, I pitched a brand refresh from the font, to colors, to how we treat our spec sheets. I felt it was time to bring Crosswater into the modern age, the board did not agree. Oh well! "
+        },
+        pricebook: {
+          title: "Price Book",
+          tagline: "Price book got a facelift, too.",
+          description: "I brought this new branding into the price book design, creating a cleaner, more concise price book that salespeople would feel proud showing their customers. This was a behemoth 400 page book - so I felt that it was super important to make it approachable, and easy to digest."
+        }
+      }
+    },
+    benttree: {
+      title: "Bent Tree",
+      tagline: "Premium brand identity and packaging.",
+      description: "Complete brand development for a luxury lifestyle brand, from logo design to sophisticated packaging solutions.",
+      sections: {
+        logo: {
+          title: "Logo",
+          tagline: "Pot + 90s skate nostalgia + Vermont nature",
+          description: "I mean...is there any more...duh...combination? I developed a logo for my homie who was starting a pot grow in Vermont. We wanted to meld a bunch of different aesthetics of pot culture when we grew up with the famous nature of Vermont. All my friend asked for was to incorporate his fav tree on his property into the logo somehow. "
+        },
+        packaging: {
+          title: "Packaging",
+          tagline: "I'd buy this pre-roll",
+          description: "Ya - I know - the fine print and warnings aren't on yet. His pot is still growing...so we'll have to wait for the final designs. The pattern was an added surprise bonus and byproduct of the logo design though, whcih we were all really stoked with."
+        }
+      }
     }
   }
 
@@ -249,6 +300,17 @@ export default function CreativePage() {
       return [
         { id: 'webdesign', label: 'Web Design' },
       ];
+    } else if (overlay === 'crosswater') {
+      return [
+        { id: 'photoshoot', label: 'Photoshoot' },
+        { id: 'brandingrefresh', label: 'Branding Refresh' },
+        { id: 'pricebook', label: 'Price Book' },
+      ];
+    } else if (overlay === 'benttree') {
+      return [
+        { id: 'logo', label: 'Logo' },
+        { id: 'packaging', label: 'Packaging' },
+      ];
     }
     return [];
   };
@@ -272,6 +334,10 @@ export default function CreativePage() {
         setActiveSection('supercoolsign')
       } else if (activeOverlay === 'sorette') {
         setActiveSection('webdesign')
+      } else if (activeOverlay === 'crosswater') {
+        setActiveSection('photoshoot')
+      } else if (activeOverlay === 'benttree') {
+        setActiveSection('logo')
       }
     }
   }, [activeOverlay])
@@ -565,6 +631,10 @@ export default function CreativePage() {
                           projectDescriptions.gas.sections[activeSection].tagline :
                           (activeOverlay === 'sorette' && projectDescriptions.sorette.sections[activeSection]) ?
                           projectDescriptions.sorette.sections[activeSection].tagline :
+                          (activeOverlay === 'crosswater' && projectDescriptions.crosswater.sections[activeSection]) ?
+                          projectDescriptions.crosswater.sections[activeSection].tagline :
+                          (activeOverlay === 'benttree' && projectDescriptions.benttree.sections[activeSection]) ?
+                          projectDescriptions.benttree.sections[activeSection].tagline :
                           projectDescriptions[activeOverlay]?.tagline || "Creative project showcase"
                         }
                       </div>
@@ -579,13 +649,17 @@ export default function CreativePage() {
                           projectDescriptions.gas.sections[activeSection].description :
                           (activeOverlay === 'sorette' && projectDescriptions.sorette.sections[activeSection]) ?
                           projectDescriptions.sorette.sections[activeSection].description :
+                          (activeOverlay === 'crosswater' && projectDescriptions.crosswater.sections[activeSection]) ?
+                          projectDescriptions.crosswater.sections[activeSection].description :
+                          (activeOverlay === 'benttree' && projectDescriptions.benttree.sections[activeSection]) ?
+                          projectDescriptions.benttree.sections[activeSection].description :
                           projectDescriptions[activeOverlay]?.description || "Project description coming soon."
                         }
                       </p>
                     </div>
 
-                    {/* Navigation menu - horizontal and center aligned at bottom - FOR LANDMADE, OMI, COLORBLOCK, GAS, AND SORETTE */}
-                    {(activeOverlay === 'landmade' || activeOverlay === 'omi' || activeOverlay === 'colorblock' || activeOverlay === 'gas' || activeOverlay === 'sorette') && (
+                    {/* Navigation menu - horizontal and center aligned at bottom - FOR LANDMADE, OMI, COLORBLOCK, GAS, SORETTE, CROSSWATER AND benttree */}
+                    {(activeOverlay === 'landmade' || activeOverlay === 'omi' || activeOverlay === 'colorblock' || activeOverlay === 'gas' || activeOverlay === 'sorette' || activeOverlay === 'crosswater' || activeOverlay === 'benttree') && (
                       <div className="flex justify-center">
                         <HorizontalScrollSpyNav
                           sections={sections}
@@ -623,7 +697,7 @@ export default function CreativePage() {
                   {/* DESKTOP LAYOUT */}
                   <div className="hidden md:block">
                     {/* Sticky ScrollSpyNav at top left - only for projects with sections */}
-                    {(activeOverlay === 'landmade' || activeOverlay === 'omi' || activeOverlay === 'colorblock' || activeOverlay === 'gas' || activeOverlay === 'sorette') && (
+                    {(activeOverlay === 'landmade' || activeOverlay === 'omi' || activeOverlay === 'colorblock' || activeOverlay === 'gas' || activeOverlay === 'sorette' || activeOverlay === 'crosswater' || activeOverlay === 'benttree') && (
                       <div className="sticky top-0 left-0 z-10 pt-2 pb-4" style={{ background: 'none' }}>
                         <ScrollSpyNav
                           sections={sections}
@@ -706,7 +780,7 @@ export default function CreativePage() {
                       </div>
                     </div>
                     
-                    <div className={`${(activeOverlay === 'landmade' || activeOverlay === 'omi' || activeOverlay === 'colorblock' || activeOverlay === 'gas' || activeOverlay === 'sorette') ? 'mt-[250px]' : 'mt-[350px]'} text-[#202020] font-benton-compressed text-6xl md:text-8xl text-right`} style={{ lineHeight: '0.8' }}>
+                    <div className={`${(activeOverlay === 'landmade' || activeOverlay === 'omi' || activeOverlay === 'colorblock' || activeOverlay === 'gas' || activeOverlay === 'sorette' || activeOverlay === 'crosswater' || activeOverlay === 'benttree') ? 'mt-[250px]' : 'mt-[350px]'} text-[#202020] font-benton-compressed text-6xl md:text-8xl text-right`} style={{ lineHeight: '0.8' }}>
                       {(activeOverlay === 'landmade' && projectDescriptions.landmade.sections[activeSection]) ?
                         projectDescriptions.landmade.sections[activeSection].tagline :
                         (activeOverlay === 'omi' && projectDescriptions.omi.sections[activeSection]) ?
@@ -717,6 +791,10 @@ export default function CreativePage() {
                         projectDescriptions.gas.sections[activeSection].tagline :
                         (activeOverlay === 'sorette' && projectDescriptions.sorette.sections[activeSection]) ?
                         projectDescriptions.sorette.sections[activeSection].tagline :
+                        (activeOverlay === 'crosswater' && projectDescriptions.crosswater.sections[activeSection]) ?
+                        projectDescriptions.crosswater.sections[activeSection].tagline :
+                        (activeOverlay === 'benttree' && projectDescriptions.benttree.sections[activeSection]) ?
+                        projectDescriptions.benttree.sections[activeSection].tagline :
                         projectDescriptions[activeOverlay]?.tagline || "Creative project showcase"
                       }
                     </div>
@@ -731,6 +809,10 @@ export default function CreativePage() {
                         projectDescriptions.gas.sections[activeSection].description :
                         (activeOverlay === 'sorette' && projectDescriptions.sorette.sections[activeSection]) ?
                         projectDescriptions.sorette.sections[activeSection].description :
+                        (activeOverlay === 'crosswater' && projectDescriptions.crosswater.sections[activeSection]) ?
+                        projectDescriptions.crosswater.sections[activeSection].description :
+                        (activeOverlay === 'benttree' && projectDescriptions.benttree.sections[activeSection]) ?
+                        projectDescriptions.benttree.sections[activeSection].description :
                         projectDescriptions[activeOverlay]?.description || "Project description coming soon."
                       }
                     </p>
@@ -780,6 +862,10 @@ export default function CreativePage() {
                         projectDescriptions.gas.sections[activeSection].title :
                         (activeOverlay === 'sorette' && projectDescriptions.sorette.sections[activeSection]) ?
                         projectDescriptions.sorette.sections[activeSection].title :
+                        (activeOverlay === 'crosswater' && projectDescriptions.crosswater.sections[activeSection]) ?
+                        projectDescriptions.crosswater.sections[activeSection].title :
+                        (activeOverlay === 'benttree' && projectDescriptions.benttree.sections[activeSection]) ?
+                        projectDescriptions.benttree.sections[activeSection].title :
                         projectDescriptions[activeOverlay]?.title || activeOverlay
                       }
                     </div>
@@ -1413,6 +1499,128 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
             className="w-full object-contain"
             style={{margin: 0, padding: 0}}
           />
+        </div>
+      ) : activeOverlay === 'crosswater' ? (
+        <div className="w-full">
+          <div id="photoshoot">
+            <Image
+              ref={firstImgRef}
+              src="/images/creative/crosswater/crosswater-1.jpg"
+              alt="Crosswater photoshoot image 1"
+              width={800}
+              height={600}
+              className="w-full object-contain"
+              style={{margin: 0, padding: 0}}
+            />
+            <Image
+              src="/images/creative/crosswater/crosswater-2.jpg"
+              alt="Crosswater photoshoot image 2"
+              width={800}
+              height={600}
+              className="w-full object-contain"
+              style={{margin: 0, padding: 0}}
+            />
+          </div>
+          <div id="brandingrefresh">
+            <Image
+              src="/images/creative/crosswater/crosswater-3.jpg"
+              alt="Crosswater branding refresh image 3"
+              width={800}
+              height={600}
+              className="w-full object-contain"
+              style={{margin: 0, padding: 0}}
+            />
+            <Image
+              src="/images/creative/crosswater/crosswater-4.jpg"
+              alt="Crosswater branding refresh image 4"
+              width={800}
+              height={600}
+              className="w-full object-contain"
+              style={{margin: 0, padding: 0}}
+            />
+            <Image
+              src="/images/creative/crosswater/crosswater-5.jpg"
+              alt="Crosswater branding refresh image 5"
+              width={800}
+              height={600}
+              className="w-full object-contain"
+              style={{margin: 0, padding: 0}}
+            />
+            <Image
+              src="/images/creative/crosswater/crosswater-6.jpg"
+              alt="Crosswater branding refresh image 6"
+              width={800}
+              height={600}
+              className="w-full object-contain"
+              style={{margin: 0, padding: 0}}
+            />
+            <Image
+              src="/images/creative/crosswater/crosswater-7.jpg"
+              alt="Crosswater branding refresh image 7"
+              width={800}
+              height={600}
+              className="w-full object-contain"
+              style={{margin: 0, padding: 0}}
+            />
+          </div>
+          <div id="pricebook">
+            <Image
+              src="/images/creative/crosswater/crosswater-8.jpg"
+              alt="Crosswater price book"
+              width={800}
+              height={600}
+              className="w-full object-contain"
+              style={{margin: 0, padding: 0}}
+            />
+          </div>
+        </div>
+      ) : activeOverlay === 'benttree' ? (
+        <div className="w-full">
+          <div id="logo">
+            <Image
+              ref={firstImgRef}
+              src="/images/creative/benttree/benttree-1.jpg"
+              alt="Bent Tree logo image 1"
+              width={800}
+              height={600}
+              className="w-full object-contain"
+              style={{margin: 0, padding: 0}}
+            />
+            <Image
+              src="/images/creative/benttree/benttree-2.jpg"
+              alt="Bent Tree logo image 2"
+              width={800}
+              height={600}
+              className="w-full object-contain"
+              style={{margin: 0, padding: 0}}
+            />
+            <Image
+              src="/images/creative/benttree/benttree-3.jpg"
+              alt="Bent Tree logo image 3"
+              width={800}
+              height={600}
+              className="w-full object-contain"
+              style={{margin: 0, padding: 0}}
+            />
+          </div>
+          <div id="packaging">
+            <Image
+              src="/images/creative/benttree/benttree-4.jpg"
+              alt="Bent Tree packaging image 4"
+              width={800}
+              height={600}
+              className="w-full object-contain"
+              style={{margin: 0, padding: 0}}
+            />
+            <Image
+              src="/images/creative/benttree/benttree-5.jpg"
+              alt="Bent Tree packaging image 5"
+              width={800}
+              height={600}
+              className="w-full object-contain"
+              style={{margin: 0, padding: 0}}
+            />
+          </div>
         </div>
       ) : (
         <div className="w-full h-full flex flex-col gap-0 p-0 m-0">
