@@ -108,7 +108,7 @@ export default function CreativePage() {
         webdesign: {
           title: "Web Design",
           tagline: "Elevated, modern, trendy design",
-          description: "that's what I do best. Truly - with web design - I strive to push boundaries, think outside of the box and the template cookie cutter woes. Thats exactly what I did for Sorette - a online shop for pregnancy, mom, and baby safe products. The webiste has changed a bit since my initial design, so I'm showing the initial mockups here. if you want to check it out in practice, head to shopsorette.com"
+          description: "That's what I do best. Truly – with web design – I strive to push boundaries, think outside of the box, and avoid the template cookie-cutter woes. That's exactly what I did for Sorette – an online shop for pregnancy, mom, and baby safe products. The website has changed a bit since my initial design, so I'm showing the initial mockups here. If you want to check it out in practice, head to shopsorette.com."
         }
       }
     },
@@ -120,17 +120,17 @@ export default function CreativePage() {
         supercoolsign: {
           title: "Super Cool Sign",
           tagline: "Look at this super cool sign!",
-          description: "I made a branding package for a dispensary called The Gas Station in Rutland, VT. It's always super rad seeing your work being implemented in the real world."
+          description: "I made a branding package for a dispensary called The Gas Station in Rutland, VT. It's always super rad seeing your work implemented in the real world."
         },
         moodboard: {
           title: "Mood Board",
           tagline: "The building was a Texaco gas station in the 50s,",
-          description: "so we wanted to keep true to the brand's history and keep the 50s gas station vibe while also making it feel modern and fresh. Scroll around the Figma mood board to see the foundation we created."
+          description: "so we wanted to stay true to the brand's history and keep the 50s gas station vibe while also making it feel modern and fresh. Scroll around the Figma mood board to see the foundation we created."
         },
         branding: {
           title: "Branding",
           tagline: "Super proud of where this one landed.",
-          description: "Look - it wasn't easy. My process shows it all - lots of versions, lots of directions. But I'm proud of the end result - and the client was really happy as well, which is all that matters. Oh...and Oily is pretty cool too haha"
+          description: "Look – it wasn't easy. My process shows it all – lots of versions, lots of directions. But I'm proud of the end result – and the client was really happy as well, which is all that matters. Oh...and Oily is pretty cool too haha."
         }
       }
     },
@@ -142,24 +142,24 @@ export default function CreativePage() {
         branding: {
           title: "Branding",
           tagline: "Modernizing pet healthcare.",
-          description: "Omi Health was in a pinch - they needed branding quick, didn't have a huge budget, but had an amazing mission. Luckily, I'm a sucker for my dog, so I agreed to help. I created a quick, simple word mark for them and color scheme rich in textures and gradients." 
+          description: "Omi Health was in a pinch – they needed branding quickly, didn't have a huge budget, but had an amazing mission. Luckily, I'm a sucker for my dog, so I agreed to help. I created a quick, simple wordmark for them and a color scheme rich in textures and gradients."
         },
         posters: {
           title: "Posters",
           tagline: "I'M TRYING TO GET YOUR ATTENTION.",
-          description: "THAT'S WHAT POSTERS SHOULD DO. THATS WHAT I TIRED TO DO. "
+          description: "THAT'S WHAT POSTERS SHOULD DO. THAT'S WHAT I TRIED TO DO."
         },
         website: {
           title: "Website",
           tagline: "Designing on the fly and being adaptive",
-          description: "are some of my finest tuned skills, and they shine here. As you can see by the multiple versions we created, as the client refined their understanding of the brand identity, I refined the website to match. We brought it from SUPER playful, to more refined and adult. I feel it landed really smoothly, on the right runway, in the correct city. If you want to check out the site functioning, head to joinomi.com"
+          description: "are some of my most finely tuned skills, and they shine here. As you can see by the multiple versions we created, as the client refined their understanding of the brand identity, I refined the website to match. We brought it from SUPER playful to more refined and adult. I feel it landed really smoothly, on the right runway, in the correct city. If you want to check out the site in action, head to joinomi.com."
         }
       }
     },
     chambord: {
       title: "Chambord",
       tagline: "Here I am again, modernizing",
-      description: "another logo in desperate need. During my time at Forte Brands, we brought on a fireclay farm sink company called Chambord. No - not the booze - the sinks haha. They had a super dated, maybe even from the earlty 1900's logo for all I know. My job was to tweak it and modernize while keeping it recognizable. Done."
+      description: "another logo in desperate need. During my time at Forte Brands, we brought on a fireclay farm sink company called Chambord. No – not the booze – the sinks haha. They had a super dated, maybe even from the early 1900s, logo for all I know. My job was to tweak it and modernize it while keeping it recognizable. Done."
     },
     landmade: {
       title: "Landmade",
@@ -168,33 +168,33 @@ export default function CreativePage() {
       sections: {
         branding: {
           title: "Branding",
-          tagline: "These are some Boujee ass bathtubs",
-          description: "and the branding needed to match the pricetag. Somtimes a $15,000 price tag. I know. While at Forte Brands, we launched a line of bathtubs that are 100% recycleable - serioulsy they just decompose over time - and we wanted branding that felt elegant and could fit in houses with closets full of Dior and Louis, while also keeping to it's commitment to the earth. I used organic shapes, a simple word mark, and a NEVER PURE WHITE AND NEVER PURE BLACK mentality, just like nature."
+          tagline: "These are some boujee-ass bathtubs",
+          description: "and the branding needed to match the price tag. Sometimes a $15,000 price tag. I know. While at Forte Brands, we launched a line of bathtubs that are 100% recyclable – seriously, they just decompose over time – and we wanted branding that felt elegant and could fit in houses with closets full of Dior and Louis, while also keeping to its commitment to the earth. I used organic shapes, a simple wordmark, and a NEVER PURE WHITE AND NEVER PURE BLACK mentality, just like nature."
         },
         photoshoot: {
           title: "Photoshoot",
           tagline: "Breaking the fourth wall of corny bathroom shoots.",
-          description: "We wantd the brand to feel honest, pure, elegant, and exciting. With that in mind, we decided to shoot the tubs in a studio, no running water, no smoke and mirrors and implication of running water. Just the tubs, a room, a backdrop, and some humans interacting with them. "
+          description: "We wanted the brand to feel honest, pure, elegant, and exciting. With that in mind, we decided to shoot the tubs in a studio, no running water, no smoke and mirrors, and no implication of running water. Just the tubs, a room, a backdrop, and some humans interacting with them."
         },
         pricebook: {
           title: "Price Book",
           tagline: "One of my proudest designs.",
-          description: "This price book is truly one of my greatest works. It's cover is made of recycled, card stock paper. Each bath is paried with an element of nature, and while everything is structured on a grid, I wasn't afraid to break the grid and create some randomness just like in nature."
+          description: "This price book is truly one of my greatest works. Its cover is made of recycled card stock paper. Each bath is paired with an element of nature, and while everything is structured on a grid, I wasn't afraid to break the grid and create some randomness, just like in nature."
         },
         website: {
           title: "Website",
           tagline: "Did I mention I develop sites too?",
-          description: "This was another webiste that I tried to break the rules on. Each tub was paired with a Sounds like feature with a song. The grid was respected, but not to a fault. Images float, each bath is given a story. check it out at landmade.us"
+          description: "This was another website where I tried to break the rules. Each tub was paired with a 'Sounds like' feature with a song. The grid was respected, but not to a fault. Images float, each bath is given a story. Check it out at landmade.us."
         },
         finishesbox: {
           title: "Finishes Box",
           tagline: "Just pure fun.",
-          description: "Creating this box is the type of project I foam at the mouth for. I love problem solving, crafting from scratch, and making real life things."
+          description: "Creating this box is the type of project I foam at the mouth for. I love problem solving, crafting from scratch, and making real-life things."
         },
         displaymedia: {
           title: "Display Media",
           tagline: "Eye-catching lightboxes for Showrooms",
-          description: "that also tell a story. That was the goal. Again, we wanted to reinforce Landmade's commitment to the Earth, and wanted these to stand out from the typical bathroom display media."
+          description: "that also tell a story. That was the goal. Again, we wanted to reinforce Landmade's commitment to the Earth and wanted these to stand out from typical bathroom display media."
         }
       }
     },
@@ -206,14 +206,14 @@ export default function CreativePage() {
         branding: {
           title: "Branding",
           tagline: "Where you go to turn nothing into something",
-          description: "After banging my head against the wall for far too long on this logo - I realized something. Colorblock, a creative-based coworknig space startup, is as simple as a place creatives go to turn nothing into somethign. Boom - logo done. Sometimes - simplicity is the only way. "
+          description: "After banging my head against the wall for far too long on this logo, I realized something. Colorblock, a creative-based coworking space startup, is as simple as a place creatives go to turn nothing into something. Boom – logo done. Sometimes, simplicity is the only way."
         }
       }
     },
     them: {
       title: "Them",
-      tagline: "Here's a peak into my process",
-      description: "Go ahead. Indulge yourself. Scroll around the figma board and into my brain. Them was an idea my partner and I have that was birthed on the fact that we share pants. Yes - I wear my girlfriends pants on the regular and I don't see the big deal about it. They fit better, they're cooler. anyway - that's a discussion for another day. We decided to create a gender-less clothing line together starting with a pair of jeans. It's still in the works but here's the process behind the logo! Which do you prefer? Let me know in the comments lol or better yet - in my interview!  "
+      tagline: "Here's a peek into my process",
+      description: "Go ahead. Indulge yourself. Scroll around the Figma board and into my brain. Them was an idea my partner and I had that was born out of the fact that we share pants. Yes – I wear my girlfriend's pants on the regular and I don't see the big deal about it. They fit better, they're cooler. Anyway – that's a discussion for another day. We decided to create a genderless clothing line together starting with a pair of jeans. It's still in the works, but here's the process behind the logo! Which do you prefer? Let me know in the comments lol, or better yet – in my interview!"
     },
     crosswater: {
       title: "Crosswater",
@@ -223,17 +223,17 @@ export default function CreativePage() {
         photoshoot: {
           title: "Photoshoot",
           tagline: "Ok...I'm not a photographer",
-          description: "BUT - my team at Forte Brands desperately needed some consistent, on brand, and modern imagery of each of our faucets. So I built a 2 foot by 2 foot box out of 2x4 (shoutout Home Depot for cutting everything there for me) and slapped some marble tiles on it that I drilled into MYSELF succsesfully. I then built a makeshift studio in my extra bedroom, using a canvas backdrop and lights of amazon. Total cost: $500. Here are the results. I'd say pretty good ROI, right?"
+          description: "BUT – my team at Forte Brands desperately needed some consistent, on-brand, and modern imagery of each of our faucets. So I built a 2 foot by 2 foot box out of 2x4s (shoutout Home Depot for cutting everything there for me) and slapped some marble tiles on it that I drilled into MYSELF successfully. I then built a makeshift studio in my extra bedroom, using a canvas backdrop and lights off Amazon. Total cost: $500. Here are the results. I'd say pretty good ROI, right?"
         },
         brandingrefresh: {
           title: "Branding Refresh",
           tagline: "The old branding was not meeting the moment",
-          description: "It was dated, early 2000's modern bleh, not like Von Dutch cool early 2000s - more like what we thought the future was going to look like back then. Boy were we wrong. Anyway, I pitched a brand refresh from the font, to colors, to how we treat our spec sheets. I felt it was time to bring Crosswater into the modern age, the board did not agree. Oh well! "
+          description: "It was dated, early 2000s modern bleh – not like Von Dutch cool early 2000s, more like what we thought the future was going to look like back then. Boy, were we wrong. Anyway, I pitched a brand refresh from the font to colors to how we treat our spec sheets. I felt it was time to bring Crosswater into the modern age; the board did not agree. Oh well!"
         },
         pricebook: {
           title: "Price Book",
           tagline: "Price book got a facelift, too.",
-          description: "I brought this new branding into the price book design, creating a cleaner, more concise price book that salespeople would feel proud showing their customers. This was a behemoth 400 page book - so I felt that it was super important to make it approachable, and easy to digest."
+          description: "I brought this new branding into the price book design, creating a cleaner, more concise price book that salespeople would feel proud showing their customers. This was a behemoth 400-page book – so I felt that it was super important to make it approachable and easy to digest."
         }
       }
     },
@@ -245,12 +245,12 @@ export default function CreativePage() {
         logo: {
           title: "Logo",
           tagline: "Pot + 90s skate nostalgia + Vermont nature",
-          description: "I mean...is there any more...duh...combination? I developed a logo for my homie who was starting a pot grow in Vermont. We wanted to meld a bunch of different aesthetics of pot culture when we grew up with the famous nature of Vermont. All my friend asked for was to incorporate his fav tree on his property into the logo somehow. "
+          description: "I mean...is there any more...duh...combination? I developed a logo for my homie who was starting a pot grow in Vermont. We wanted to meld a bunch of different aesthetics of pot culture from when we grew up with the famous nature of Vermont. All my friend asked for was to incorporate his favorite tree on his property into the logo somehow."
         },
         packaging: {
           title: "Packaging",
           tagline: "I'd buy this pre-roll",
-          description: "Ya - I know - the fine print and warnings aren't on yet. His pot is still growing...so we'll have to wait for the final designs. The pattern was an added surprise bonus and byproduct of the logo design though, whcih we were all really stoked with."
+          description: "Yeah – I know – the fine print and warnings aren't on yet. His pot is still growing...so we'll have to wait for the final designs. The pattern was an added surprise bonus and byproduct of the logo design, though, which we were all really stoked with."
         }
       }
     }

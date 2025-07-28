@@ -69,6 +69,15 @@ export default function MusicPage()   {
         { id: 'merch', label: 'Merch' },
         { id: 'content', label: 'Content' },
       ];
+    } else if (overlay === 'musicvideos') {
+      return [
+        { id: 'outside', label: 'Outside' },
+        { id: 'shadow', label: 'Shadow' },
+        { id: 'leaves', label: 'Leaves' },
+        { id: 'weight', label: 'Weight (wait)' },
+      ];
+    } else if (overlay === 'singlecovers') {
+      return []; // No sections for single covers - just a grid
     }
     return [];
   };
@@ -84,18 +93,18 @@ export default function MusicPage()   {
       sections: {
         albumcover: {
           title: "Album Cover",
-          tagline: "Creative process behind the cover.",
-          description: "For the EP cover, I embraced my creativity and resourcefulness. Using model train parts, a piece of foam, and a candle box from IKEA, I crafted a visually captivating cover that embodied the essence of Outside."
+          tagline: "Photoshop is so last year ",
+          description: "Corny, I know, but with the advance of design tools, anyone can become a 'designer'. Not everyone can build something and turn nothing into something. That's waht I strived to do with the Outside cover. I used an old candle box from IKEA and some model train pieces - here's the process and result. "
         },
         music: {
           title: "Music",
           tagline: "The sounds of Outside.",
-          description: "Visual documentation of the recording process and creative sessions that brought the Outside EP to life."
+          description: "take a listen, decide for yourself what you think it's about & let me know!"
         },
         merch: {
           title: "Merch",
-          tagline: "Physical manifestations of the project.",
-          description: "Merchandise and physical items created to extend the Outside experience beyond just the music."
+          tagline: "All Natural, dude",
+          description: "For the merch, I screen printed each shirt itself. To be different and to try something cool, I hand dyed each shirt with avocado skin. It took forever lol but It came out super cool!"
         },
         content: {
           title: "Content",
@@ -103,6 +112,38 @@ export default function MusicPage()   {
           description: "Additional content and behind-the-scenes materials from the Outside project."
         }
       }
+    },
+    musicvideos: {
+      title: "Music Videos",
+      tagline: "Visual stories through moving images.",
+      description: "A collection of music videos that bring songs to life through visual storytelling, each with its own unique aesthetic and narrative approach.",
+      sections: {
+        outside: {
+          title: "Outside",
+          tagline: "Began with a bang with this one",
+          description: "My first official video, Outside, is to date one of the coolest things I've ever created. My friend Joe and I did the whole video in one shot and turned the window of my tiny apartment in Denver into a portal to a beautiful sunflower field. The shot was super tricky to get, but Joe came through and it came out amazing!"
+        },
+        shadow: {
+          title: "Shadow",
+          tagline: "Can you tell I like collages? lol",
+          description: "Again working with my friend Joe, we created this video entirely with actual printed cutouts. It was super tedious cutting them all out, but so so worth it. "
+        },
+        leaves: {
+          title: "Leaves",
+          tagline: "Almost killed myself for this one ",
+          description: "This was the craziest hike I've ever been on in my life haha my friend Joe again kinda tricked my manager and I into this hike. Well worth it! I edited this one as well. "
+        },
+        weight: {
+          title: "Weight (wait)",
+          tagline: "My one shot video fantasy",
+          description: "I wanted to make a one shot video so badly, and acheived it here with my friend Joe's help."
+        }
+      }
+    },
+    singlecovers: {
+      title: "Single Covers",
+      tagline: "Real things > computer generated things",
+      description: "Each one of these singles was made with actual images from actual magazines, hand ripped, and with some images like flowers or gems I collected over time. They all exist in a notebook in my studio, each page is a different cover. I'll show you in my interview if you'd like to see it!"
     }
   }
 
@@ -126,6 +167,10 @@ export default function MusicPage()   {
       // Set the default active section to the first section of the overlay
       if (activeOverlay === 'outside') {
         setActiveSection('albumcover')
+      } else if (activeOverlay === 'musicvideos') {
+        setActiveSection('outside')
+      } else if (activeOverlay === 'singlecovers') {
+        setActiveSection('') // No sections for single covers
       }
     }
   }, [activeOverlay])
@@ -264,7 +309,15 @@ export default function MusicPage()   {
                   >
                     {img.href ? (
                       <motion.div 
-                        onClick={() => img.href === '/music/outside' && setActiveOverlay('outside')}
+                        onClick={() => {
+                          if (img.href === '/music/outside') {
+                            setActiveOverlay('outside')
+                          } else if (img.href === '/music/musicvideos') {
+                            setActiveOverlay('musicvideos')
+                          } else if (img.href === '/music/singlecovers') {
+                            setActiveOverlay('singlecovers')
+                          }
+                        }}
                         className={`${img.href ? 'cursor-pointer transition-transform hover:scale-105' : ''}`}
                         variants={createAnimationVariant(index % 4)}
                         initial="initial"
@@ -420,7 +473,7 @@ export default function MusicPage()   {
                           lineHeight: '0.8'
                         }}
                       >
-                        Outside
+                        {projectDescriptions[activeOverlay]?.title || activeOverlay}
                       </div>
                     </div>
 
@@ -429,19 +482,23 @@ export default function MusicPage()   {
                       <div className="text-[#202020] font-benton-compressed text-2xl md:text-4xl leading-none mb-4">
                         {(activeOverlay === 'outside' && projectDescriptions.outside.sections[activeSection]) ?
                           projectDescriptions.outside.sections[activeSection].tagline :
-                          "pressures, unease, and beauty of navigating your 20s."
+                          (activeOverlay === 'musicvideos' && projectDescriptions.musicvideos.sections[activeSection]) ?
+                          projectDescriptions.musicvideos.sections[activeSection].tagline :
+                          projectDescriptions[activeOverlay]?.tagline || "Creative project showcase"
                         }
                       </div>
                       <p className="text-sm md:text-base text-[#202020] leading-normal font-benton">
                         {(activeOverlay === 'outside' && projectDescriptions.outside.sections[activeSection]) ?
                           projectDescriptions.outside.sections[activeSection].description :
-                          "For the EP cover, I embraced my creativity and resourcefulness. Using model train parts, a piece of foam, and a candle box from IKEA, I crafted a visually captivating cover that embodied the essence of Outside. It was a way to bring the physical world into the project and reflect the vibe of the project."
+                          (activeOverlay === 'musicvideos' && projectDescriptions.musicvideos.sections[activeSection]) ?
+                          projectDescriptions.musicvideos.sections[activeSection].description :
+                          projectDescriptions[activeOverlay]?.description || "Project description coming soon."
                         }
                       </p>
                     </div>
 
-                    {/* Navigation menu - horizontal and center aligned at bottom - FOR OUTSIDE */}
-                    {activeOverlay === 'outside' && (
+                    {/* Navigation menu - horizontal and center aligned at bottom */}
+                    {(activeOverlay === 'outside' || activeOverlay === 'musicvideos') && (
                       <div className="flex justify-center">
                         <HorizontalScrollSpyNav
                           sections={sections}
@@ -478,8 +535,8 @@ export default function MusicPage()   {
 
                   {/* DESKTOP LAYOUT */}
                   <div className="hidden md:block">
-                    {/* Sticky ScrollSpyNav at top left - for outside overlay */}
-                    {activeOverlay === 'outside' && (
+                    {/* Sticky ScrollSpyNav at top left */}
+                    {(activeOverlay === 'outside' || activeOverlay === 'musicvideos') && (
                       <div className="sticky top-0 left-0 z-10 pt-2 pb-4" style={{ background: 'none' }}>
                         <ScrollSpyNav
                           sections={sections}
@@ -558,20 +615,24 @@ export default function MusicPage()   {
                           lineHeight: '0.8'
                         }}
                       >
-                        Outside
+                        {projectDescriptions[activeOverlay]?.title || activeOverlay}
                       </div>
                     </div>
                     
-                    <div className="mt-[250px] text-[#202020] font-benton-compressed text-6xl md:text-8xl text-right" style={{ lineHeight: '0.8' }}>
+                    <div className={`${(activeOverlay === 'outside' || activeOverlay === 'musicvideos') ? 'mt-[250px]' : 'mt-[350px]'} text-[#202020] font-benton-compressed text-6xl md:text-8xl text-right`} style={{ lineHeight: '0.8' }}>
                       {(activeOverlay === 'outside' && projectDescriptions.outside.sections[activeSection]) ?
                         projectDescriptions.outside.sections[activeSection].tagline :
-                        "pressures, unease, and beauty of navigating your 20s."
+                        (activeOverlay === 'musicvideos' && projectDescriptions.musicvideos.sections[activeSection]) ?
+                        projectDescriptions.musicvideos.sections[activeSection].tagline :
+                        projectDescriptions[activeOverlay]?.tagline || "Creative project showcase"
                       }
                     </div>
                     <p className="text-base md:text-lg text-[#202020] mt-6 md:mt-8 leading-normal font-benton text-right">
                       {(activeOverlay === 'outside' && projectDescriptions.outside.sections[activeSection]) ?
                         projectDescriptions.outside.sections[activeSection].description :
-                        "For the EP cover, I embraced my creativity and resourcefulness. Using model train parts, a piece of foam, and a candle box from IKEA, I crafted a visually captivating cover that embodied the essence of Outside. It was a way to bring the physical world into the project and reflect the vibe of the project."
+                        (activeOverlay === 'musicvideos' && projectDescriptions.musicvideos.sections[activeSection]) ?
+                        projectDescriptions.musicvideos.sections[activeSection].description :
+                        projectDescriptions[activeOverlay]?.description || "Project description coming soon."
                       }
                     </p>
                   </div>
@@ -612,7 +673,9 @@ export default function MusicPage()   {
                     <div className="flex-1 text-center font-benton-compressed text-lg text-[#202020]">
                       {(activeOverlay === 'outside' && projectDescriptions.outside.sections[activeSection]) ?
                         projectDescriptions.outside.sections[activeSection].title :
-                        "Outside"
+                        (activeOverlay === 'musicvideos' && projectDescriptions.musicvideos.sections[activeSection]) ?
+                        projectDescriptions.musicvideos.sections[activeSection].title :
+                        projectDescriptions[activeOverlay]?.title || activeOverlay
                       }
                     </div>
 
@@ -783,7 +846,7 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
               className="w-full object-contain"
               style={{margin: 0, padding: 0}}
             />
-            <div className="grid grid-cols-2 gap-4 p-4">
+            <div className="grid grid-cols-2 gap-4 p-4 pb-2">
               <Image
                 src="/images/outside/59815894100__84E974C9-8D63-4EA1-B181-950697974B94-1.jpeg"
                 alt="Outside project"
@@ -801,9 +864,13 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
                 style={{margin: 0, padding: 0}}
               />
             </div>
-            <div className="grid grid-cols-2 gap-4 p-4">
+            <div className="grid grid-cols-2 gap-4 p-4 pt-2">
               <video 
                 controls 
+                autoPlay
+                muted
+                playsInline
+                loop
                 className="w-full object-contain"
                 style={{margin: 0, padding: 0}}
                 poster="/images/outside/IMG_0799.jpeg"
@@ -813,10 +880,15 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
               </video>
               <video 
                 controls 
+                autoPlay
+                muted
+                playsInline
+                loop
                 className="w-full object-contain"
                 style={{margin: 0, padding: 0}}
+                poster="/images/outside/IMG_0799.jpeg"
               >
-                <source src="/images/outside/IMG_0782.mov" type="video/quicktime" />
+                <source src="/images/outside/IMG_0782.mp4" type="video/mp4" />
                 Your browser does not support the video tag.
               </video>
             </div>
@@ -871,6 +943,97 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
               className="w-full object-contain"
               style={{margin: 0, padding: 0}}
             />
+          </div>
+        </div>
+      )}
+
+      {activeOverlay === 'musicvideos' && (
+        <div className="w-full">
+          <div id="outside">
+            <div style={{borderRadius: '0', overflow: 'hidden', margin: '0 0 16px 0'}}>
+              <iframe 
+                width="100%" 
+                height="500" 
+                src="https://www.youtube.com/embed/cwCgjuw_awI" 
+                title="Outside - Music Video"
+                frameBorder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                allowFullScreen
+                style={{border: 'none', margin: 0, padding: 0, display: 'block'}}
+              />
+            </div>
+          </div>
+          <div id="shadow">
+            <div style={{borderRadius: '0', overflow: 'hidden', margin: '0 0 16px 0'}}>
+              <iframe 
+                width="100%" 
+                height="500" 
+                src="https://www.youtube.com/embed/xzJamD4csig" 
+                title="Shadow - Music Video"
+                frameBorder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                allowFullScreen
+                style={{border: 'none', margin: 0, padding: 0, display: 'block'}}
+              />
+            </div>
+          </div>
+          <div id="leaves">
+            <div style={{borderRadius: '0', overflow: 'hidden', margin: '0 0 16px 0'}}>
+              <iframe 
+                width="100%" 
+                height="500" 
+                src="https://www.youtube.com/embed/bXKCW3UPdu0" 
+                title="Leaves - Music Video"
+                frameBorder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                allowFullScreen
+                style={{border: 'none', margin: 0, padding: 0, display: 'block'}}
+              />
+            </div>
+          </div>
+          <div id="weight">
+            <div style={{borderRadius: '0', overflow: 'hidden', margin: '0 0 16px 0'}}>
+              <iframe 
+                width="100%" 
+                height="500" 
+                src="https://www.youtube.com/embed/XNTPuZk7fPA" 
+                title="Weight (wait) - Music Video"
+                frameBorder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                allowFullScreen
+                style={{border: 'none', margin: 0, padding: 0, display: 'block'}}
+              />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {activeOverlay === 'singlecovers' && (
+        <div className="w-full p-4">
+          <div className="grid grid-cols-2 gap-4">
+            {/* Actual single cover filenames */}
+            {[
+              'getoverit-cover-final-2.jpeg',
+              'getoverit-cover-final.jpg',
+              'golden-cover.jpeg',
+              'inside-dover.jpeg',
+              'leaves-cover.jpg',
+              'needsomething-v3.jpeg',
+              'rush-cover-v1.jpeg',
+              'shadow-cover.jpeg',
+              'theend-cover.jpeg',
+              'tofu-cover.jpeg'
+            ].map((filename, idx) => (
+              <Image
+                key={idx}
+                src={`/images/music/single-covers/${filename}`}
+                alt={`Single cover - ${filename.split('-')[0]}`}
+                width={400}
+                height={400}
+                className="w-full h-auto object-cover rounded"
+                style={{margin: 0, padding: 0}}
+              />
+            ))}
           </div>
         </div>
       )}

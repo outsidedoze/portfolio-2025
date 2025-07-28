@@ -1,7 +1,7 @@
 'use client'
 import Image from 'next/image'
 import Link from 'next/link'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence, useAnimation } from 'framer-motion'
 import { useRef, useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 
@@ -9,20 +9,38 @@ import { useRouter } from 'next/navigation'
 const hats = [
   { label: 'Creative Director', image: '/images/creative-hat.png', href: '/creative-director' },
   { label: 'Musician', image: '/images/music-hat.png', href: '/music' },
-  { label: 'Designer', image: '/images/garden-hat.png', href: '/designer' },
+  { label: 'Designer', image: '/images/garden-hat.png', href: '/designer' }, // garden hat goes to /designer for drag, override below
 ]
 
 // Background elements with precise coordinates from Figma
 const backgroundElements = [
-  { src: '/images/home/montreal.jpg', left: -220, top:0, width: 1484, height: 822, mobilePosition: { left: -250, scale: 0.8, top: 843 } },
-  { src: '/images/home/backyardtrees.jpg', left: 999, top: -46, width: 787, height: 775, mobilePosition: { left: 300, top: -46 } },
-  { src: '/images/home/rocks.png', left: -234, top: 330, width: 2292, height: 950, mobilePosition: { left: -300, top: 330 } },
-  { src: '/images/home/flowers.png', left: -198, top: 662, width: 2206, height: 618, mobilePosition: { left: -350, top: 662 } },
-  { src: '/images/home/tree.png', left: -200, top: -21, width: 695.28, height: 1179, mobilePosition: { left: -150, top: -21 } },
+  { src: '/images/home/montreal.jpg', left: -220, top:0, width: 1484, height: 822, mobilePosition: { left: -750, scale: 1.8, top: -643 } },
+  { src: '/images/home/backyardtrees.jpg', left: 1050, top: -46, width: 787, height: 775, mobilePosition: { left: 0, scale: 2.9, top: -546 } },
+  { src: '/images/home/rocks.png', left: -234, top: 330, width: 2292, height: 950, mobilePosition: { left: -900, top: -30 } },
+  { src: '/images/home/flowers.png', left: -198, top: 662, width: 2206, height: 618, mobilePosition: { left: -650, top: 502 } },
+  { src: '/images/home/tree.png', left: -200, top: -21, width: 695.28, height: 1179, mobilePosition: { left: -550, top: -21 } },
 ]
 
 // ZachPuppet component
 function ZachPuppet({ zachRef }) {
+  const [currentHeadIndex, setCurrentHeadIndex] = useState(0)
+  
+  const headImages = [
+    '/images/zach-main-head.png',
+    '/images/head-2.png',
+    '/images/head-3.png',
+    '/images/head-4.png'
+  ]
+
+  // Rotate head images every 2 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentHeadIndex((prevIndex) => (prevIndex + 1) % headImages.length)
+    }, 2000)
+
+    return () => clearInterval(interval)
+  }, [])
+
   // Example shoulder positions (tweak for your images)
   const leftShoulder = { x: 120, y: 180 }
   const rightShoulder = { x: 260, y: 180 }
@@ -82,7 +100,7 @@ function ZachPuppet({ zachRef }) {
       />
       {/* Head */}
       <motion.img
-        src="/images/zach-main-head.png"
+        src={headImages[currentHeadIndex]}
         style={{
           position: 'absolute',
           left: 90, top: 0, zIndex: 10,
@@ -101,6 +119,7 @@ export default function Home() {
   const [hasMounted, setHasMounted] = useState(false)
   const [windowWidth, setWindowWidth] = useState(0)
   const [scale, setScale] = useState(1)
+  const [showStar, setShowStar] = useState(true)
 
   // Helper to check overlap between two DOMRects
   function isOverlapping(rect1, rect2) {
@@ -152,8 +171,18 @@ export default function Home() {
 
   return (
     <main className="relative w-full h-screen overflow-hidden bg-black text-white">
+      {/* Full viewport fixed sky background */}
+      <div
+        className="fixed inset-0 z-0"
+        style={{
+          backgroundImage: 'url("/images/home/sky.jpg")',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+        }}
+      />
       {/* Animated Background Elements */}
-      <div className="absolute inset-0 flex justify-center items-center">
+      <div className="absolute inset-0 flex justify-center items-center z-10">
         <div
           className="relative"
           style={{
@@ -168,6 +197,7 @@ export default function Home() {
               className="absolute inset-0"
               style={{
                 transformOrigin: 'top left',
+                transform: windowWidth < 768 ? 'scale(1.9)' : undefined,
               }}
             >
               {backgroundElements.map((img, index) => (
@@ -204,9 +234,6 @@ export default function Home() {
                     width: img.width,
                     height: img.height,
                     zIndex: index,
-                    transform: windowWidth < 768 && img.mobilePosition && img.mobilePosition.scale
-                      ? `scale(${img.mobilePosition.scale})` 
-                      : ''
                   }}
                 >
                   <Image
@@ -225,7 +252,7 @@ export default function Home() {
       </div>
 
       {/* Hats */}
-      <div className="absolute top-20 left-1/2 -translate-x-1/2 flex gap-16 z-50 pointer-events-none">
+      <div className="absolute top-10 md:top-20 left-1/2 -translate-x-1/2 flex gap-4 md:gap-16 z-50 pointer-events-none">
         {hats.map((hat, index) => (
           <motion.div
             key={hat.label}
@@ -249,12 +276,14 @@ export default function Home() {
             className="pointer-events-auto cursor-grab"
             style={{ zIndex: 100 }}
             whileDrag={{ scale: 1.15 }}
+            onDragStart={() => setShowStar(false)}
             onDragEnd={() => {
               const hatElem = hatRefs.current[index];
               const hatRect = hatElem ? hatElem.getBoundingClientRect() : null;
               const zachRect = zachRef.current ? zachRef.current.getBoundingClientRect() : null;
               if (hatRect && zachRect && isOverlapping(hatRect, zachRect)) {
-                router.push(hat.href);
+                const path = hat.label === 'Designer' ? '/garden' : hat.href;
+                setTimeout(() => router.push(path), 250); // match animation duration
               }
             }}
           >
@@ -279,7 +308,7 @@ export default function Home() {
       {/* Many Hats Title + Zach (Stacked) */}
       <div className="absolute left-1/2 -translate-x-1/2 top-[120px] flex flex-col items-center z-30 space-y-8">
         <motion.h1 
-          className="text-white text-[7rem] font-semibold italic tracking-tight leading-none tk-benton-modern-display"
+          className="text-white text-[4rem] md:text-[6rem] lg:text-[7rem] font-semibold italic tracking-tight leading-none tk-benton-modern-display"
           initial={{ y: 80, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
@@ -292,9 +321,146 @@ export default function Home() {
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.7, delay: 0.5, ease: "easeOut" }}
         >
-          <ZachPuppet zachRef={zachRef} />
+          <div className="mt-[-30px] md:mt-0">
+            <ZachPuppet zachRef={zachRef} />
+          </div>
         </motion.div>
       </div>
+
+      {/* Claude badge in Bottom Right */}
+      <motion.div
+        initial={{ opacity: 0, x: 100 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{
+          type: 'spring',
+          stiffness: 100,
+          damping: 20,
+          delay: 0 // remove any delay to trigger immediately
+        }}
+        className="fixed bottom-5 right-5 bg-[#FFFDE6] text-black font-benton-compressed text-sm font-bold px-4 py-2 rounded-[10px] z-[9999] shadow-[-10px_10px_#202020]"
+        style={{ border: '2px solid #202020' }}
+      >
+        Built from scratch using AI tools!
+      </motion.div>
+
+      {/* Spinning Star in Top Left - Drag Hat */}
+      <AnimatePresence>
+        {showStar && (
+          <motion.div
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0, opacity: 0 }}
+            transition={{ delay: 0.25, duration: 0.25 }}
+            className="fixed z-50"
+            style={{
+              width: windowWidth < 768 ? '240px' : '300px',
+              height: windowWidth < 768 ? '240px' : '300px',
+              top: windowWidth < 768 ? 'auto' : '-20px',
+              bottom: windowWidth < 768 ? '-20px' : 'auto',
+              left: windowWidth < 768 ? '-20px' : '0px',
+            }}
+          >
+            {/* Back star (shadow) */}
+            <motion.div
+              className="absolute"
+              style={{ left: '-20px', top: '20px', width: '100%', height: '100%' }}
+              animate={{ 
+                rotate: -360 
+              }}
+              transition={{ 
+                duration: 15,
+                repeat: Infinity,
+                ease: "linear"
+              }}
+            >
+              <Image
+                src="/images/star-background.svg"
+                alt="Star Badge Shadow"
+                fill
+                className="object-contain"
+              />
+            </motion.div>
+            
+            {/* Front star */}
+            <motion.div
+              className="absolute"
+              style={{ left: '0', top: '0', width: '100%', height: '100%' }}
+              animate={{ 
+                rotate: -360 
+              }}
+              transition={{ 
+                duration: 15,
+                repeat: Infinity,
+                ease: "linear"
+              }}
+            >
+              <Image
+                src="/images/star-front.svg"
+                alt="Star Badge"
+                fill
+                className="object-contain"
+              />
+            </motion.div>
+            
+            {/* Star text (one-time animated sequence) */}
+            <div
+              className="absolute font-benton-compressed text-[1.9rem] z-10 text-center"
+              style={{
+                width: '120px',
+                height: '70px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                textAlign: 'center',
+                overflow: 'hidden',
+                position: 'absolute',
+                left: '50%',
+                top: '50%',
+                transform: 'translate(-50%, -50%)',
+                pointerEvents: 'none',
+                color: '#202020',
+                fontWeight: 700,
+                lineHeight: 1,
+                whiteSpace: 'normal',
+              }}
+            >
+              <StarText />
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </main>
   )
+}
+
+function StarText() {
+  const [text, setText] = useState("Hey!");
+  const controls = useAnimation();
+
+  useEffect(() => {
+    const sequence = async () => {
+      await controls.start({ opacity: 1 });
+      setTimeout(() => setText("To get started,"), 1000);
+      setTimeout(() => setText("drag a hat on my head!"), 2000);
+    };
+    sequence();
+    // No cleanup needed for this one-time effect
+  }, []);
+
+  return (
+    <motion.div
+      animate={controls}
+      initial={{ opacity: 0 }}
+      transition={{ duration: 0.5 }}
+      style={{
+        whiteSpace: 'normal',
+        lineHeight: 1,
+        fontWeight: 700,
+        width: '100%',
+        textAlign: 'center',
+      }}
+    >
+      {text}
+    </motion.div>
+  );
 }
