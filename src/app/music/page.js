@@ -94,22 +94,22 @@ export default function MusicPage()   {
         albumcover: {
           title: "Album Cover",
           tagline: "Photoshop is so last year ",
-          description: "Corny, I know, but with the advance of design tools, anyone can become a 'designer'. Not everyone can build something and turn nothing into something. That's waht I strived to do with the Outside cover. I used an old candle box from IKEA and some model train pieces - here's the process and result. "
+          description: "Corny, I know, but with the advance of design tools, anyone can become a 'designer'. Not everyone can build something and turn nothing into something. That's what I strived to do with the Outside cover. I used an old candle box from IKEA and some model train pieces - here's the process and result. "
         },
         music: {
           title: "Music",
           tagline: "The sounds of Outside.",
-          description: "take a listen, decide for yourself what you think it's about & let me know!"
+          description: "Take a listen, decide for yourself what you think it's about & let me know!"
         },
         merch: {
           title: "Merch",
           tagline: "All Natural, dude",
-          description: "For the merch, I screen printed each shirt itself. To be different and to try something cool, I hand dyed each shirt with avocado skin. It took forever lol but It came out super cool!"
+          description: "For the merch, I screen printed each shirt itself. To be different and to try something cool, I hand dyed each shirt with avocado skin. It took forever, lol, but it came out super cool!"
         },
         content: {
           title: "Content",
-          tagline: "Behind the scenes content.",
-          description: "Additional content and behind-the-scenes materials from the Outside project."
+          tagline: "An era I will never forget.",
+          description: "man. even looking through this content to put it here had me in my feels. What a fun era of my life! I created a ton of content and did my absolute best to market this project, which I feel was a success!"
         }
       }
     },
@@ -135,8 +135,8 @@ export default function MusicPage()   {
         },
         weight: {
           title: "Weight (wait)",
-          tagline: "My one shot video fantasy",
-          description: "I wanted to make a one shot video so badly, and acheived it here with my friend Joe's help."
+          tagline: "My one-shot video fantasy",
+          description: "I wanted to make a one-shot video so badly, and achieved it here with my friend Joe's help."
         }
       }
     },
@@ -892,14 +892,6 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
                 Your browser does not support the video tag.
               </video>
             </div>
-            <Image
-              src="/images/outside/IMG_0799.jpeg"
-              alt="Outside project"
-              width={800}
-              height={600}
-              className="w-full object-contain"
-              style={{margin: 0, padding: 0}}
-            />
           </div>
           <div id="music">
             {/* Spotify Album Embed */}
@@ -935,14 +927,31 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
             />
           </div>
           <div id="content">
-            <Image
-              src="/images/outside/IMG_0798-1.jpeg"
-              alt="Outside content"
-              width={800}
-              height={600}
-              className="w-full object-contain"
-              style={{margin: 0, padding: 0}}
-            />
+            <div className="grid grid-cols-2 gap-4 p-4">
+              <div className="flex flex-col">
+                <Image
+                  src="/images/outside/IMG_0798-1.jpeg"
+                  alt="Outside content"
+                  width={800}
+                  height={600}
+                  className="w-full object-contain"
+                  style={{margin: 0, padding: 0}}
+                />
+                {/* Video directly underneath the image in the left column */}
+                <video
+                  src="/images/outside/momentsFromOutside-v4.mp4"
+                  controls
+                  className="w-full mt-4"
+                />
+              </div>
+              <Image
+                src="/images/outside/IMG_0799.jpeg"
+                alt="Content Image"
+                width={800}
+                height={600}
+                className="object-contain"
+              />
+            </div>
           </div>
         </div>
       )}

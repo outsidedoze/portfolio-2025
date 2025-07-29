@@ -4,6 +4,85 @@ import { useEffect, useState, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useRouter } from 'next/navigation'
 
+// Image with Loading Component
+function ImageWithLoading({ src, alt, width, height, className, style, priority = false, imgRef = null }) {
+  const [isLoading, setIsLoading] = useState(true)
+  const [loadProgress, setLoadProgress] = useState(0)
+  const progressInterval = useRef(null)
+  
+  useEffect(() => {
+    // Reset loading state when src changes
+    setIsLoading(true);
+    setLoadProgress(0);
+    
+    // Start progress animation
+    progressInterval.current = setInterval(() => {
+      setLoadProgress(prev => {
+        const increment = Math.random() * 20 + 5;
+        const newProgress = prev + increment;
+        
+        if (newProgress >= 90) {
+          if (progressInterval.current) clearInterval(progressInterval.current);
+          return 90;
+        }
+        return newProgress;
+      });
+    }, 300);
+    
+    return () => {
+      if (progressInterval.current) clearInterval(progressInterval.current);
+    };
+  }, [src]); // Reset when src changes
+  
+  const handleLoadComplete = () => {
+    if (progressInterval.current) clearInterval(progressInterval.current);
+    setLoadProgress(100);
+    setTimeout(() => setIsLoading(false), 200);
+  };
+  
+  return (
+    <div className="relative w-full">
+      {/* Loading overlay */}
+      {isLoading && (
+        <div className="absolute inset-0 bg-[#FAF8E9] flex items-center justify-center z-10" style={{ minHeight: '200px' }}>
+          <div className="flex flex-col items-center gap-3 w-full px-6 max-w-[200px]">
+            <div className="w-full bg-[#202020]/10 rounded-full h-1.5 overflow-hidden">
+              <motion.div 
+                className="h-full bg-[#202020] rounded-full"
+                animate={{ width: `${loadProgress}%` }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
+              />
+            </div>
+            <div className="text-[#202020]/70 font-benton text-xs">
+              {Math.round(loadProgress)}%
+            </div>
+          </div>
+        </div>
+      )}
+      
+      {/* Image */}
+      <Image
+        ref={imgRef}
+        src={src}
+        alt={alt}
+        width={width}
+        height={height}
+        className={className}
+        onLoadingComplete={handleLoadComplete}
+        onError={() => {
+          if (progressInterval.current) clearInterval(progressInterval.current);
+          setIsLoading(false);
+        }}
+        priority={priority}
+        loading={priority ? "eager" : "lazy"}
+        quality={90}
+        sizes="(max-width: 768px) 100vw, 60vw"
+        unoptimized={src.endsWith('.gif')}
+      />
+    </div>
+  )
+}
+
 export default function CreativePage() {
   const router = useRouter()
 
@@ -323,6 +402,8 @@ export default function CreativePage() {
       setIsCollapsed(false)
       // Reset loading states for Figma embeds
       setFigmaLoading({})
+      // Force re-render of images by changing key
+      window.scrollTo(0, 0); // Scroll to top when opening overlay
       // Set the default active section to the first section of the overlay
       if (activeOverlay === 'landmade') {
         setActiveSection('branding')
@@ -428,8 +509,9 @@ export default function CreativePage() {
                     motionProps = {
                       animate: {
                         // Position the image so that the hotspot aligns with the cursor position
-                        x: !isMobile ? mouse.x - position.left - hotspot.x : 0,
-                        y: !isMobile ? mouse.y - position.top - hotspot.y : 0,
+                        // Add 20px offset to x for better alignment
+                        x: !isMobile ? mouse.x - position.left - hotspot.x + -260 : 20,
+                        y: !isMobile ? mouse.y - position.top - hotspot.y : 30,
                         opacity: 1,
                       },
                       transition: {
@@ -511,6 +593,7 @@ export default function CreativePage() {
             >
               {/* Left Scrollable Column with Project Images */}
               <LeftColumnImages
+                key={activeOverlay} // Force re-render when overlay changes
                 activeOverlay={activeOverlay}
                 setActiveOverlay={setActiveOverlay}
                 setActiveSection={setActiveSection}
@@ -1000,10 +1083,13 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
   const firstImgRef = useRef(null);
   const leftColRef = useRef(null);
 
-  // ScrollSpy: update active section on scroll
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     const ref = leftColRef.current;
     if (!ref || sections.length === 0) return;
+    
+    // Scroll to top when component mounts
+    ref.scrollTop = 0;
     
     const handleScroll = () => {
       const parentRect = ref.getBoundingClientRect();
@@ -1088,7 +1174,7 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
     ref.addEventListener('scroll', handleScroll);
     handleScroll();
     return () => ref.removeEventListener('scroll', handleScroll);
-  }, [sections, isMobile]); // Key fix: removed activeSection from dependencies
+  }, [activeOverlay, isMobile]);
 
   return (
     <div 
@@ -1159,260 +1245,241 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
       ) : activeOverlay === 'sorette' ? (
         <div className="w-full">
           <div id="webdesign">
-            <Image
-              ref={firstImgRef}
+            <ImageWithLoading
+              imgRef={firstImgRef}
               src="/images/creative/sorette/sorette-1.jpg"
               alt="Sorette project image 1"
               width={800}
               height={600}
               className="w-full object-contain"
-              style={{margin: 0, padding: 0}}
+              priority={true}
             />
-            <Image
+            <ImageWithLoading
               src="/images/creative/sorette/sorette-2.jpg"
               alt="Sorette project image 2"
               width={800}
               height={600}
               className="w-full object-contain"
-              style={{margin: 0, padding: 0}}
             />
-            <Image
+            <ImageWithLoading
               src="/images/creative/sorette/sorette-3.jpg"
               alt="Sorette project image 3"
               width={800}
               height={600}
               className="w-full object-contain"
-              style={{margin: 0, padding: 0}}
             />
-            <Image
+            <ImageWithLoading
               src="/images/creative/sorette/sorette-4.jpg"
               alt="Sorette project image 4"
               width={800}
               height={600}
               className="w-full object-contain"
-              style={{margin: 0, padding: 0}}
             />
-            <Image
+            <ImageWithLoading
               src="/images/creative/sorette/sorette-5.jpg"
               alt="Sorette project image 5"
               width={800}
               height={600}
               className="w-full object-contain"
-              style={{margin: 0, padding: 0}}
             />
           </div>
         </div>
       ) : activeOverlay === 'landmade' ? (
         <div className="w-full">
           <div id="branding">
-            <Image
-              ref={firstImgRef}
+            <ImageWithLoading
+              imgRef={firstImgRef}
               src="/images/creative/landmade/landmade-1.jpg"
               alt="Landmade project image 1"
               width={800}
               height={600}
               className="w-full object-contain"
-              style={{margin: 0, padding: 0}}
+              priority={true}
             />
-            <Image
+            <ImageWithLoading
               src="/images/creative/landmade/landmade-2.jpg"
               alt="Landmade project image 2"
               width={800}
               height={600}
               className="w-full object-contain"
-              style={{margin: 0, padding: 0}}
             />
           </div>
           <div id="photoshoot">
-            <Image
+            <ImageWithLoading
               src="/images/creative/landmade/landmade-3.gif"
               alt="Landmade project image 3"
               width={800}
               height={600}
               className="w-full object-contain"
-              style={{margin: 0, padding: 0}}
+              priority={true} // GIFs should load with priority
             />
           </div>
           <div id="pricebook">
-            <Image
+            <ImageWithLoading
               src="/images/creative/landmade/landmade-4.jpg"
               alt="Landmade project image 4"
               width={800}
               height={600}
               className="w-full object-contain"
-              style={{margin: 0, padding: 0}}
             />
-            <Image
+            <ImageWithLoading
               src="/images/creative/landmade/landmade-5.gif"
               alt="Landmade project image 5"
               width={800}
               height={600}
               className="w-full object-contain"
-              style={{margin: 0, padding: 0}}
+              priority={true} // GIFs should load with priority
             />
-            <Image
+            <ImageWithLoading
               src="/images/creative/landmade/landmade-6.jpg"
               alt="Landmade project image 6"
               width={800}
               height={600}
               className="w-full object-contain"
-              style={{margin: 0, padding: 0}}
             />
           </div>
           <div id="website">
-            <Image
+            <ImageWithLoading
               src="/images/creative/landmade/website.gif"
               alt="Landmade project image 7"
               width={800}
               height={600}
               className="w-full object-contain"
-              style={{margin: 0, padding: 0}}
+              priority={true} // GIFs should load with priority
             />
-            <Image
+            <ImageWithLoading
               src="/images/creative/landmade/website-3.jpg"
               alt="Landmade website image 3"
               width={800}
               height={600}
               className="w-full object-contain"
-              style={{margin: 0, padding: 0}}
             />
-            <Image
+            <ImageWithLoading
               src="/images/creative/landmade/website-4.jpg"
               alt="Landmade website image 4"
               width={800}
               height={600}
               className="w-full object-contain"
-              style={{margin: 0, padding: 0}}
             />
           </div>
           <div id="finishesbox">
-            <Image
+            <ImageWithLoading
               src={isMobile ? "/images/creative/landmade/finishes-box-mobile.jpg" : "/images/creative/landmade/landmade-8.jpg"}
               alt="Landmade finishes box"
               width={800}
               height={600}
               className="w-full object-contain"
-              style={{margin: 0, padding: 0}}
             />
           </div>
           <div id="displaymedia">
-            <Image
+            <ImageWithLoading
               src="/images/creative/landmade/landmade-9.jpg"
               alt="Landmade project image 9"
               width={800}
               height={600}
               className="w-full object-contain"
-              style={{margin: 0, padding: 0}}
             />
           </div>
         </div>
       ) : activeOverlay === 'omi' ? (
         <div className="w-full">
           <div id="branding">
-            <Image
-              ref={firstImgRef}
+            <ImageWithLoading
+              imgRef={firstImgRef}
               src="/images/creative/omi/omi-heading.jpg"
               alt="Omi heading image"
               width={800}
               height={600}
               className="w-full object-contain"
-              style={{margin: 0, padding: 0}}
+              priority={true}
             />
-            <Image
+            <ImageWithLoading
               src="/images/creative/omi/omi-branding.jpg"
               alt="Omi branding image"
               width={800}
               height={600}
               className="w-full object-contain"
-              style={{margin: 0, padding: 0}}
             />
           </div>
           <div id="posters">
-            <Image
+            <ImageWithLoading
               src="/images/creative/omi/poster-1.jpg"
               alt="Omi poster 1"
               width={800}
               height={600}
               className="w-full object-contain"
-              style={{margin: 0, padding: 0}}
             />
           </div>
           <div id="website">
-            <Image
+            <ImageWithLoading
               src="/images/creative/omi/website-v1.jpg"
               alt="Omi website v1"
               width={800}
               height={600}
               className="w-full object-contain"
-              style={{margin: 0, padding: 0}}
             />
-            <Image
+            <ImageWithLoading
               src="/images/creative/omi/website-v2.jpg"
               alt="Omi website v2"
               width={800}
               height={600}
               className="w-full object-contain"
-              style={{margin: 0, padding: 0}}
             />
-            <Image
+            <ImageWithLoading
               src="/images/creative/omi/website-1.jpg"
               alt="Omi website 1"
               width={800}
               height={600}
               className="w-full object-contain"
-              style={{margin: 0, padding: 0}}
             />
-            <Image
+            <ImageWithLoading
               src="/images/creative/omi/website-2.jpg"
               alt="Omi website 2"
               width={800}
               height={600}
               className="w-full object-contain"
-              style={{margin: 0, padding: 0}}
             />
           </div>
         </div>
       ) : activeOverlay === 'colorblock' ? (
         <div className="w-full">
           <div id="branding">
-            <Image
-              ref={firstImgRef}
+            <ImageWithLoading
+              imgRef={firstImgRef}
               src="/images/creative/colorblock/colorblock-1.jpg"
               alt="Colorblock branding image 1"
               width={800}
               height={600}
               className="w-full object-contain"
-              style={{margin: 0, padding: 0}}
+              priority={true}
             />
-            <Image
+            <ImageWithLoading
               src="/images/creative/colorblock/colorblock-2.jpg"
               alt="Colorblock branding image 2"
               width={800}
               height={600}
               className="w-full object-contain"
-              style={{margin: 0, padding: 0}}
             />
-            <Image
+            <ImageWithLoading
               src="/images/creative/colorblock/colorblock-3.jpg"
               alt="Colorblock branding image 3"
               width={800}
               height={600}
               className="w-full object-contain"
-              style={{margin: 0, padding: 0}}
             />
           </div>
         </div>
       ) : activeOverlay === 'gas' ? (
         <div className="w-full">
           <div id="supercoolsign">
-            <Image
-              ref={firstImgRef}
+            <ImageWithLoading
+              imgRef={firstImgRef}
               src="/images/creative/gasstation/gasstation-1.jpg"
               alt="Gas Station super cool sign"
               width={800}
               height={600}
               className="w-full object-contain"
-              style={{margin: 0, padding: 0}}
+              priority={true}
             />
           </div>
           <div id="moodboard">
@@ -1454,186 +1521,172 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
             </div>
           </div>
           <div id="branding">
-            <Image
+            <ImageWithLoading
               src="/images/creative/gasstation/final-logo.jpg"
               alt="Gas Station final logo"
               width={800}
               height={600}
               className="w-full object-contain"
-              style={{margin: 0, padding: 0}}
             />
-            <Image
+            <ImageWithLoading
               src="/images/creative/gasstation/gasstation-logo-v1.jpg"
               alt="Gas Station branding image 2"
               width={800}
               height={600}
               className="w-full object-contain"
-              style={{margin: 0, padding: 0}}
             />
-            <Image
+            <ImageWithLoading
               src="/images/creative/gasstation/gasstation-4.jpg"
               alt="Gas Station branding image 4"
               width={800}
               height={600}
               className="w-full object-contain"
-              style={{margin: 0, padding: 0}}
             />
-            <Image
+            <ImageWithLoading
               src="/images/creative/gasstation/gasstation-5.jpg"
               alt="Gas Station branding image 5"
               width={800}
               height={600}
               className="w-full object-contain"
-              style={{margin: 0, padding: 0}}
             />
           </div>
         </div>
       ) : activeOverlay === 'chambord' ? (
         <div className="w-full">
-          <Image
-            ref={firstImgRef}
+          <ImageWithLoading
+            imgRef={firstImgRef}
             src="/images/creative/chambord/chambord-1.jpg"
             alt="Chambord project image 1"
             width={800}
             height={600}
             className="w-full object-contain"
-            style={{margin: 0, padding: 0}}
+            priority={true}
           />
         </div>
       ) : activeOverlay === 'crosswater' ? (
         <div className="w-full">
           <div id="photoshoot">
-            <Image
-              ref={firstImgRef}
+            <ImageWithLoading
+              imgRef={firstImgRef}
               src="/images/creative/crosswater/crosswater-1.jpg"
               alt="Crosswater photoshoot image 1"
               width={800}
               height={600}
               className="w-full object-contain"
-              style={{margin: 0, padding: 0}}
+              priority={true}
             />
-            <Image
+            <ImageWithLoading
               src="/images/creative/crosswater/crosswater-2.jpg"
               alt="Crosswater photoshoot image 2"
               width={800}
               height={600}
               className="w-full object-contain"
-              style={{margin: 0, padding: 0}}
             />
           </div>
           <div id="brandingrefresh">
-            <Image
+            <ImageWithLoading
               src="/images/creative/crosswater/crosswater-3.jpg"
               alt="Crosswater branding refresh image 3"
               width={800}
               height={600}
               className="w-full object-contain"
-              style={{margin: 0, padding: 0}}
             />
-            <Image
+            <ImageWithLoading
               src="/images/creative/crosswater/crosswater-4.jpg"
               alt="Crosswater branding refresh image 4"
               width={800}
               height={600}
               className="w-full object-contain"
-              style={{margin: 0, padding: 0}}
             />
-            <Image
+            <ImageWithLoading
               src="/images/creative/crosswater/crosswater-5.jpg"
               alt="Crosswater branding refresh image 5"
               width={800}
               height={600}
               className="w-full object-contain"
-              style={{margin: 0, padding: 0}}
             />
-            <Image
+            <ImageWithLoading
               src="/images/creative/crosswater/crosswater-6.jpg"
               alt="Crosswater branding refresh image 6"
               width={800}
               height={600}
               className="w-full object-contain"
-              style={{margin: 0, padding: 0}}
             />
-            <Image
+            <ImageWithLoading
               src="/images/creative/crosswater/crosswater-7.jpg"
               alt="Crosswater branding refresh image 7"
               width={800}
               height={600}
               className="w-full object-contain"
-              style={{margin: 0, padding: 0}}
             />
           </div>
           <div id="pricebook">
-            <Image
+            <ImageWithLoading
               src="/images/creative/crosswater/crosswater-8.jpg"
               alt="Crosswater price book"
               width={800}
               height={600}
               className="w-full object-contain"
-              style={{margin: 0, padding: 0}}
             />
           </div>
         </div>
       ) : activeOverlay === 'benttree' ? (
         <div className="w-full">
           <div id="logo">
-            <Image
-              ref={firstImgRef}
+            <ImageWithLoading
+              imgRef={firstImgRef}
               src="/images/creative/benttree/benttree-1.jpg"
               alt="Bent Tree logo image 1"
               width={800}
               height={600}
               className="w-full object-contain"
-              style={{margin: 0, padding: 0}}
+              priority={true}
             />
-            <Image
+            <ImageWithLoading
               src="/images/creative/benttree/benttree-2.jpg"
               alt="Bent Tree logo image 2"
               width={800}
               height={600}
               className="w-full object-contain"
-              style={{margin: 0, padding: 0}}
             />
-            <Image
+            <ImageWithLoading
               src="/images/creative/benttree/benttree-3.jpg"
               alt="Bent Tree logo image 3"
               width={800}
               height={600}
               className="w-full object-contain"
-              style={{margin: 0, padding: 0}}
             />
           </div>
           <div id="packaging">
-            <Image
+            <ImageWithLoading
               src="/images/creative/benttree/benttree-4.jpg"
               alt="Bent Tree packaging image 4"
               width={800}
               height={600}
               className="w-full object-contain"
-              style={{margin: 0, padding: 0}}
             />
-            <Image
+            <ImageWithLoading
               src="/images/creative/benttree/benttree-5.jpg"
               alt="Bent Tree packaging image 5"
               width={800}
               height={600}
               className="w-full object-contain"
-              style={{margin: 0, padding: 0}}
             />
           </div>
         </div>
       ) : (
         <div className="w-full h-full flex flex-col gap-0 p-0 m-0">
-          <Image
-            ref={firstImgRef}
+          <ImageWithLoading
+            imgRef={firstImgRef}
             src={`/images/creative/${activeOverlay}/${activeOverlay}-cover.jpg`}
             alt={`${activeOverlay} project cover`}
             width={800}
             height={800}
             className="w-full h-full object-cover p-0 m-0"
+            priority={true}
           />
           {Array.from({ length: 3 }).map((_, idx) => (
-            <Image
+            <ImageWithLoading
               key={idx}
               src={`/images/creative/${activeOverlay}/${activeOverlay}-${idx + 1}.jpg`}
               alt={`${activeOverlay} project image ${idx + 1}`}
@@ -1645,5 +1698,5 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
         </div>
       )}
     </div>
-  );
-}
+  ); 
+} 
