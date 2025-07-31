@@ -125,7 +125,7 @@ export default function CreativePage() {
     },
     { 
       src: '/images/creative/colorblock.png', 
-      desktop: { left: 700, top: 565.5, width: 455, height: 152 },
+      desktop: { left: 650, top: 665.5, width: 455, height: 152 },
       mobile: { left: 300, top: 750, width: 541, height: 114, scale: 0.75, zIndex: 15 },
       overlay: 'colorblock'
     },
@@ -137,7 +137,7 @@ export default function CreativePage() {
     },
     { 
       src: '/images/creative/crosswater.png', 
-      desktop: { left: 480, top: 650, width: 350, height: 280, zIndex: 1 },
+      desktop: { left: 650, top: 450, width: 350, height: 280, zIndex: 1 },
       mobile: { left: -250, top: 700, width: 450, height: 200, scale: 0.6, zIndex: 16 },
       overlay: 'crosswater'
     },
@@ -153,7 +153,7 @@ export default function CreativePage() {
     },
     { 
       src: '/images/creative/benttree.png', 
-      desktop: { left: 520, top: 470, width: 150, height: 150 },
+      desktop: { left: 520, top: 600, width: 150, height: 150 },
       mobile: { left: 200, top: 900, width: 200, height: 200, scale: 0.8, zIndex: 18 },
       overlay: 'benttree'
     },
@@ -510,7 +510,7 @@ export default function CreativePage() {
                       animate: {
                         // Position the image so that the hotspot aligns with the cursor position
                         // Add 20px offset to x for better alignment
-                        x: !isMobile ? mouse.x - position.left - hotspot.x + -260 : 20,
+                        x: !isMobile ? mouse.x - position.left - hotspot.x + -130 : 0,
                         y: !isMobile ? mouse.y - position.top - hotspot.y : 30,
                         opacity: 1,
                       },
@@ -863,7 +863,7 @@ export default function CreativePage() {
                       </div>
                     </div>
                     
-                    <div className={`${(activeOverlay === 'landmade' || activeOverlay === 'omi' || activeOverlay === 'colorblock' || activeOverlay === 'gas' || activeOverlay === 'sorette' || activeOverlay === 'crosswater' || activeOverlay === 'benttree') ? 'mt-[250px]' : 'mt-[350px]'} text-[#202020] font-benton-compressed text-6xl md:text-8xl text-right`} style={{ lineHeight: '0.8' }}>
+                    <div className={`${(activeOverlay === 'landmade' || activeOverlay === 'omi' || activeOverlay === 'gas' || activeOverlay === 'crosswater' || activeOverlay === 'benttree') ? 'mt-[250px]' : 'mt-[350px]'} text-[#202020] font-benton-compressed text-6xl md:text-8xl text-right`} style={{ lineHeight: '0.8' }}>
                       {(activeOverlay === 'landmade' && projectDescriptions.landmade.sections[activeSection]) ?
                         projectDescriptions.landmade.sections[activeSection].tagline :
                         (activeOverlay === 'omi' && projectDescriptions.omi.sections[activeSection]) ?
@@ -1699,4 +1699,4 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
       )}
     </div>
   ); 
-} 
+}
