@@ -247,7 +247,7 @@ export default function CreativePage() {
       sections: {
         branding: {
           title: "Branding",
-          tagline: "These are some boujee-ass bathtubs",
+          tagline: "These are some bougie-ass bathtubs",
           description: "and the branding needed to match the price tag. Sometimes a $15,000 price tag. I know. While at Forte Brands, we launched a line of bathtubs that are 100% recyclable – seriously, they just decompose over time – and we wanted branding that felt elegant and could fit in houses with closets full of Dior and Louis, while also keeping to its commitment to the earth. I used organic shapes, a simple wordmark, and a NEVER PURE WHITE AND NEVER PURE BLACK mentality, just like nature."
         },
         photoshoot: {
