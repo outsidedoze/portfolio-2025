@@ -1696,7 +1696,7 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
             />
           ))}
         </div>
-      )}
+      )} 
     </div>
   ); 
 }
