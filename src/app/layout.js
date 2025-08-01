@@ -17,8 +17,8 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <head>
         <link rel="stylesheet" href="https://use.typekit.net/xth4wng.css" />
-        
-        {/* Google Analytics */}
+
+        {/* Google Analytics — EXACTLY as provided */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-DZ5PZTG1HK"
           strategy="afterInteractive"
