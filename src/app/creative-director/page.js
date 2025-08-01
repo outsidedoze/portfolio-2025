@@ -171,8 +171,8 @@ export default function CreativePage() {
       isCursor: true,
       // Define the hotspot (fingertip) location relative to the image
       cursorHotspot: { 
-        x: 100, // Adjust this value to move the fingertip horizontally
-        y: -40  // Adjust this value to move the fingertip vertically
+        x: 80,  // Adjusted for better alignment
+        y: 50   // Adjusted for better alignment
       }
     },
   ]
@@ -247,7 +247,7 @@ export default function CreativePage() {
       sections: {
         branding: {
           title: "Branding",
-          tagline: "These are some bougie-ass bathtubs",
+          tagline: "These are some boujee-ass bathtubs",
           description: "and the branding needed to match the price tag. Sometimes a $15,000 price tag. I know. While at Forte Brands, we launched a line of bathtubs that are 100% recyclable – seriously, they just decompose over time – and we wanted branding that felt elegant and could fit in houses with closets full of Dior and Louis, while also keeping to its commitment to the earth. I used organic shapes, a simple wordmark, and a NEVER PURE WHITE AND NEVER PURE BLACK mentality, just like nature."
         },
         photoshoot: {
@@ -345,6 +345,7 @@ export default function CreativePage() {
   const [isCollapsed, setIsCollapsed] = useState(false)
   const [hasToggled, setHasToggled] = useState(false)
   const [figmaLoading, setFigmaLoading] = useState({})
+  const collageRef = useRef(null) // Add ref for collage container
   // --- ScrollSpy state for overlays ---
   const [activeSection, setActiveSection] = useState('branding');
   
@@ -433,8 +434,26 @@ export default function CreativePage() {
       setWindowWidth(window.innerWidth)
       setWindowHeight(window.innerHeight)
       setIsMobile(window.innerWidth < 768)
-      const newScale = Math.min(1, window.innerWidth / 1280, window.innerHeight / 1024)
-      setScale(newScale)
+      
+      // Only apply new scaling logic for desktop
+      if (window.innerWidth >= 768) {
+        // NEW SCALING LOGIC FOR LARGE MONITORS (DESKTOP ONLY)
+        const baseScale = Math.min(1, window.innerWidth / 1280, window.innerHeight / 1024)
+        
+        let finalScale = baseScale
+        if (window.innerWidth > 1920) {
+          const excessWidth = window.innerWidth - 1920
+          const scaleReduction = Math.min(0.3, excessWidth / 3000)
+          finalScale = baseScale * (1 - scaleReduction)
+        }
+        
+        finalScale = Math.max(0.7, Math.min(1.1, finalScale))
+        setScale(finalScale)
+      } else {
+        // Original mobile scaling - unchanged
+        const newScale = Math.min(1, window.innerWidth / 1280, window.innerHeight / 1024)
+        setScale(newScale)
+      }
     }
     
     handleResize()
@@ -484,99 +503,142 @@ export default function CreativePage() {
       </div>
 
       <div className="flex items-center justify-center w-full h-full relative">
-        <div className="absolute inset-0 flex justify-center items-center">
-          <div
-            className="relative"
-            style={{
-              width: 1280,
-              height: 1024,
-              transform: `scale(${scale})`,
-              transformOrigin: 'center',
-            }}
-          >
-            {hasMounted && (
-              <div className="absolute inset-0" style={{ transform: 'scale(0.9)', transformOrigin: 'top left' }}>
-                {collageImages.map((img, index) => {
-                  const isArmRight = img.src.includes('arm-r.png')
-                  
-                  // Get the appropriate position, size, and style based on device
-                  const position = isMobile ? img.mobile : img.desktop
-                  
-                  // For cursor hand, calculate position to align fingertip with cursor
-                  let motionProps;
-                  if (isArmRight) {
-                    const hotspot = img.cursorHotspot || { x: 0, y: 0 };
-                    motionProps = {
-                      animate: {
-                        // Position the image so that the hotspot aligns with the cursor position
-                        // Add 20px offset to x for better alignment
-                        x: !isMobile ? mouse.x - position.left - hotspot.x + -130 : 0,
-                        y: !isMobile ? mouse.y - position.top - hotspot.y : 30,
-                        opacity: 1,
-                      },
-                      transition: {
-                        type: 'spring',
-                        stiffness: 800,
-                        damping: 35,
-                        mass: 0.5,
-                      },
-                    };
-                  } else {
-                    motionProps = {
-                      initial: {
-                        x: Math.random() > 0.5 ? -200 : 200,
-                        y: Math.random() > 0.5 ? -150 : 150,
-                        opacity: 0,
-                      },
-                      animate: { x: 0, y: 0, opacity: 1 },
-                      transition: {
-                        duration: 0.6,
-                        ease: 'easeInOut',
-                        delay: index * 0.1,
-                      },
-                    };
-                  }
+        {/* Max-width wrapper only applies to desktop */}
+        <div className={`w-full ${!isMobile ? 'max-w-[2000px] mx-auto' : ''} relative h-full flex items-center justify-center`}>
+          <div className="absolute inset-0 flex justify-center items-center">
+            <div
+              ref={collageRef}
+              className="relative collage-container"
+              style={{
+                width: 1280,
+                height: 1024,
+                transform: `scale(${scale})`,
+                transformOrigin: 'center',
+                // Only add transition on desktop
+                transition: !isMobile ? 'transform 0.3s ease-out' : undefined
+              }}
+            >
+              {hasMounted && (
+                <div className="absolute inset-0" style={{ transform: 'scale(0.9)', transformOrigin: 'top left' }}>
+                  {collageImages.map((img, index) => {
+                    const isArmRight = img.src.includes('arm-r.png')
+                    
+                    // Get the appropriate position, size, and style based on device
+                    const position = isMobile ? img.mobile : img.desktop
+                    
+                    // For cursor hand, calculate position to align fingertip with cursor
+                    let motionProps;
+                    if (isArmRight && !isMobile) {
+                      const hotspot = img.cursorHotspot || { x: 0, y: 0 };
+                      
+                      // Get the collage container's bounding rect
+                      const collageRect = collageRef.current?.getBoundingClientRect();
+                      
+                      if (collageRect) {
+                        // Calculate the center of the collage in screen coordinates
+                        const collageCenterX = collageRect.left + collageRect.width / 2;
+                        const collageCenterY = collageRect.top + collageRect.height / 2;
+                        
+                        // Calculate mouse position relative to the collage center
+                        const relativeMouseX = mouse.x - collageCenterX;
+                        const relativeMouseY = mouse.y - collageCenterY;
+                        
+                        // Convert to collage coordinate system (accounting for scale)
+                        const collageMouseX = relativeMouseX / scale;
+                        const collageMouseY = relativeMouseY / scale;
+                        
+                        // Add back the collage dimensions to get position from top-left
+                        const adjustedMouseX = collageMouseX + 1280 / 2;
+                        const adjustedMouseY = collageMouseY + 1024 / 2;
+                        
+                        // Account for the inner container's 0.9 scale
+                        const finalMouseX = adjustedMouseX / 0.9;
+                        const finalMouseY = adjustedMouseY / 0.9;
+                        
+                        motionProps = {
+                          animate: {
+                            x: finalMouseX - position.left - hotspot.x,
+                            y: finalMouseY - position.top - hotspot.y,
+                            opacity: 1,
+                          },
+                          transition: {
+                            type: 'spring',
+                            stiffness: 800,
+                            damping: 35,
+                            mass: 0.5,
+                          },
+                        };
+                      } else {
+                        // Fallback positioning
+                        motionProps = {
+                          animate: { x: 0, y: 0, opacity: 1 },
+                          transition: { duration: 0 },
+                        };
+                      }
+                    } else if (isArmRight && isMobile) {
+                      // Mobile positioning for cursor hand
+                      motionProps = {
+                        animate: { x: 0, y: 30, opacity: 1 },
+                        transition: { duration: 0.6, ease: 'easeInOut' },
+                      };
+                    } else {
+                      // All other images
+                      motionProps = {
+                        initial: {
+                          x: Math.random() > 0.5 ? -200 : 200,
+                          y: Math.random() > 0.5 ? -150 : 150,
+                          opacity: 0,
+                        },
+                        animate: { x: 0, y: 0, opacity: 1 },
+                        transition: {
+                          duration: 0.6,
+                          ease: 'easeInOut',
+                          delay: index * 0.1,
+                        },
+                      };
+                    }
 
-                  const content = (
-                    <Image
-                      src={img.src}
-                      alt=""
-                      width={position.width}
-                      height={position.height}
-                      className={`object-contain ${img.overlay ? 'cursor-none hover:scale-105 transition-transform duration-300' : ''}`}
-                      priority
-                    />
-                  )
+                    const content = (
+                      <Image
+                        src={img.src}
+                        alt=""
+                        width={position.width}
+                        height={position.height}
+                        className={`object-contain ${img.overlay ? 'cursor-none hover:scale-105 transition-transform duration-300' : ''}`}
+                        priority
+                      />
+                    )
 
-                  return (
-                    <motion.div
-                      key={img.src}
-                      {...motionProps}
-                      style={{
-                        position: 'absolute',
-                        top: position.top,
-                        left: position.left,
-                        width: position.width,
-                        height: position.height,
-                        zIndex: img.isCursor ? 100 : (position.zIndex || index), // Ensure cursor hand is on top
-                        transform: position.scale ? `scale(${position.scale})` : undefined,
-                        transformOrigin: position.originX ? `${position.originX} ${position.originY || 'center'}` : 'center',
-                        opacity: position.opacity !== undefined ? position.opacity : 1,
-                        pointerEvents: img.isHand ? 'none' : 'auto' // Make hands non-interactive
-                      }}
-                    >
-                      {img.overlay ? (
-                        <div onClick={() => setActiveOverlay(img.overlay)}>
-                          {content}
-                        </div>
-                      ) : (
-                        content
-                      )}
-                    </motion.div>
-                  )
-                })}
-              </div>
-            )}
+                    return (
+                      <motion.div
+                        key={img.src}
+                        {...motionProps}
+                        style={{
+                          position: 'absolute',
+                          top: position.top,
+                          left: position.left,
+                          width: position.width,
+                          height: position.height,
+                          zIndex: img.isCursor ? 100 : (position.zIndex || index), // Ensure cursor hand is on top
+                          transform: position.scale ? `scale(${position.scale})` : undefined,
+                          transformOrigin: position.originX ? `${position.originX} ${position.originY || 'center'}` : 'center',
+                          opacity: position.opacity !== undefined ? position.opacity : 1,
+                          pointerEvents: img.isHand ? 'none' : 'auto' // Make hands non-interactive
+                        }}
+                      >
+                        {img.overlay ? (
+                          <div onClick={() => setActiveOverlay(img.overlay)}>
+                            {content}
+                          </div>
+                        ) : (
+                          content
+                        )}
+                      </motion.div>
+                    )
+                  })}
+                </div>
+              )}
+            </div>
           </div>
         </div>
 
@@ -979,6 +1041,34 @@ export default function CreativePage() {
           )}
         </AnimatePresence>
       </div>
+      
+      {/* Optional: Add CSS for ultra-wide optimizations - DESKTOP ONLY */}
+      <style jsx global>{`
+        /* Optimize for ultra-wide displays - DESKTOP ONLY */
+        @media (min-width: 2560px) {
+          .collage-container {
+            filter: drop-shadow(0 0 40px rgba(0, 0, 0, 0.1));
+          }
+        }
+        
+        /* Prevent scrolling text from being too wide - DESKTOP ONLY */
+        @media (min-width: 3000px) {
+          .animate-marquee {
+            max-width: 3000px;
+            margin: 0 auto;
+          }
+        }
+        
+        /* Remove any desktop optimizations on mobile */
+        @media (max-width: 767px) {
+          .collage-container {
+            filter: none !important;
+          }
+          .animate-marquee {
+            max-width: none !important;
+          }
+        }
+      `}</style>
     </main>
   )
 }
@@ -1696,7 +1786,7 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
             />
           ))}
         </div>
-      )} 
-    </div> 
+      )}
+    </div>
   ); 
 }
