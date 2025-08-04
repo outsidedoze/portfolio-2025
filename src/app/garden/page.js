@@ -823,7 +823,7 @@ function GardenImages({ activeOverlay, setActiveOverlay, isCollapsed, isMobile }
             />
             <ImageWithLoading
               src="/images/garden/2024/IMG_2655.jpg"
-              alt="Garden 2024 image 17"
+              alt="Garden 2024 image 17" 
               width={800}
               height={600}
               className="w-full object-contain"
