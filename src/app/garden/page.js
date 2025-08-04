@@ -581,7 +581,7 @@ function GardenImages({ activeOverlay, setActiveOverlay, isCollapsed, isMobile }
           <div className="grid grid-cols-1 md:grid-cols-2 gap-0">
             <ImageWithLoading
               imgRef={activeOverlay === '2022' ? firstImgRef : null}
-              src="/images/garden/2022/IMG_3874_2.JPG"
+              src="/images/garden/2022/IMG_3874_2.jpg"
               alt="Garden 2022 image 1"
               width={800}
               height={600}
@@ -589,63 +589,63 @@ function GardenImages({ activeOverlay, setActiveOverlay, isCollapsed, isMobile }
               priority={true}
             />
             <ImageWithLoading
-              src="/images/garden/2022/IMG_3874.JPG"
+              src="/images/garden/2022/IMG_3874.jpg"
               alt="Garden 2022 image 2"
               width={800}
               height={600}
               className="w-full object-contain"
             />
             <ImageWithLoading
-              src="/images/garden/2022/IMG_4176_2.JPG"
+              src="/images/garden/2022/IMG_4176_2.jpg"
               alt="Garden 2022 image 3"
               width={800}
               height={600}
               className="w-full object-contain"
             />
             <ImageWithLoading
-              src="/images/garden/2022/IMG_4263.JPG"
+              src="/images/garden/2022/IMG_4263.jpg"
               alt="Garden 2022 image 4"
               width={800}
               height={600}
               className="w-full object-contain"
             />
             <ImageWithLoading
-              src="/images/garden/2022/IMG_4360.JPG"
+              src="/images/garden/2022/IMG_4360.jpg"
               alt="Garden 2022 image 5"
               width={800}
               height={600}
               className="w-full object-contain"
             />
             <ImageWithLoading
-              src="/images/garden/2022/IMG_4399.JPG"
+              src="/images/garden/2022/IMG_4399.jpg"
               alt="Garden 2022 image 6"
               width={800}
               height={600}
               className="w-full object-contain"
             />
             <ImageWithLoading
-              src="/images/garden/2022/IMG_4474.JPG"
+              src="/images/garden/2022/IMG_4474.jpg"
               alt="Garden 2022 image 7"
               width={800}
               height={600}
               className="w-full object-contain"
             />
             <ImageWithLoading
-              src="/images/garden/2022/IMG_4579.JPG"
+              src="/images/garden/2022/IMG_4579.jpg"
               alt="Garden 2022 image 8"
               width={800}
               height={600}
               className="w-full object-contain"
             />
             <ImageWithLoading
-              src="/images/garden/2022/IMG_4823.JPG"
+              src="/images/garden/2022/IMG_4823.jpg"
               alt="Garden 2022 image 9"
               width={800}
               height={600}
               className="w-full object-contain"
             />
             <ImageWithLoading
-              src="/images/garden/2022/IMG_4952.JPG"
+              src="/images/garden/2022/IMG_4952.jpg"
               alt="Garden 2022 image 10"
               width={800}
               height={600}
