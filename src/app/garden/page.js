@@ -1036,12 +1036,7 @@ function GardenImages({ activeOverlay, setActiveOverlay, isCollapsed, isMobile }
               height={600}
               className="w-full object-contain"
             />
-            <video
-              src="/images/garden/2025/IMG_5584.mp4"
-              className="w-full object-contain"
-              controls
-              playsInline
-            />
+          
             <ImageWithLoading
               src="/images/garden/2025/IMG_5620.jpg"
               alt="Garden 2025 image 15"
