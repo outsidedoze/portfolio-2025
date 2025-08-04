@@ -42,6 +42,16 @@ export default function RootLayout({ children }) {
             })(window, document, "clarity", "script", "so4ztawika");
           `}
         </Script>
+
+        <meta property="og:title" content="One Man. Many Hats" />
+        <meta property="og:description" content="I swear there's actually cool stuff on this site. Check it out and let me know!" />
+        <meta property="og:image" content="/images/og-image.jpg" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://zachardente.com" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="One Man. Many Hats" />
+        <meta name="twitter:description" content="I swear there's actually cool stuff on this site. Check it out and let me know!" />
+        <meta name="twitter:image" content="/images/og-image.jpg" />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         {children}
