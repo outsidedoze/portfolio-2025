@@ -466,7 +466,7 @@ export default function CreativePage() {
       onMouseMove={(e) => setMouse({ x: e.clientX, y: e.clientY })}
       className="w-screen h-screen bg-black text-white flex items-center justify-center overflow-hidden"
       style={{
-        backgroundImage: 'url("/images/creative/creative-background.jpg")',
+        backgroundImage: 'url("/images/creative/creative-background.webp")',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
@@ -1564,7 +1564,7 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
           <div id="supercoolsign">
             <ImageWithLoading
               imgRef={firstImgRef}
-              src="/images/creative/gasstation/gasstation-1.jpg"
+              src="/images/creative/gasstation/gasstation-1.webp"
               alt="Gas Station super cool sign"
               width={800}
               height={600}
