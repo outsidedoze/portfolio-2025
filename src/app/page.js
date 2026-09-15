@@ -175,7 +175,7 @@ export default function Home() {
       <div
         className="fixed inset-0 z-0"
         style={{
-          backgroundImage: 'url("/images/home/sky.jpg")',
+          backgroundImage: 'url("/images/home/sky.webp")',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',

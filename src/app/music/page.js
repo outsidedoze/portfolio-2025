@@ -203,7 +203,7 @@ export default function MusicPage()   {
 <main
   className="w-screen h-screen bg-black text-white flex items-center justify-center overflow-hidden"
   style={{
-    backgroundImage: 'url("/images/music-background.jpg")',
+    backgroundImage: 'url("/images/music-background.webp")',
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat',
