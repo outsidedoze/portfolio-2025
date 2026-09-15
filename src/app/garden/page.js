@@ -101,7 +101,7 @@ export default function GardenPage() {
 
   const collageImages = [
     {
-      src: '/images/garden/2022.png',
+      src: '/images/garden/2022.webp',
       desktop: { bottom: 0, left: 0, width: 600, zIndex: 10 },
       mobile: { bottom: 50, left: -140, width: 380, zIndex: 40 },
       overlay: '2022'
@@ -113,19 +113,19 @@ export default function GardenPage() {
       mobile: { bottom: 0, left: 30, width: 160, zIndex: 0 },
     },
     {
-      src: '/images/garden/2023.png',
+      src: '/images/garden/2023.webp',
       desktop: { bottom: 0, right: 0, width: 600, zIndex: 50 },
       mobile: { bottom: 0, right: 0, width: 350, zIndex: 40 },
       overlay: '2023'
     },
     {
-      src: '/images/garden/2024.png',
+      src: '/images/garden/2024.webp',
       desktop: { bottom: 0, left: '50%', transform: 'translateX(-50%)', width: 900, zIndex: 40 },
       mobile: { bottom: 380, left: 280, transform: 'translateX(-50%)', width: 450, zIndex: 40 },
       overlay: '2024'
     },
     {
-      src: '/images/garden/2025.png',
+      src: '/images/garden/2025.webp',
       desktop: { top: 0, right: 0, width: 700, zIndex: 50 },
       mobile: { top: 0, right: 0, width: 380, zIndex: 50 },
       overlay: '2025'
