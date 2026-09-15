@@ -107,7 +107,7 @@ export default function GardenPage() {
       overlay: '2022'
     },
     {
-      src: '/images/garden/garden-zach.png',
+      src: '/images/garden/garden-zach.webp',
       hideOnMobile: true,
       desktop: { bottom: 620, left: 350, width: 200, zIndex: 20 },
       mobile: { bottom: 0, left: 30, width: 160, zIndex: 0 },
@@ -171,7 +171,7 @@ export default function GardenPage() {
       </div>
       <div className="absolute inset-0 -z-10">
         <Image
-          src="/images/garden/garden-background.jpg"
+          src="/images/garden/garden-background.webp"
           alt="Garden Background"
           fill
           className="object-cover"
@@ -624,7 +624,7 @@ function GardenImages({ activeOverlay, setActiveOverlay, isCollapsed, isMobile }
               className="w-full object-contain"
             />
             <ImageWithLoading
-              src="/images/garden/2022/IMG_4474.jpg"
+              src="/images/garden/2022/IMG_4474.webp"
               alt="Garden 2022 image 7"
               width={800}
               height={600}
@@ -656,7 +656,7 @@ function GardenImages({ activeOverlay, setActiveOverlay, isCollapsed, isMobile }
           <div className="grid grid-cols-1 md:grid-cols-2 gap-0">
             <ImageWithLoading
               imgRef={activeOverlay === '2023' ? firstImgRef : null}
-              src="/images/garden/2023/68212832028__5DACA172-23A4-4A12-B508-2656546D230E.jpg"
+              src="/images/garden/2023/68212832028__5DACA172-23A4-4A12-B508-2656546D230E.webp"
               alt="Garden 2023 image 1"
               width={800}
               height={600}
@@ -664,42 +664,42 @@ function GardenImages({ activeOverlay, setActiveOverlay, isCollapsed, isMobile }
               priority={true}
             />
             <ImageWithLoading
-              src="/images/garden/2023/68479237851__41A444B1-E2AD-47F9-B4F9-89E784511781-2.jpg"
+              src="/images/garden/2023/68479237851__41A444B1-E2AD-47F9-B4F9-89E784511781-2.webp"
               alt="Garden 2023 image 2"
               width={800}
               height={600}
               className="w-full object-contain"
             />
             <ImageWithLoading
-              src="/images/garden/2023/IMG_0033.jpg"
+              src="/images/garden/2023/IMG_0033.webp"
               alt="Garden 2023 image 3"
               width={800}
               height={600}
               className="w-full object-contain"
             />
             <ImageWithLoading
-              src="/images/garden/2023/IMG_0169.jpg"
+              src="/images/garden/2023/IMG_0169.webp"
               alt="Garden 2023 image 4"
               width={800}
               height={600}
               className="w-full object-contain"
             />
             <ImageWithLoading
-              src="/images/garden/2023/IMG_5826.jpg"
+              src="/images/garden/2023/IMG_5826.webp"
               alt="Garden 2023 image 5"
               width={800}
               height={600}
               className="w-full object-contain"
             />
             <ImageWithLoading
-              src="/images/garden/2023/IMG_5827.jpg"
+              src="/images/garden/2023/IMG_5827.webp"
               alt="Garden 2023 image 6"
               width={800}
               height={600}
               className="w-full object-contain"
             />
             <ImageWithLoading
-              src="/images/garden/2023/IMG_5975.jpg"
+              src="/images/garden/2023/IMG_5975.webp"
               alt="Garden 2023 image 7"
               width={800}
               height={600}
@@ -710,7 +710,7 @@ function GardenImages({ activeOverlay, setActiveOverlay, isCollapsed, isMobile }
           <div className="grid grid-cols-1 md:grid-cols-2 gap-0">
             <ImageWithLoading
               imgRef={activeOverlay === '2024' ? firstImgRef : null}
-              src="/images/garden/2024/IMG_2341.jpg"
+              src="/images/garden/2024/IMG_2341.webp"
               alt="Garden 2024 image 1"
               width={800}
               height={600}
@@ -718,21 +718,21 @@ function GardenImages({ activeOverlay, setActiveOverlay, isCollapsed, isMobile }
               priority={true}
             />
             <ImageWithLoading
-              src="/images/garden/2024/IMG_2369.jpg"
+              src="/images/garden/2024/IMG_2369.webp"
               alt="Garden 2024 image 2"
               width={800}
               height={600}
               className="w-full object-contain"
             />
             <ImageWithLoading
-              src="/images/garden/2024/IMG_2370.jpg"
+              src="/images/garden/2024/IMG_2370.webp"
               alt="Garden 2024 image 3"
               width={800}
               height={600}
               className="w-full object-contain"
             />
             <ImageWithLoading
-              src="/images/garden/2024/IMG_2403.jpg"
+              src="/images/garden/2024/IMG_2403.webp"
               alt="Garden 2024 image 4"
               width={800}
               height={600}
@@ -745,140 +745,140 @@ function GardenImages({ activeOverlay, setActiveOverlay, isCollapsed, isMobile }
               playsInline
             />
             <ImageWithLoading
-              src="/images/garden/2024/IMG_2437.jpg"
+              src="/images/garden/2024/IMG_2437.webp"
               alt="Garden 2024 image 6"
               width={800}
               height={600}
               className="w-full object-contain"
             />
             <ImageWithLoading
-              src="/images/garden/2024/IMG_2438.jpg"
+              src="/images/garden/2024/IMG_2438.webp"
               alt="Garden 2024 image 7"
               width={800}
               height={600}
               className="w-full object-contain"
             />
             <ImageWithLoading
-              src="/images/garden/2024/IMG_2463.jpg"
+              src="/images/garden/2024/IMG_2463.webp"
               alt="Garden 2024 image 8"
               width={800}
               height={600}
               className="w-full object-contain"
             />
             <ImageWithLoading
-              src="/images/garden/2024/IMG_2464.jpg"
+              src="/images/garden/2024/IMG_2464.webp"
               alt="Garden 2024 image 9"
               width={800}
               height={600}
               className="w-full object-contain"
             />
             <ImageWithLoading
-              src="/images/garden/2024/IMG_2574.jpg"
+              src="/images/garden/2024/IMG_2574.webp"
               alt="Garden 2024 image 10"
               width={800}
               height={600}
               className="w-full object-contain"
             />
             <ImageWithLoading
-              src="/images/garden/2024/IMG_2575.jpg"
+              src="/images/garden/2024/IMG_2575.webp"
               alt="Garden 2024 image 11"
               width={800}
               height={600}
               className="w-full object-contain"
             />
             <ImageWithLoading
-              src="/images/garden/2024/IMG_2576.jpg"
+              src="/images/garden/2024/IMG_2576.webp"
               alt="Garden 2024 image 12"
               width={800}
               height={600}
               className="w-full object-contain"
             />
             <ImageWithLoading
-              src="/images/garden/2024/IMG_2577.jpg"
+              src="/images/garden/2024/IMG_2577.webp"
               alt="Garden 2024 image 13"
               width={800}
               height={600}
               className="w-full object-contain"
             />
             <ImageWithLoading
-              src="/images/garden/2024/IMG_2582.jpg"
+              src="/images/garden/2024/IMG_2582.webp"
               alt="Garden 2024 image 14"
               width={800}
               height={600}
               className="w-full object-contain"
             />
             <ImageWithLoading
-              src="/images/garden/2024/IMG_2652.jpg"
+              src="/images/garden/2024/IMG_2652.webp"
               alt="Garden 2024 image 15"
               width={800}
               height={600}
               className="w-full object-contain"
             />
             <ImageWithLoading
-              src="/images/garden/2024/IMG_2653.jpg"
+              src="/images/garden/2024/IMG_2653.webp"
               alt="Garden 2024 image 16"
               width={800}
               height={600}
               className="w-full object-contain"
             />
             <ImageWithLoading
-              src="/images/garden/2024/IMG_2655.jpg"
+              src="/images/garden/2024/IMG_2655.webp"
               alt="Garden 2024 image 17" 
               width={800}
               height={600}
               className="w-full object-contain"
             />
             <ImageWithLoading
-              src="/images/garden/2024/IMG_2709_2.jpg"
+              src="/images/garden/2024/IMG_2709_2.webp"
               alt="Garden 2024 image 18"
               width={800}
               height={600}
               className="w-full object-contain"
             />
             <ImageWithLoading
-              src="/images/garden/2024/IMG_2710.jpg"
+              src="/images/garden/2024/IMG_2710.webp"
               alt="Garden 2024 image 19"
               width={800}
               height={600}
               className="w-full object-contain"
             />
             <ImageWithLoading
-              src="/images/garden/2024/IMG_2711.jpg"
+              src="/images/garden/2024/IMG_2711.webp"
               alt="Garden 2024 image 20"
               width={800}
               height={600}
               className="w-full object-contain"
             />
             <ImageWithLoading
-              src="/images/garden/2024/IMG_2736.jpg"
+              src="/images/garden/2024/IMG_2736.webp"
               alt="Garden 2024 image 21"
               width={800}
               height={600}
               className="w-full object-contain"
             />
             <ImageWithLoading
-              src="/images/garden/2024/IMG_2737.jpg"
+              src="/images/garden/2024/IMG_2737.webp"
               alt="Garden 2024 image 22"
               width={800}
               height={600}
               className="w-full object-contain"
             />
             <ImageWithLoading
-              src="/images/garden/2024/IMG_3095.jpg"
+              src="/images/garden/2024/IMG_3095.webp"
               alt="Garden 2024 image 23"
               width={800}
               height={600}
               className="w-full object-contain"
             />
             <ImageWithLoading
-              src="/images/garden/2024/IMG_3097.jpg"
+              src="/images/garden/2024/IMG_3097.webp"
               alt="Garden 2024 image 24"
               width={800}
               height={600}
               className="w-full object-contain"
             />
             <ImageWithLoading
-              src="/images/garden/2024/IMG_3098.jpg"
+              src="/images/garden/2024/IMG_3098.webp"
               alt="Garden 2024 image 25"
               width={800}
               height={600}
@@ -891,21 +891,21 @@ function GardenImages({ activeOverlay, setActiveOverlay, isCollapsed, isMobile }
               playsInline
             />
             <ImageWithLoading
-              src="/images/garden/2024/IMG_3115.jpg"
+              src="/images/garden/2024/IMG_3115.webp"
               alt="Garden 2024 image 27"
               width={800}
               height={600}
               className="w-full object-contain"
             />
             <ImageWithLoading
-              src="/images/garden/2024/IMG_3116_2.jpg"
+              src="/images/garden/2024/IMG_3116_2.webp"
               alt="Garden 2024 image 28"
               width={800}
               height={600}
               className="w-full object-contain"
             />
             <ImageWithLoading
-              src="/images/garden/2024/IMG_3117.jpg"
+              src="/images/garden/2024/IMG_3117.webp"
               alt="Garden 2024 image 29"
               width={800}
               height={600}
@@ -918,28 +918,28 @@ function GardenImages({ activeOverlay, setActiveOverlay, isCollapsed, isMobile }
               playsInline
             />
             <ImageWithLoading
-              src="/images/garden/2024/IMG_3122.jpg"
+              src="/images/garden/2024/IMG_3122.webp"
               alt="Garden 2024 image 31"
               width={800}
               height={600}
               className="w-full object-contain"
             />
             <ImageWithLoading
-              src="/images/garden/2024/IMG_3284.jpg"
+              src="/images/garden/2024/IMG_3284.webp"
               alt="Garden 2024 image 32"
               width={800}
               height={600}
               className="w-full object-contain"
             />
             <ImageWithLoading
-              src="/images/garden/2024/IMG_4562.jpg"
+              src="/images/garden/2024/IMG_4562.webp"
               alt="Garden 2024 image 33"
               width={800}
               height={600}
               className="w-full object-contain"
             />
             <ImageWithLoading
-              src="/images/garden/2024/IMG_4563.jpg"
+              src="/images/garden/2024/IMG_4563.webp"
               alt="Garden 2024 image 34"
               width={800}
               height={600}
@@ -955,56 +955,56 @@ function GardenImages({ activeOverlay, setActiveOverlay, isCollapsed, isMobile }
               playsInline
             />
             <ImageWithLoading
-              src="/images/garden/2025/IMG_4814.jpg"
+              src="/images/garden/2025/IMG_4814.webp"
               alt="Garden 2025 image 2"
               width={800}
               height={600}
               className="w-full object-contain"
             />
             <ImageWithLoading
-              src="/images/garden/2025/IMG_4815.jpg"
+              src="/images/garden/2025/IMG_4815.webp"
               alt="Garden 2025 image 3"
               width={800}
               height={600}
               className="w-full object-contain"
             />
             <ImageWithLoading
-              src="/images/garden/2025/IMG_4819_2.jpg"
+              src="/images/garden/2025/IMG_4819_2.webp"
               alt="Garden 2025 image 4"
               width={800}
               height={600}
               className="w-full object-contain"
             />
             <ImageWithLoading
-              src="/images/garden/2025/IMG_4827.jpg"
+              src="/images/garden/2025/IMG_4827.webp"
               alt="Garden 2025 image 5"
               width={800}
               height={600}
               className="w-full object-contain"
             />
             <ImageWithLoading
-              src="/images/garden/2025/IMG_4926.jpg"
+              src="/images/garden/2025/IMG_4926.webp"
               alt="Garden 2025 image 6"
               width={800}
               height={600}
               className="w-full object-contain"
             />
             <ImageWithLoading
-              src="/images/garden/2025/IMG_4971.jpg"
+              src="/images/garden/2025/IMG_4971.webp"
               alt="Garden 2025 image 7"
               width={800}
               height={600}
               className="w-full object-contain"
             />
             <ImageWithLoading
-              src="/images/garden/2025/IMG_5296_2.jpg"
+              src="/images/garden/2025/IMG_5296_2.webp"
               alt="Garden 2025 image 8"
               width={800}
               height={600}
               className="w-full object-contain"
             />
             <ImageWithLoading
-              src="/images/garden/2025/IMG_5382.jpg"
+              src="/images/garden/2025/IMG_5382.webp"
               alt="Garden 2025 image 9"
               width={800}
               height={600}
@@ -1017,7 +1017,7 @@ function GardenImages({ activeOverlay, setActiveOverlay, isCollapsed, isMobile }
               playsInline
             />
             <ImageWithLoading
-              src="/images/garden/2025/IMG_5482.jpg"
+              src="/images/garden/2025/IMG_5482.webp"
               alt="Garden 2025 image 11"
               width={800}
               height={600}
@@ -1030,7 +1030,7 @@ function GardenImages({ activeOverlay, setActiveOverlay, isCollapsed, isMobile }
               playsInline
             />
             <ImageWithLoading
-              src="/images/garden/2025/IMG_5550.jpg"
+              src="/images/garden/2025/IMG_5550.webp"
               alt="Garden 2025 image 13"
               width={800}
               height={600}
@@ -1038,21 +1038,21 @@ function GardenImages({ activeOverlay, setActiveOverlay, isCollapsed, isMobile }
             />
           
             <ImageWithLoading
-              src="/images/garden/2025/IMG_5620.jpg"
+              src="/images/garden/2025/IMG_5620.webp"
               alt="Garden 2025 image 15"
               width={800}
               height={600}
               className="w-full object-contain"
             />
             <ImageWithLoading
-              src="/images/garden/2025/IMG_5621_2.jpg"
+              src="/images/garden/2025/IMG_5621_2.webp"
               alt="Garden 2025 image 16"
               width={800}
               height={600}
               className="w-full object-contain"
             />
             <ImageWithLoading
-              src="/images/garden/2025/IMG_5628.jpg"
+              src="/images/garden/2025/IMG_5628.webp"
               alt="Garden 2025 image 17"
               width={800}
               height={600}

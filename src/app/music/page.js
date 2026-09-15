@@ -26,10 +26,10 @@ export default function MusicPage()   {
   ]
 
   const collageImages = [
-    { src: '/images/cradenza.png', left:-250, top: 452, width: 667, height: 406, mobilePosition: { left: -480, top: 452 } },
+    { src: '/images/cradenza.webp', left:-250, top: 452, width: 667, height: 406, mobilePosition: { left: -480, top: 452 } },
     { src: '/images/window-plant.png', left: 1183, top: 183, width: 493, height: 606, mobilePosition: { left: 350 } },
     { src: '/images/speaker-r.png', left: 1488, top: 429, width: 235, height: 342, mobilePosition: { left: 720, top: 429 } },
-    { src: '/images/couch.png', left: 90, top: 626, width: 1716, height: 1035, mobilePosition: { left: -500, scale: 1.3 } },
+    { src: '/images/couch.webp', left: 90, top: 626, width: 1716, height: 1035, mobilePosition: { left: -500, scale: 1.3 } },
     { src: '/images/zach-music.png', left: 659, top: 627, width: 511.2, height: 380, mobilePosition: { left: 0, scale: 1.2 } },
     { src: '/images/table.png', left: 603, top: 942, width: 482.63, height: 370, mobilePosition: { left: 100, top: 942 } },
     { src: '/images/couch-front.png', left: 988, top: 1058, width: 817, height: 453, mobilePosition: { left: 280, top: 1108 } },

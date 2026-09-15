@@ -14,7 +14,7 @@ export default function Home() {
     <main className="relative w-full h-screen overflow-hidden bg-black text-white">
       {/* Background */}
       <Image
-        src="/images/homepage-bg.jpg"
+        src="/images/homepage-bg.webp"
         alt="Background"
         fill
         priority
