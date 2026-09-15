@@ -14,11 +14,11 @@ const hats = [
 
 // Background elements with precise coordinates from Figma
 const backgroundElements = [
-  { src: '/images/home/montreal.jpg', left: -220, top:0, width: 1484, height: 822, mobilePosition: { left: -750, scale: 1.8, top: -643 } },
-  { src: '/images/home/backyardtrees.jpg', left: 1050, top: -46, width: 787, height: 775, mobilePosition: { left: 0, scale: 2.9, top: -546 } },
-  { src: '/images/home/rocks.png', left: -234, top: 330, width: 2292, height: 950, mobilePosition: { left: -900, top: -30 } },
-  { src: '/images/home/flowers.png', left: -198, top: 662, width: 2206, height: 618, mobilePosition: { left: -650, top: 502 } },
-  { src: '/images/home/tree.png', left: -200, top: -21, width: 695.28, height: 1179, mobilePosition: { left: -550, top: -21 } },
+  { src: '/images/home/montreal.webp', left: -220, top:0, width: 1484, height: 822, mobilePosition: { left: -750, scale: 1.8, top: -643 } },
+  { src: '/images/home/backyardtrees.webp', left: 1050, top: -46, width: 787, height: 775, mobilePosition: { left: 0, scale: 2.9, top: -546 } },
+  { src: '/images/home/rocks.webp', left: -234, top: 330, width: 2292, height: 950, mobilePosition: { left: -900, top: -30 } },
+  { src: '/images/home/flowers.webp', left: -198, top: 662, width: 2206, height: 618, mobilePosition: { left: -650, top: 502 } },
+  { src: '/images/home/tree.webp', left: -200, top: -21, width: 695.28, height: 1179, mobilePosition: { left: -550, top: -21 } },
 ]
 
 // ZachPuppet component

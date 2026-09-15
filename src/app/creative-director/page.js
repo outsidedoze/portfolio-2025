@@ -89,12 +89,12 @@ export default function CreativePage() {
   // Enhanced collage image system with more mobile controls
   const collageImages = [
     { 
-      src: '/images/creative/desk.png', 
+      src: '/images/creative/desk.webp', 
       desktop: { left: -230, top: 150, width: 2000, height: 1134 },
       mobile: { left: -1950, top: -300, width: 4500, height: 907, scale: 0.8, zIndex: 1 }
     },
     { 
-      src: '/images/creative/sorette.png', 
+      src: '/images/creative/sorette.webp', 
       desktop: { left: 880, top: 130, width: 800, height: 761 },
       mobile: { left: 100, top: 0, width: 943, height: 380, scale: 0.5, zIndex: 10 },
       overlay: 'sorette'
@@ -118,7 +118,7 @@ export default function CreativePage() {
       overlay: 'chambord'
     },
     { 
-      src: '/images/creative/landmade.png', 
+      src: '/images/creative/landmade.webp', 
       desktop: { left: -300, top: 202, width: 600, height: 433 },
       mobile: { left: -500, top: 100, width: 624, height: 238, scale: 0.55, zIndex: 14 },
       overlay: 'landmade'
@@ -142,7 +142,7 @@ export default function CreativePage() {
       overlay: 'crosswater'
     },
     { 
-      src: '/images/creative/screen.png', 
+      src: '/images/creative/screen.webp', 
       desktop: { left: 76, top: 198, width: 1273, height: 327 },
       mobile: { left: -700, top: -200, width: 1891, height: 229, scale: 0.7, zIndex: 19 }
     },
@@ -152,7 +152,7 @@ export default function CreativePage() {
       mobile: { left: -650, top: 1520, width: 1845, height: 181, scale: 0.7, zIndex: 16 }
     },
     { 
-      src: '/images/creative/benttree.png', 
+      src: '/images/creative/benttree.webp', 
       desktop: { left: 520, top: 600, width: 150, height: 150 },
       mobile: { left: 200, top: 900, width: 200, height: 200, scale: 0.8, zIndex: 18 },
       overlay: 'benttree'
@@ -1406,7 +1406,7 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
           </div>
           <div id="pricebook">
             <ImageWithLoading
-              src="/images/creative/landmade/landmade-4.jpg"
+              src="/images/creative/landmade/landmade-4.webp"
               alt="Landmade project image 4"
               width={800}
               height={600}
@@ -1438,14 +1438,14 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
               priority={true} // GIFs should load with priority
             />
             <ImageWithLoading
-              src="/images/creative/landmade/website-3.jpg"
+              src="/images/creative/landmade/website-3.webp"
               alt="Landmade website image 3"
               width={800}
               height={600}
               className="w-full object-contain"
             />
             <ImageWithLoading
-              src="/images/creative/landmade/website-4.jpg"
+              src="/images/creative/landmade/website-4.webp"
               alt="Landmade website image 4"
               width={800}
               height={600}
@@ -1454,7 +1454,7 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
           </div>
           <div id="finishesbox">
             <ImageWithLoading
-              src={isMobile ? "/images/creative/landmade/finishes-box-mobile.jpg" : "/images/creative/landmade/landmade-8.jpg"}
+              src={isMobile ? "/images/creative/landmade/finishes-box-mobile.webp" : "/images/creative/landmade/landmade-8.webp"}
               alt="Landmade finishes box"
               width={800}
               height={600}
@@ -1476,7 +1476,7 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
           <div id="branding">
             <ImageWithLoading
               imgRef={firstImgRef}
-              src="/images/creative/omi/omi-heading.jpg"
+              src="/images/creative/omi/omi-heading.webp"
               alt="Omi heading image"
               width={800}
               height={600}
@@ -1484,7 +1484,7 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
               priority={true}
             />
             <ImageWithLoading
-              src="/images/creative/omi/omi-branding.jpg"
+              src="/images/creative/omi/omi-branding.webp"
               alt="Omi branding image"
               width={800}
               height={600}
@@ -1493,7 +1493,7 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
           </div>
           <div id="posters">
             <ImageWithLoading
-              src="/images/creative/omi/poster-1.jpg"
+              src="/images/creative/omi/poster-1.webp"
               alt="Omi poster 1"
               width={800}
               height={600}
@@ -1502,28 +1502,28 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
           </div>
           <div id="website">
             <ImageWithLoading
-              src="/images/creative/omi/website-v1.jpg"
+              src="/images/creative/omi/website-v1.webp"
               alt="Omi website v1"
               width={800}
               height={600}
               className="w-full object-contain"
             />
             <ImageWithLoading
-              src="/images/creative/omi/website-v2.jpg"
+              src="/images/creative/omi/website-v2.webp"
               alt="Omi website v2"
               width={800}
               height={600}
               className="w-full object-contain"
             />
             <ImageWithLoading
-              src="/images/creative/omi/website-1.jpg"
+              src="/images/creative/omi/website-1.webp"
               alt="Omi website 1"
               width={800}
               height={600}
               className="w-full object-contain"
             />
             <ImageWithLoading
-              src="/images/creative/omi/website-2.jpg"
+              src="/images/creative/omi/website-2.webp"
               alt="Omi website 2"
               width={800}
               height={600}
@@ -1612,28 +1612,28 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
           </div>
           <div id="branding">
             <ImageWithLoading
-              src="/images/creative/gasstation/final-logo.jpg"
+              src="/images/creative/gasstation/final-logo.webp"
               alt="Gas Station final logo"
               width={800}
               height={600}
               className="w-full object-contain"
             />
             <ImageWithLoading
-              src="/images/creative/gasstation/gasstation-logo-v1.jpg"
+              src="/images/creative/gasstation/gasstation-logo-v1.webp"
               alt="Gas Station branding image 2"
               width={800}
               height={600}
               className="w-full object-contain"
             />
             <ImageWithLoading
-              src="/images/creative/gasstation/gasstation-4.jpg"
+              src="/images/creative/gasstation/gasstation-4.webp"
               alt="Gas Station branding image 4"
               width={800}
               height={600}
               className="w-full object-contain"
             />
             <ImageWithLoading
-              src="/images/creative/gasstation/gasstation-5.jpg"
+              src="/images/creative/gasstation/gasstation-5.webp"
               alt="Gas Station branding image 5"
               width={800}
               height={600}
@@ -1645,7 +1645,7 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
         <div className="w-full">
           <ImageWithLoading
             imgRef={firstImgRef}
-            src="/images/creative/chambord/chambord-1.jpg"
+            src="/images/creative/chambord/chambord-1.webp"
             alt="Chambord project image 1"
             width={800}
             height={600}
@@ -1658,7 +1658,7 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
           <div id="photoshoot">
             <ImageWithLoading
               imgRef={firstImgRef}
-              src="/images/creative/crosswater/crosswater-1.jpg"
+              src="/images/creative/crosswater/crosswater-1.webp"
               alt="Crosswater photoshoot image 1"
               width={800}
               height={600}
@@ -1666,7 +1666,7 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
               priority={true}
             />
             <ImageWithLoading
-              src="/images/creative/crosswater/crosswater-2.jpg"
+              src="/images/creative/crosswater/crosswater-2.webp"
               alt="Crosswater photoshoot image 2"
               width={800}
               height={600}
@@ -1675,7 +1675,7 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
           </div>
           <div id="brandingrefresh">
             <ImageWithLoading
-              src="/images/creative/crosswater/crosswater-3.jpg"
+              src="/images/creative/crosswater/crosswater-3.webp"
               alt="Crosswater branding refresh image 3"
               width={800}
               height={600}
@@ -1696,14 +1696,14 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
               className="w-full object-contain"
             />
             <ImageWithLoading
-              src="/images/creative/crosswater/crosswater-6.jpg"
+              src="/images/creative/crosswater/crosswater-6.webp"
               alt="Crosswater branding refresh image 6"
               width={800}
               height={600}
               className="w-full object-contain"
             />
             <ImageWithLoading
-              src="/images/creative/crosswater/crosswater-7.jpg"
+              src="/images/creative/crosswater/crosswater-7.webp"
               alt="Crosswater branding refresh image 7"
               width={800}
               height={600}
@@ -1712,7 +1712,7 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
           </div>
           <div id="pricebook">
             <ImageWithLoading
-              src="/images/creative/crosswater/crosswater-8.jpg"
+              src="/images/creative/crosswater/crosswater-8.webp"
               alt="Crosswater price book"
               width={800}
               height={600}
@@ -1725,7 +1725,7 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
           <div id="logo">
             <ImageWithLoading
               imgRef={firstImgRef}
-              src="/images/creative/benttree/benttree-1.jpg"
+              src="/images/creative/benttree/benttree-1.webp"
               alt="Bent Tree logo image 1"
               width={800}
               height={600}
@@ -1733,14 +1733,14 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
               priority={true}
             />
             <ImageWithLoading
-              src="/images/creative/benttree/benttree-2.jpg"
+              src="/images/creative/benttree/benttree-2.webp"
               alt="Bent Tree logo image 2"
               width={800}
               height={600}
               className="w-full object-contain"
             />
             <ImageWithLoading
-              src="/images/creative/benttree/benttree-3.jpg"
+              src="/images/creative/benttree/benttree-3.webp"
               alt="Bent Tree logo image 3"
               width={800}
               height={600}
@@ -1749,14 +1749,14 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
           </div>
           <div id="packaging">
             <ImageWithLoading
-              src="/images/creative/benttree/benttree-4.jpg"
+              src="/images/creative/benttree/benttree-4.webp"
               alt="Bent Tree packaging image 4"
               width={800}
               height={600}
               className="w-full object-contain"
             />
             <ImageWithLoading
-              src="/images/creative/benttree/benttree-5.jpg"
+              src="/images/creative/benttree/benttree-5.webp"
               alt="Bent Tree packaging image 5"
               width={800}
               height={600}
