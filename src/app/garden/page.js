@@ -206,7 +206,6 @@ export default function GardenPage() {
             width={typeof style.width === 'number' ? style.width : 100}
             height={typeof style.width === 'number' ? style.width : 100}
             className={`object-contain ${img.overlay ? 'cursor-pointer hover:scale-105 transition-transform duration-300' : ''}`}
-            priority
           />
         )
         
