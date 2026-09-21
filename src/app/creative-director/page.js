@@ -359,7 +359,7 @@ export default function CreativePage() {
     nitro: {
       title: "Nitro Bar",
       tagline: "Locally famous coffee",
-      description: "I was in the running to be Head of Merch for Nitro Bar, and did all this work for them for free in order to secure the position. I mean, they have 600k TikTok followers and 200k Instagram followers, but more importantly THEY'RE PROVIDENCE BASED. How cool. I had to put my neck out there. Sometimes you get burned though. Unfortunately, for reasons I'm not quite sure about, they told me I had the role and backed out when I sent my proposal. I'm showing the work though because work is still work, and it's some of my best.",
+      description: "I was in the running to be Head of Merch for Nitro Bar, and did all this work for them for free in order to secure the position. I mean, they have 600k TikTok followers and 200k Instagram followers, but more importantly THEY'RE PROVIDENCE BASED. How cool. I had to put my neck out there. Unfortunately, for reasons I'm not quite sure about, they told me I had the role and backed out when I sent my proposal. I'm showing the work though because work is still work, and it's some of my best.",
       sections: {
         hoodies: { title: "Hoodies" },
         hats: { title: "Hats" },
