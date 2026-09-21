@@ -1816,15 +1816,17 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
       ) : activeOverlay === 'thriftcon' ? (
         <div className="w-full">
           <div id="posters">
-            <ImageWithLoading
-              imgRef={firstImgRef}
-              src={`/images/creative/thriftcon/${THRIFTCON_SLIDES.posters[0]}.webp`}
-              alt="ThriftCon poster: the Vault"
-              width={1080}
-              height={1440}
-              className="w-full h-auto object-contain"
-              priority={true}
-            />
+            <div className="flex justify-center bg-[#202020] p-4 md:p-6">
+              <ImageWithLoading
+                imgRef={firstImgRef}
+                src={`/images/creative/thriftcon/${THRIFTCON_SLIDES.posters[0]}.webp`}
+                alt="ThriftCon poster: the Vault"
+                width={1080}
+                height={1440}
+                className="block mx-auto h-auto aspect-[3/4] w-[min(100%,calc((100vh_-_3rem)*0.75))] object-contain"
+                priority={true}
+              />
+            </div>
             <div className="grid grid-cols-2">
               {THRIFTCON_SLIDES.posters.slice(1).map((file) => (
                 <ImageWithLoading
