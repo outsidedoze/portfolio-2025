@@ -990,7 +990,7 @@ export default function CreativePage() {
                       </div>
                     </div>
                     
-                    <div className={`${(activeOverlay === 'landmade' || activeOverlay === 'omi' || activeOverlay === 'gas' || activeOverlay === 'crosswater' || activeOverlay === 'benttree' || activeOverlay === 'nitro' || activeOverlay === 'thriftcon') ? 'mt-[min(250px,26vh)]' : 'mt-[min(350px,36vh)]'} text-[#202020] font-benton-compressed text-4xl lg:text-6xl xl:text-8xl text-right`} style={{ lineHeight: '0.8' }}>
+                    <div className="text-[#202020] font-benton-compressed text-4xl lg:text-6xl xl:text-8xl text-right" style={{ lineHeight: '0.8', marginTop: `max(40px, min(${(activeOverlay === 'landmade' || activeOverlay === 'omi' || activeOverlay === 'gas' || activeOverlay === 'crosswater' || activeOverlay === 'benttree' || activeOverlay === 'nitro' || activeOverlay === 'thriftcon') ? 'min(250px, 26vh)' : 'min(350px, 36vh)'}, calc(min(25vw, 425px) - 182px + max(0px, 100vw - 1600px))))` }}>
                       {(activeOverlay === 'landmade' && projectDescriptions.landmade.sections[activeSection]) ?
                         projectDescriptions.landmade.sections[activeSection].tagline :
                         (activeOverlay === 'omi' && projectDescriptions.omi.sections[activeSection]) ?
