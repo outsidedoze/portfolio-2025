@@ -1,6 +1,6 @@
 'use client'
 import Image from 'next/image'
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useLayoutEffect, useState, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useRouter } from 'next/navigation'
 
@@ -383,6 +383,9 @@ export default function CreativePage() {
   const [activeOverlay, setActiveOverlay] = useState(null)
   const [windowWidth, setWindowWidth] = useState(0)
   const [windowHeight, setWindowHeight] = useState(0)
+  const starRef = useRef(null)
+  const headingRef = useRef(null)
+  const [headingGap, setHeadingGap] = useState(null)
   const [isMobile, setIsMobile] = useState(false)
   const [isCollapsed, setIsCollapsed] = useState(false)
   const [hasToggled, setHasToggled] = useState(false)
@@ -480,6 +483,19 @@ export default function CreativePage() {
       }
     }
   }, [activeOverlay])
+
+  useLayoutEffect(() => {
+    if (!activeOverlay || isMobile || isCollapsed) return
+    const star = starRef.current
+    const heading = headingRef.current
+    if (!star || !heading) return
+    const starRect = star.getBoundingClientRect()
+    const currentMargin = parseFloat(getComputedStyle(heading).marginTop) || 0
+    const naturalTop = heading.getBoundingClientRect().top - currentMargin
+    const clearOfStar = starRect.top + starRect.width * 1.29 + 14
+    const next = Math.max(0, Math.round(clearOfStar - naturalTop))
+    setHeadingGap((prev) => (prev === null || Math.abs(prev - next) > 1 ? next : prev))
+  }, [activeOverlay, activeSection, windowWidth, windowHeight, isMobile, isCollapsed])
 
   useEffect(() => {
     setHasMounted(true)
@@ -927,7 +943,7 @@ export default function CreativePage() {
                     )}
 
                     {/* Desktop view star */}
-                    <div className="absolute" style={{ top: '-30px', right: '-70px', width: '25vw', height: '25vw', maxWidth: '425px', maxHeight: '425px' }}>
+                    <div ref={starRef} className="absolute" style={{ top: '-30px', right: '-70px', width: '25vw', height: '25vw', maxWidth: '425px', maxHeight: '425px' }}>
                       {/* Back star (shadow) */}
                       <motion.div
                         className="absolute"
@@ -990,7 +1006,7 @@ export default function CreativePage() {
                       </div>
                     </div>
                     
-                    <div className={`${(activeOverlay === 'landmade' || activeOverlay === 'omi' || activeOverlay === 'gas' || activeOverlay === 'crosswater' || activeOverlay === 'benttree' || activeOverlay === 'nitro' || activeOverlay === 'thriftcon') ? 'mt-[min(250px,26vh)]' : 'mt-[min(350px,36vh)]'} text-[#202020] font-benton-compressed text-4xl lg:text-6xl xl:text-8xl text-right`} style={{ lineHeight: '0.8' }}>
+                    <div ref={headingRef} className={`text-[#202020] font-benton-compressed ${windowHeight > 0 && windowHeight < 860 ? 'text-3xl lg:text-5xl xl:text-6xl' : 'text-4xl lg:text-6xl xl:text-8xl'} text-right`} style={{ lineHeight: '0.8', marginTop: headingGap !== null ? `${headingGap}px` : `max(40px, min(${(activeOverlay === 'landmade' || activeOverlay === 'omi' || activeOverlay === 'gas' || activeOverlay === 'crosswater' || activeOverlay === 'benttree' || activeOverlay === 'nitro' || activeOverlay === 'thriftcon') ? 'min(250px, 26vh)' : 'min(350px, 36vh)'}, calc(min(25vw, 425px) - 182px + max(0px, 100vw - 1600px))))` }}>
                       {(activeOverlay === 'landmade' && projectDescriptions.landmade.sections[activeSection]) ?
                         projectDescriptions.landmade.sections[activeSection].tagline :
                         (activeOverlay === 'omi' && projectDescriptions.omi.sections[activeSection]) ?
@@ -1012,7 +1028,7 @@ export default function CreativePage() {
                         projectDescriptions[activeOverlay]?.tagline || "Creative project showcase"
                       }
                     </div>
-                    <p className="text-sm lg:text-base xl:text-lg text-[#202020] mt-6 md:mt-8 leading-normal font-benton text-right">
+                    <p className={`${windowHeight > 0 && windowHeight < 860 ? 'text-sm' : 'text-sm lg:text-base xl:text-lg'} text-[#202020] mt-6 md:mt-8 leading-normal font-benton text-right`}>
                       {(activeOverlay === 'landmade' && projectDescriptions.landmade.sections[activeSection]) ?
                         projectDescriptions.landmade.sections[activeSection].description :
                         (activeOverlay === 'omi' && projectDescriptions.omi.sections[activeSection]) ?
@@ -1800,15 +1816,17 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
       ) : activeOverlay === 'thriftcon' ? (
         <div className="w-full">
           <div id="posters">
-            <ImageWithLoading
-              imgRef={firstImgRef}
-              src={`/images/creative/thriftcon/${THRIFTCON_SLIDES.posters[0]}.webp`}
-              alt="ThriftCon poster: the Vault"
-              width={1080}
-              height={1440}
-              className="w-full h-auto object-contain"
-              priority={true}
-            />
+            <div className="flex justify-center bg-[#202020] p-4 md:p-6">
+              <ImageWithLoading
+                imgRef={firstImgRef}
+                src={`/images/creative/thriftcon/${THRIFTCON_SLIDES.posters[0]}.webp`}
+                alt="ThriftCon poster: the Vault"
+                width={1080}
+                height={1440}
+                className="block mx-auto h-auto aspect-[3/4] w-[min(100%,calc((100vh_-_3rem)*0.75))] object-contain"
+                priority={true}
+              />
+            </div>
             <div className="grid grid-cols-2">
               {THRIFTCON_SLIDES.posters.slice(1).map((file) => (
                 <ImageWithLoading
