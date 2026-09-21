@@ -83,6 +83,17 @@ function ImageWithLoading({ src, alt, width, height, className, style, priority 
   )
 }
 
+const NITRO_SLIDES = {
+  hoodies: ['nitro-02', 'nitro-03', 'nitro-04', 'nitro-05', 'nitro-06', 'nitro-07', 'nitro-08', 'nitro-09', 'nitro-10', 'nitro-11', 'nitro-12', 'nitro-13', 'nitro-14'],
+  hats: ['nitro-15', 'nitro-16', 'nitro-17', 'nitro-18'],
+  crewnecks: ['crewneck-03', 'crewneck-04', 'crewneck-05', 'crewneck-06', 'crewneck-07', 'crewneck-08', 'crewneck-09', 'crewneck-10', 'crewneck-11', 'crewneck-12', 'crewneck-13', 'crewneck-14', 'crewneck-15', 'crewneck-16', 'crewneck-17', 'crewneck-18', 'crewneck-19', 'crewneck-20', 'crewneck-21', 'crewneck-22'],
+}
+
+const THRIFTCON_SLIDES = {
+  posters: ['vault', 'archives', 'bankbreakers', 'cluby2k', 'crates', 'creatorscorner', 'lostandfound'],
+  complexcon: ['complexcon-1', 'complexcon-2'],
+}
+
 export default function CreativePage() {
   const router = useRouter()
 
@@ -99,8 +110,20 @@ export default function CreativePage() {
       mobile: { left: 100, top: 0, width: 943, height: 380, scale: 0.5, zIndex: 10 },
       overlay: 'sorette'
     },
+    {
+      src: '/images/creative/nitro-bar.webp',
+      desktop: { left: 400, top: 462, width: 320, height: 144, zIndex: 9 },
+      mobile: { left: 100, top: 672, width: 420, height: 189, scale: 0.7, zIndex: 17 },
+      overlay: 'nitro'
+    },
     { 
-      src: '/images/creative/gas.png', 
+      src: '/images/creative/thriftcon.webp', 
+      desktop: { left: 975, top: 556, width: 300, height: 177, zIndex: 9 },
+      mobile: { left: 427, top: 630, width: 300, height: 177, scale: 0.7, zIndex: 17 },
+      overlay: 'thriftcon'
+    },
+    {
+      src: '/images/creative/gas.png',
       desktop: { left: 1178.38, top: 805, width: 474, height: 328 },
       mobile: { left:280, top: 1050, width: 724, height: 197, scale: 0.6, zIndex: 14 },
       overlay: 'gas'
@@ -332,6 +355,25 @@ export default function CreativePage() {
           description: "Yeah – I know – the fine print and warnings aren't on yet. His pot is still growing...so we'll have to wait for the final designs. The pattern was an added surprise bonus and byproduct of the logo design, though, which we were all really stoked with."
         }
       }
+    },
+    nitro: {
+      title: "Nitro Bar",
+      tagline: "Locally famous coffee",
+      description: "I was in the running to be Head of Merch for Nitro Bar, and did all this work for them for free in order to secure the position. I mean, they have 600k TikTok followers and 200k Instagram followers, but more importantly THEY'RE PROVIDENCE BASED. How cool. I had to put my neck out there. Sometimes you get burned though. Unfortunately, for reasons I'm not quite sure about, they told me I had the role and backed out when I sent my proposal. I'm showing the work though because work is still work, and it's some of my best.",
+      sections: {
+        hoodies: { title: "Hoodies" },
+        hats: { title: "Hats" },
+        crewnecks: { title: "Crewnecks" }
+      }
+    },
+    thriftcon: {
+      title: "ThriftCon",
+      tagline: "Look mom! Clout!!",
+      description: "My friends created ThriftCon in 2019 and I was at the first one. It's crazy to see how big this event has become. So proud of them and I do every so often go to work the events for forced hangouts and to support when needed. They enlisted my design help this year for some social assets for their collab with ComplexCon. Each poster is an area of ThriftCon that will be happening at ComplexCon in 2026. These posters were so well received they will be used as the signage at the event as well.",
+      sections: {
+        posters: { title: "Posters" },
+        complexcon: { title: "Post Proof" }
+      }
     }
   }
 
@@ -391,6 +433,17 @@ export default function CreativePage() {
         { id: 'logo', label: 'Logo' },
         { id: 'packaging', label: 'Packaging' },
       ];
+    } else if (overlay === 'nitro') {
+      return [
+        { id: 'hoodies', label: 'Hoodies' },
+        { id: 'hats', label: 'Hats' },
+        { id: 'crewnecks', label: 'Crewnecks' },
+      ];
+    } else if (overlay === 'thriftcon') {
+      return [
+        { id: 'posters', label: 'Posters' },
+        { id: 'complexcon', label: 'Post Proof' },
+      ];
     }
     return [];
   };
@@ -420,6 +473,10 @@ export default function CreativePage() {
         setActiveSection('photoshoot')
       } else if (activeOverlay === 'benttree') {
         setActiveSection('logo')
+      } else if (activeOverlay === 'nitro') {
+        setActiveSection('hoodies')
+      } else if (activeOverlay === 'thriftcon') {
+        setActiveSection('posters')
       }
     }
   }, [activeOverlay])
@@ -780,6 +837,10 @@ export default function CreativePage() {
                           projectDescriptions.crosswater.sections[activeSection].tagline :
                           (activeOverlay === 'benttree' && projectDescriptions.benttree.sections[activeSection]) ?
                           projectDescriptions.benttree.sections[activeSection].tagline :
+                          (activeOverlay === 'nitro' && projectDescriptions.nitro.sections[activeSection]) ?
+                          (projectDescriptions.nitro.sections[activeSection].tagline || projectDescriptions.nitro.tagline) :
+                          (activeOverlay === 'thriftcon' && projectDescriptions.thriftcon.sections[activeSection]) ?
+                          (projectDescriptions.thriftcon.sections[activeSection].tagline || projectDescriptions.thriftcon.tagline) :
                           projectDescriptions[activeOverlay]?.tagline || "Creative project showcase"
                         }
                       </div>
@@ -798,13 +859,17 @@ export default function CreativePage() {
                           projectDescriptions.crosswater.sections[activeSection].description :
                           (activeOverlay === 'benttree' && projectDescriptions.benttree.sections[activeSection]) ?
                           projectDescriptions.benttree.sections[activeSection].description :
+                          (activeOverlay === 'nitro' && projectDescriptions.nitro.sections[activeSection]) ?
+                          (projectDescriptions.nitro.sections[activeSection].description || projectDescriptions.nitro.description) :
+                          (activeOverlay === 'thriftcon' && projectDescriptions.thriftcon.sections[activeSection]) ?
+                          (projectDescriptions.thriftcon.sections[activeSection].description || projectDescriptions.thriftcon.description) :
                           projectDescriptions[activeOverlay]?.description || "Project description coming soon."
                         }
                       </p>
                     </div>
 
                     {/* Navigation menu - horizontal and center aligned at bottom - FOR LANDMADE, OMI, COLORBLOCK, GAS, SORETTE, CROSSWATER AND benttree */}
-                    {(activeOverlay === 'landmade' || activeOverlay === 'omi' || activeOverlay === 'colorblock' || activeOverlay === 'gas' || activeOverlay === 'sorette' || activeOverlay === 'crosswater' || activeOverlay === 'benttree') && (
+                    {(activeOverlay === 'landmade' || activeOverlay === 'omi' || activeOverlay === 'colorblock' || activeOverlay === 'gas' || activeOverlay === 'sorette' || activeOverlay === 'crosswater' || activeOverlay === 'benttree' || activeOverlay === 'nitro' || activeOverlay === 'thriftcon') && (
                       <div className="flex justify-center">
                         <HorizontalScrollSpyNav
                           sections={sections}
@@ -842,7 +907,7 @@ export default function CreativePage() {
                   {/* DESKTOP LAYOUT */}
                   <div className="hidden md:block">
                     {/* Sticky ScrollSpyNav at top left - only for projects with sections */}
-                    {(activeOverlay === 'landmade' || activeOverlay === 'omi' || activeOverlay === 'colorblock' || activeOverlay === 'gas' || activeOverlay === 'sorette' || activeOverlay === 'crosswater' || activeOverlay === 'benttree') && (
+                    {(activeOverlay === 'landmade' || activeOverlay === 'omi' || activeOverlay === 'colorblock' || activeOverlay === 'gas' || activeOverlay === 'sorette' || activeOverlay === 'crosswater' || activeOverlay === 'benttree' || activeOverlay === 'nitro' || activeOverlay === 'thriftcon') && (
                       <div className="sticky top-0 left-0 z-10 pt-2 pb-4" style={{ background: 'none' }}>
                         <ScrollSpyNav
                           sections={sections}
@@ -907,7 +972,7 @@ export default function CreativePage() {
                       
                       {/* Star text */}
                       <div
-                        className="absolute font-benton-compressed text-[4.5vw] z-10"
+                        className="absolute font-benton-compressed text-[3.2vw] lg:text-[3.8vw] xl:text-[4.5vw] z-10"
                         style={{
                           left: '50%',
                           top: '50%',
@@ -925,7 +990,7 @@ export default function CreativePage() {
                       </div>
                     </div>
                     
-                    <div className={`${(activeOverlay === 'landmade' || activeOverlay === 'omi' || activeOverlay === 'gas' || activeOverlay === 'crosswater' || activeOverlay === 'benttree') ? 'mt-[250px]' : 'mt-[350px]'} text-[#202020] font-benton-compressed text-6xl md:text-8xl text-right`} style={{ lineHeight: '0.8' }}>
+                    <div className={`${(activeOverlay === 'landmade' || activeOverlay === 'omi' || activeOverlay === 'gas' || activeOverlay === 'crosswater' || activeOverlay === 'benttree' || activeOverlay === 'nitro' || activeOverlay === 'thriftcon') ? 'mt-[min(250px,26vh)]' : 'mt-[min(350px,36vh)]'} text-[#202020] font-benton-compressed text-4xl lg:text-6xl xl:text-8xl text-right`} style={{ lineHeight: '0.8' }}>
                       {(activeOverlay === 'landmade' && projectDescriptions.landmade.sections[activeSection]) ?
                         projectDescriptions.landmade.sections[activeSection].tagline :
                         (activeOverlay === 'omi' && projectDescriptions.omi.sections[activeSection]) ?
@@ -940,10 +1005,14 @@ export default function CreativePage() {
                         projectDescriptions.crosswater.sections[activeSection].tagline :
                         (activeOverlay === 'benttree' && projectDescriptions.benttree.sections[activeSection]) ?
                         projectDescriptions.benttree.sections[activeSection].tagline :
+                        (activeOverlay === 'nitro' && projectDescriptions.nitro.sections[activeSection]) ?
+                        (projectDescriptions.nitro.sections[activeSection].tagline || projectDescriptions.nitro.tagline) :
+                        (activeOverlay === 'thriftcon' && projectDescriptions.thriftcon.sections[activeSection]) ?
+                        (projectDescriptions.thriftcon.sections[activeSection].tagline || projectDescriptions.thriftcon.tagline) :
                         projectDescriptions[activeOverlay]?.tagline || "Creative project showcase"
                       }
                     </div>
-                    <p className="text-base md:text-lg text-[#202020] mt-6 md:mt-8 leading-normal font-benton text-right">
+                    <p className="text-sm lg:text-base xl:text-lg text-[#202020] mt-6 md:mt-8 leading-normal font-benton text-right">
                       {(activeOverlay === 'landmade' && projectDescriptions.landmade.sections[activeSection]) ?
                         projectDescriptions.landmade.sections[activeSection].description :
                         (activeOverlay === 'omi' && projectDescriptions.omi.sections[activeSection]) ?
@@ -958,6 +1027,10 @@ export default function CreativePage() {
                         projectDescriptions.crosswater.sections[activeSection].description :
                         (activeOverlay === 'benttree' && projectDescriptions.benttree.sections[activeSection]) ?
                         projectDescriptions.benttree.sections[activeSection].description :
+                        (activeOverlay === 'nitro' && projectDescriptions.nitro.sections[activeSection]) ?
+                        (projectDescriptions.nitro.sections[activeSection].description || projectDescriptions.nitro.description) :
+                        (activeOverlay === 'thriftcon' && projectDescriptions.thriftcon.sections[activeSection]) ?
+                        (projectDescriptions.thriftcon.sections[activeSection].description || projectDescriptions.thriftcon.description) :
                         projectDescriptions[activeOverlay]?.description || "Project description coming soon."
                       }
                     </p>
@@ -1011,6 +1084,10 @@ export default function CreativePage() {
                         projectDescriptions.crosswater.sections[activeSection].title :
                         (activeOverlay === 'benttree' && projectDescriptions.benttree.sections[activeSection]) ?
                         projectDescriptions.benttree.sections[activeSection].title :
+                        (activeOverlay === 'nitro' && projectDescriptions.nitro.sections[activeSection]) ?
+                        projectDescriptions.nitro.sections[activeSection].title :
+                        (activeOverlay === 'thriftcon' && projectDescriptions.thriftcon.sections[activeSection]) ?
+                        projectDescriptions.thriftcon.sections[activeSection].title :
                         projectDescriptions[activeOverlay]?.title || activeOverlay
                       }
                     </div>
@@ -1719,6 +1796,65 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
               className="w-full object-contain"
             />
           </div>
+        </div>
+      ) : activeOverlay === 'thriftcon' ? (
+        <div className="w-full">
+          <div id="posters">
+            <ImageWithLoading
+              imgRef={firstImgRef}
+              src={`/images/creative/thriftcon/${THRIFTCON_SLIDES.posters[0]}.webp`}
+              alt="ThriftCon poster: the Vault"
+              width={1080}
+              height={1440}
+              className="w-full h-auto object-contain"
+              priority={true}
+            />
+            <div className="grid grid-cols-2">
+              {THRIFTCON_SLIDES.posters.slice(1).map((file) => (
+                <ImageWithLoading
+                  key={file}
+                  src={`/images/creative/thriftcon/${file}.webp`}
+                  alt={`ThriftCon poster: ${file}`}
+                  width={1080}
+                  height={1440}
+                  className="w-full h-auto object-contain"
+                />
+              ))}
+            </div>
+          </div>
+          <div id="complexcon">
+            <div className="grid grid-cols-2">
+              {THRIFTCON_SLIDES.complexcon.map((file, idx) => (
+                <ImageWithLoading
+                  key={file}
+                  src={`/images/creative/thriftcon/${file}.webp`}
+                  alt={`ThriftCon featured on ComplexCon's Instagram ${idx + 1}`}
+                  width={1206}
+                  height={2622}
+                  className="w-full h-auto object-contain"
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      ) : activeOverlay === 'nitro' ? (
+        <div className="w-full">
+          {Object.entries(NITRO_SLIDES).map(([sectionId, slides]) => (
+            <div key={sectionId} id={sectionId}>
+              {slides.map((file, idx) => (
+                <ImageWithLoading
+                  key={file}
+                  imgRef={sectionId === 'hoodies' && idx === 0 ? firstImgRef : null}
+                  src={`/images/creative/nitro-bar/${file}.webp`}
+                  alt={`Nitro Bar ${sectionId} slide ${idx + 1}`}
+                  width={1920}
+                  height={1080}
+                  className="w-full h-auto object-contain"
+                  priority={sectionId === 'hoodies' && idx === 0}
+                />
+              ))}
+            </div>
+          ))}
         </div>
       ) : activeOverlay === 'benttree' ? (
         <div className="w-full">
