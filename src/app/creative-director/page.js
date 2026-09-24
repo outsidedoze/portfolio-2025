@@ -269,7 +269,7 @@ export default function CreativePage() {
         website: {
           title: "Website",
           tagline: "Designing on the fly and being adaptive",
-          description: "are some of my most finely tuned skills, and they shine here. As you can see by the multiple versions we created, as the client refined their understanding of the brand identity, I refined the website to match. We brought it from SUPER playful to more refined and adult. I feel it landed really smoothly, on the right runway, in the correct city. If you want to check out the site in action, head to joinomi.com."
+          description: "are some of my most finely tuned skills, and they shine here. As you can see by the multiple versions we created, as the client refined their understanding of the brand identity, I refined the website to match. We brought it from SUPER playful to more refined and adult. I feel it landed really smoothly, on the right runway, in the correct city."
         }
       }
     },
