@@ -83,6 +83,21 @@ function ImageWithLoading({ src, alt, width, height, className, style, priority 
   )
 }
 
+// Overlay id -> URL slug for shareable links (?project=<slug>)
+const PROJECT_SLUGS = {
+  sorette: 'sorette',
+  nitro: 'nitro-bar',
+  thriftcon: 'thriftcon',
+  gas: 'gas',
+  omi: 'omi',
+  chambord: 'chambord',
+  landmade: 'landmade',
+  colorblock: 'colorblock',
+  them: 'them',
+  crosswater: 'crosswater',
+  benttree: 'bent-tree',
+}
+
 const NITRO_SLIDES = {
   hoodies: ['nitro-02', 'nitro-03', 'nitro-04', 'nitro-05', 'nitro-06', 'nitro-07', 'nitro-08', 'nitro-09', 'nitro-10', 'nitro-11', 'nitro-12', 'nitro-13', 'nitro-14'],
   hats: ['nitro-15', 'nitro-16', 'nitro-17', 'nitro-18'],
@@ -393,7 +408,28 @@ export default function CreativePage() {
   const collageRef = useRef(null) // Add ref for collage container
   // --- ScrollSpy state for overlays ---
   const [activeSection, setActiveSection] = useState('branding');
-  
+
+  // Shareable links: /creative-director?project=nitro-bar opens that project
+  const overlayFromUrl = () => {
+    const slug = new URLSearchParams(window.location.search).get('project')
+    return Object.keys(PROJECT_SLUGS).find((key) => PROJECT_SLUGS[key] === slug) || null
+  }
+  const [urlSyncReady, setUrlSyncReady] = useState(false)
+
+  useEffect(() => {
+    setActiveOverlay(overlayFromUrl())
+    setUrlSyncReady(true)
+    const onPopState = () => setActiveOverlay(overlayFromUrl())
+    window.addEventListener('popstate', onPopState)
+    return () => window.removeEventListener('popstate', onPopState)
+  }, [])
+
+  useEffect(() => {
+    if (!urlSyncReady || overlayFromUrl() === activeOverlay) return
+    const url = activeOverlay ? `?project=${PROJECT_SLUGS[activeOverlay]}` : window.location.pathname
+    window.history.pushState(null, '', url)
+  }, [activeOverlay, urlSyncReady])
+
   // Dynamic sections based on active overlay
   const getSections = (overlay) => {
     if (overlay === 'landmade') {
