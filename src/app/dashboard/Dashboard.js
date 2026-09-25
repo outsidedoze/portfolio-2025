@@ -49,6 +49,7 @@ export default function Dashboard() {
             <p className="dash-muted text-sm mt-1">
               zachardente.com{updatedAt ? ` · updated ${updatedAt.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}` : ''}
               {data?.mock ? ' · sample data' : ''}
+            {' \u00b7 this browser is excluded from the counts'}
             </p>
           </div>
           <form method="POST" action="/api/dashboard/logout">
