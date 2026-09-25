@@ -43,6 +43,17 @@ export default function RootLayout({ children }) {
         <link rel="preload" as="style" href="https://use.typekit.net/xth4wng.css" />
         <link rel="stylesheet" href="https://use.typekit.net/xth4wng.css" />
 
+        {/* Opt-out: browsers that have logged into /dashboard (no_track cookie) and headless/automated
+            browsers (navigator.webdriver) are excluded from GA and Clarity before either loads */}
+        <Script id="analytics-optout" strategy="beforeInteractive">
+          {`
+            (function(){
+              var skip = /(^|; )no_track=1(;|$)/.test(document.cookie) || navigator.webdriver === true;
+              if (skip) { window['ga-disable-G-DZ5PZTG1HK'] = true; window['ga-disable-G-4YT07H4E2F'] = true; window.__noTrack = true; }
+            })();
+          `}
+        </Script>
+
         {/* Google Analytics — EXACTLY as provided */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-DZ5PZTG1HK"
@@ -52,15 +63,17 @@ export default function RootLayout({ children }) {
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-DZ5PZTG1HK');
+            if (!window.__noTrack) {
+              gtag('js', new Date());
+              gtag('config', 'G-DZ5PZTG1HK');
+            }
           `}
         </Script>
 
         {/* Microsoft Clarity */}
         <Script id="clarity" strategy="afterInteractive">
           {`
-            (function(c,l,a,r,i,t,y){
+            if (!window.__noTrack) (function(c,l,a,r,i,t,y){
               c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
               t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
               y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);

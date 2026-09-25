@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { passwordMatches, sessionToken, SESSION_COOKIE, sessionCookieOptions } from '@/lib/dashboard-auth'
+import { passwordMatches, sessionToken, SESSION_COOKIE, NO_TRACK_COOKIE, sessionCookieOptions } from '@/lib/dashboard-auth'
 
 export async function POST(request) {
   const form = await request.formData()
@@ -15,5 +15,7 @@ export async function POST(request) {
   }
   const res = NextResponse.redirect(base, 303)
   res.cookies.set(SESSION_COOKIE, sessionToken(), sessionCookieOptions())
+  // Any browser that logs into the dashboard stops counting toward the site's analytics
+  res.cookies.set(NO_TRACK_COOKIE, '1', { path: '/', sameSite: 'lax', maxAge: 60 * 60 * 24 * 365 })
   return res
 }

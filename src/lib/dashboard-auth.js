@@ -1,6 +1,7 @@
 import { createHmac, createHash, timingSafeEqual } from 'crypto'
 
 export const SESSION_COOKIE = 'dash_session'
+export const NO_TRACK_COOKIE = 'no_track'
 const SESSION_MAX_AGE = 60 * 60 * 24 * 30 // 30 days
 
 // The session token is derived from the password, so changing the password logs everyone out.
