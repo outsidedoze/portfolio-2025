@@ -59,6 +59,7 @@ function ZachPuppet({ zachRef }) {
       {/* Legs */}
       <motion.img
         src="/images/zach-legs-2.png"
+        alt=""
         style={{
           position: 'absolute',
           left: 50, top: 370, zIndex: 1,
@@ -68,6 +69,7 @@ function ZachPuppet({ zachRef }) {
       {/* Torso */}
       <motion.img
         src="/images/zach-torso.png"
+        alt=""
         style={{
           position: 'absolute',
           left: 40, top: 150, zIndex: 2,
@@ -77,6 +79,7 @@ function ZachPuppet({ zachRef }) {
       {/* Left Arm */}
       <motion.img
         src="/images/zach-arm-left.png"
+        alt=""
         style={{
           position: 'absolute',
           left:20, top:270, zIndex: 3,
@@ -89,6 +92,7 @@ function ZachPuppet({ zachRef }) {
       {/* Right Arm */}
       <motion.img
         src="/images/zach-arm-right.png"
+        alt=""
         style={{
           position: 'absolute',
           left:250, top:300, zIndex: 3,
@@ -101,6 +105,7 @@ function ZachPuppet({ zachRef }) {
       {/* Head */}
       <motion.img
         src={headImages[currentHeadIndex]}
+        alt=""
         style={{
           position: 'absolute',
           left: 90, top: 0, zIndex: 10,
@@ -297,6 +302,7 @@ export default function Home() {
                 src={hat.image}
                 alt={hat.label}
                 fill
+                sizes="128px"
                 className="object-contain"
                 draggable={false}
               />
@@ -377,6 +383,7 @@ export default function Home() {
                 src="/images/star-background.svg"
                 alt="Star Badge Shadow"
                 fill
+                sizes="336px"
                 className="object-contain"
               />
             </motion.div>
@@ -398,6 +405,7 @@ export default function Home() {
                 src="/images/star-front.svg"
                 alt="Star Badge"
                 fill
+                sizes="336px"
                 className="object-contain"
               />
             </motion.div>
