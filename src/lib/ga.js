@@ -70,7 +70,14 @@ const rows = (report) => (report.rows || []).map((r) => ({
 const topList = (report, limit = 10) =>
   rows(report).slice(0, limit).map((r) => ({ label: r.dims[0], value: r.vals[0] }))
 
-const dateRange = (days) => [{ startDate: `${days}daysAgo`, endDate: 'today' }]
+// STATS_SINCE (YYYY-MM-DD) makes every range start no earlier than that date,
+// so traffic from before the self-exclusion was set up stays out of the numbers.
+const dateRange = (days) => {
+  const since = env('STATS_SINCE')
+  const start = new Date(); start.setDate(start.getDate() - (days - 1))
+  const startStr = start.toISOString().slice(0, 10)
+  return [{ startDate: since && since > startStr ? since : startStr, endDate: 'today' }]
+}
 const byUsers = { orderBys: [{ metric: { metricName: 'activeUsers' }, desc: true }] }
 
 export async function fetchReport(days) {
@@ -105,6 +112,7 @@ export async function fetchReport(days) {
 
   const data = {
     days,
+    since: env('STATS_SINCE') || null,
     totals: { users: t[0], sessions: t[1], pageViews: t[2], avgSessionSeconds: Math.round(t[3]) },
     daily: rows(daily).map((r) => ({ date: r.dims[0], users: r.vals[0], pageViews: r.vals[1] })),
     pages: topList(pages),

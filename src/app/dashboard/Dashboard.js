@@ -50,6 +50,7 @@ export default function Dashboard() {
               zachardente.com{updatedAt ? ` · updated ${updatedAt.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}` : ''}
               {data?.mock ? ' · sample data' : ''}
             {' \u00b7 this browser is excluded from the counts'}
+            {data?.report?.since ? ` \u00b7 counting from ${data.report.since}` : ''}
             </p>
           </div>
           <form method="POST" action="/api/dashboard/logout">
