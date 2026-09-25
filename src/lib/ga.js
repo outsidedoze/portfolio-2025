@@ -16,6 +16,9 @@ export function gaConfig() {
   return { configured: missing.length === 0, missing, mock: process.env.DASHBOARD_MOCK === '1' }
 }
 
+// Env values pasted or piped in often carry stray whitespace/newlines; Google rejects those outright.
+const env = (key) => (process.env[key] || '').trim()
+
 function base64url(input) {
   return Buffer.from(input).toString('base64').replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_')
 }
@@ -25,7 +28,7 @@ async function accessToken() {
   const now = Math.floor(Date.now() / 1000)
   const header = base64url(JSON.stringify({ alg: 'RS256', typ: 'JWT' }))
   const claims = base64url(JSON.stringify({
-    iss: process.env.GA_CLIENT_EMAIL,
+    iss: env('GA_CLIENT_EMAIL'),
     scope: SCOPE,
     aud: TOKEN_URL,
     iat: now,
@@ -33,7 +36,7 @@ async function accessToken() {
   }))
   const signer = createSign('RSA-SHA256')
   signer.update(`${header}.${claims}`)
-  const signature = signer.sign(process.env.GA_PRIVATE_KEY.replace(/\\n/g, '\n'))
+  const signature = signer.sign(env('GA_PRIVATE_KEY').replace(/\\n/g, '\n'))
   const jwt = `${header}.${claims}.${base64url(signature)}`
 
   const res = await fetch(TOKEN_URL, {
@@ -49,7 +52,7 @@ async function accessToken() {
 
 async function run(method, body) {
   const token = await accessToken()
-  const res = await fetch(`https://analyticsdata.googleapis.com/v1beta/properties/${process.env.GA_PROPERTY_ID}:${method}`, {
+  const res = await fetch(`https://analyticsdata.googleapis.com/v1beta/properties/${env('GA_PROPERTY_ID')}:${method}`, {
     method: 'POST',
     headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
     body: JSON.stringify(body),
