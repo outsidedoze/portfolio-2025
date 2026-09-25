@@ -61,9 +61,10 @@ async function run(method, body) {
   return res.json()
 }
 
+// Reports with no dimensions (totals, realtime count) omit dimensionValues entirely
 const rows = (report) => (report.rows || []).map((r) => ({
-  dims: r.dimensionValues.map((d) => d.value),
-  vals: r.metricValues.map((m) => Number(m.value)),
+  dims: (r.dimensionValues || []).map((d) => d.value),
+  vals: (r.metricValues || []).map((m) => Number(m.value)),
 }))
 
 const topList = (report, limit = 10) =>
