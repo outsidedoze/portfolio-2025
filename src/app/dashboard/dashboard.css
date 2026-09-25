@@ -1,0 +1,61 @@
+/* Private stats dashboard. Tokens only; charts are single-hue. */
+.dash {
+  color-scheme: light;
+  --dash-bg: #fffde6;
+  --dash-surface: #ffffff;
+  --dash-ink: #202020;
+  --dash-ink-2: #5a5a55;
+  --dash-muted: #8a8a83;
+  --dash-line: #e6e3d3;
+  --dash-accent: #2a78d6;
+  --dash-accent-soft: rgba(42, 120, 214, 0.1);
+  --dash-track: #efede0;
+  --dash-danger: #b42318;
+  background: var(--dash-bg);
+  color: var(--dash-ink);
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  .dash {
+    color-scheme: dark;
+    --dash-bg: #141412;
+    --dash-surface: #1e1e1b;
+    --dash-ink: #f3f2ea;
+    --dash-ink-2: #c3c2b7;
+    --dash-muted: #8f8e85;
+    --dash-line: #33332f;
+    --dash-accent: #3987e5;
+    --dash-accent-soft: rgba(57, 135, 229, 0.14);
+    --dash-track: #2a2a27;
+    --dash-danger: #f28b82;
+  }
+}
+.dash-card { background: var(--dash-surface); border: 1px solid var(--dash-line); border-radius: 12px; }
+.dash-muted { color: var(--dash-muted); }
+.dash-ink-2 { color: var(--dash-ink-2); }
+.dash-input {
+  background: var(--dash-bg); color: var(--dash-ink); border: 1px solid var(--dash-line);
+  border-radius: 8px; padding: 10px 12px; font-size: 16px;
+}
+.dash-input:focus { outline: 2px solid var(--dash-accent); outline-offset: 1px; }
+.dash-button {
+  background: var(--dash-ink); color: var(--dash-bg); border-radius: 8px; padding: 10px 14px;
+  font-weight: 600; cursor: pointer;
+}
+.dash-chip {
+  border: 1px solid var(--dash-line); border-radius: 999px; padding: 6px 12px; font-size: 13px;
+  color: var(--dash-ink-2); background: var(--dash-surface); cursor: pointer;
+}
+.dash-chip[aria-pressed="true"] { background: var(--dash-ink); color: var(--dash-bg); border-color: var(--dash-ink); }
+.dash-hero { font-size: 56px; line-height: 1; font-weight: 600; letter-spacing: -0.02em; }
+.dash-stat { font-size: 28px; line-height: 1.1; font-weight: 600; letter-spacing: -0.01em; }
+.dash-bar-row { display: grid; grid-template-columns: minmax(0, 11rem) 1fr auto; gap: 10px; align-items: center; padding: 5px 0; }
+.dash-bar-track { height: 18px; background: var(--dash-track); border-radius: 0 4px 4px 0; overflow: hidden; }
+.dash-bar-fill { height: 100%; background: var(--dash-accent); border-radius: 0 4px 4px 0; transition: opacity .15s; }
+.dash-bar-row:hover .dash-bar-fill { opacity: .8; }
+.dash-num { font-variant-numeric: tabular-nums; }
+.dash-fade { opacity: .55; transition: opacity .2s; }
+.dash-tip {
+  position: absolute; pointer-events: none; background: var(--dash-ink); color: var(--dash-bg);
+  font-size: 12px; padding: 6px 8px; border-radius: 6px; white-space: nowrap; transform: translate(-50%, -110%);
+}
