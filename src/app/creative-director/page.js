@@ -707,14 +707,22 @@ export default function CreativePage() {
                       };
                     }
 
+                    // Rendered CSS width = layout width x collage scale x inner 0.9
+                    // (position.scale is overridden by framer-motion's transform, so it never applies)
+                    // 10% headroom covers hover/idle animations that scale items up slightly
+                    const renderedWidth = Math.ceil(position.width * scale * 0.9 * 1.1)
+                    const isCanvasPiece = /desk\.webp|screen\.webp|keysandmouse\.png/.test(img.src)
+
                     const content = (
                       <Image
                         src={img.src}
                         alt=""
                         width={position.width}
                         height={position.height}
+                        sizes={`${renderedWidth}px`}
                         className={`object-contain ${img.overlay ? 'cursor-none hover:scale-105 transition-transform duration-300' : ''}`}
-                        priority
+                        priority={isCanvasPiece}
+                        loading={isCanvasPiece ? undefined : 'eager'}
                       />
                     )
 

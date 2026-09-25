@@ -2,6 +2,28 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Script from "next/script";
 
+const SITE_TITLE = "Zach Ardente | One Man. Many Hats";
+const SITE_DESCRIPTION = "I swear there's actually cool stuff on this site. Check it out and let me know!";
+
+export const metadata = {
+  metadataBase: new URL("https://zachardente.com"),
+  title: SITE_TITLE,
+  description: SITE_DESCRIPTION,
+  openGraph: {
+    title: "One Man. Many Hats",
+    description: SITE_DESCRIPTION,
+    url: "https://zachardente.com",
+    type: "website",
+    images: [{ url: "/images/og-image.jpg" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "One Man. Many Hats",
+    description: SITE_DESCRIPTION,
+    images: ["/images/og-image.jpg"],
+  },
+};
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -16,6 +38,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
+        <link rel="preconnect" href="https://use.typekit.net" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://p.typekit.net" crossOrigin="anonymous" />
+        <link rel="preload" as="style" href="https://use.typekit.net/xth4wng.css" />
         <link rel="stylesheet" href="https://use.typekit.net/xth4wng.css" />
 
         {/* Google Analytics — EXACTLY as provided */}
@@ -43,15 +68,6 @@ export default function RootLayout({ children }) {
           `}
         </Script>
 
-        <meta property="og:title" content="One Man. Many Hats" />
-        <meta property="og:description" content="I swear there's actually cool stuff on this site. Check it out and let me know!" />
-        <meta property="og:image" content="/images/og-image.jpg" />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://zachardente.com" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="One Man. Many Hats" />
-        <meta name="twitter:description" content="I swear there's actually cool stuff on this site. Check it out and let me know!" />
-        <meta name="twitter:image" content="/images/og-image.jpg" />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         {children}

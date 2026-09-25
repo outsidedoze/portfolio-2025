@@ -255,7 +255,15 @@ export default function MusicPage()   {
                   transformOrigin: 'top left',
                 }}
               >
-                {collageImages.map((img, index) => (
+                {collageImages.map((img, index) => {
+                  // Rendered CSS width = layout width x collage scale x inner 0.9
+                  // (mobilePosition.scale is overridden by framer-motion's transform, so it never applies)
+                  const isMobileView = windowWidth < 768
+                  const layoutWidth = isMobileView && img.mobilePosition?.mobileWidth ? img.mobilePosition.mobileWidth : img.width
+                  // 10% headroom covers hover/idle animations that scale items up slightly
+                  const renderedWidth = () => Math.ceil(layoutWidth * scale * 0.9 * 1.1)
+                  const isCanvasPiece = () => /couch\.webp|cradenza\.webp/.test(img.src)
+                  return (
                   <motion.div
                     key={img.src}
                     initial={{ x: 0, y: 0, opacity: 0 }}
@@ -328,8 +336,10 @@ export default function MusicPage()   {
                           alt=""
                           width={windowWidth < 768 && img.mobilePosition && img.mobilePosition.mobileWidth ? img.mobilePosition.mobileWidth : img.width}
                           height={windowWidth < 768 && img.mobilePosition && img.mobilePosition.mobileHeight ? img.mobilePosition.mobileHeight : img.height}
+                          sizes={`${renderedWidth()}px`}
                           className="object-contain cursor-pointer"
-                          priority
+                          priority={isCanvasPiece()}
+                          loading={isCanvasPiece() ? undefined : 'eager'}
                         />
                       </motion.div>
                     ) : (
@@ -338,12 +348,15 @@ export default function MusicPage()   {
                         alt=""
                         width={img.width}
                         height={img.height}
+                        sizes={`${renderedWidth()}px`}
                         className="object-contain"
-                        priority
+                        priority={isCanvasPiece()}
+                        loading={isCanvasPiece() ? undefined : 'eager'}
                       />
                     )}
                   </motion.div>
-                ))}
+                  )
+                })}
               </div>
             )}
           </div>
