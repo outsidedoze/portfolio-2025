@@ -55,7 +55,8 @@ export default function ContactButton() {
   const field = 'w-full font-benton rounded-xl border border-[#202020]/15 bg-white/70 px-3 py-2 text-[15px] text-[#202020] placeholder:text-[#202020]/40 focus:border-[#202020] focus:outline-none'
 
   return (
-    <div className="fixed bottom-6 right-6 z-[1500] flex flex-col items-end gap-3">
+    // Home page pins the "Built from scratch" badge bottom-right, so sit above it there
+    <div className={`fixed ${pathname === '/' ? 'bottom-20' : 'bottom-6'} right-6 z-[1500] flex flex-col items-end gap-3`}>
       <AnimatePresence>
         {open && (
           <motion.div
