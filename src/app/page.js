@@ -176,6 +176,12 @@ export default function Home() {
 
   return (
     <main className="relative w-full h-screen overflow-hidden bg-black text-white">
+      {/* Hat dragging is the main nav; these real links let crawlers and keyboard users through too */}
+      <nav className="sr-only focus-within:not-sr-only focus-within:fixed focus-within:top-4 focus-within:left-4 focus-within:z-[2000] focus-within:bg-white focus-within:p-4 focus-within:text-black">
+        <Link href="/creative-director" className="block underline">Creative director work</Link>
+        <Link href="/music" className="block underline">Music & personal projects</Link>
+        <Link href="/garden" className="block underline">Gardening</Link>
+      </nav>
       {/* Full viewport fixed sky background */}
       <div
         className="fixed inset-0 z-0"
@@ -319,7 +325,7 @@ export default function Home() {
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
         >
-          Many Hats
+          <span className="sr-only">Zach Ardente: </span>Many Hats
         </motion.h1>
         {/* New Zach Puppet */}
         <motion.div
