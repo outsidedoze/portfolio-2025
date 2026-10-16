@@ -219,8 +219,8 @@ export default function CreativePage() {
   const projectDescriptions = {
     sorette: {
       title: "Sorette",
-      tagline: "Elevated essentials for modern motherhood.",
-      description: "Designed for a European-inspired wellness brand built for expecting moms. I led visual identity and UX storytelling across packaging, e-commerce, and social.",
+      tagline: "Elevated, modern, trendy design",
+      description: "Web design for Sorette – an online shop for pregnancy, mom, and baby safe products. The website has changed a bit since my initial design, so I'm showing the initial mockups here.",
       sections: {
         webdesign: {
           title: "Web Design",
@@ -231,8 +231,8 @@ export default function CreativePage() {
     },
     gas: {
       title: "The Gas Station",
-      tagline: "Supercharging Gen Z social connections.",
-      description: "Product design for a viral social app acquired by Discord. I led design strategy from early sketches through user testing to launch and beyond.",
+      tagline: "Super proud of where this one landed.",
+      description: "I made a branding package for a dispensary called The Gas Station in Rutland, VT. The building was a Texaco gas station in the 50s, so we wanted to stay true to the brand's history and keep the 50s gas station vibe while also making it feel modern and fresh.",
       sections: {
         supercoolsign: {
           title: "Super Cool Sign",
@@ -253,8 +253,8 @@ export default function CreativePage() {
     },
     omi: {
       title: "Omi Health",
-      tagline: "Revolutionizing personal care with innovation.",
-      description: "Brand identity and packaging design for a breakthrough personal care brand. Created a bold visual system that stands out in a crowded marketplace.",
+      tagline: "Modernizing pet healthcare.",
+      description: "I created a quick, simple wordmark for them and a color scheme rich in textures and gradients. As the client refined their understanding of the brand identity, I refined the website to match.",
       sections: {
         branding: {
           title: "Branding",
@@ -280,8 +280,8 @@ export default function CreativePage() {
     },
     landmade: {
       title: "Landmade",
-      tagline: "Handcrafted goods, direct from artisans.",
-      description: "Full-scope brand identity and e-commerce design for this marketplace connecting craftspeople with consumers. Developed a system that showcased makers' stories.",
+      tagline: "One of my proudest designs.",
+      description: "While at Forte Brands, we launched a line of bathtubs that are 100% recyclable, and we wanted branding that felt elegant and could fit in houses with closets full of Dior and Louis, while also keeping to its commitment to the earth.",
       sections: {
         branding: {
           title: "Branding",
@@ -317,8 +317,8 @@ export default function CreativePage() {
     },
     colorblock: {
       title: "Colorblock",
-      tagline: "Bold color theory meets practical design.",
-      description: "Art direction for an experimental color theory project. Created a design system that pushes boundaries while maintaining visual harmony.",
+      tagline: "Where you go to turn nothing into something",
+      description: "Colorblock, a creative-based coworking space startup, is as simple as a place creatives go to turn nothing into something. Sometimes, simplicity is the only way.",
       sections: {
         branding: {
           title: "Branding",
@@ -334,8 +334,8 @@ export default function CreativePage() {
     },
     crosswater: {
       title: "Crosswater",
-      tagline: "Creative project showcase.",
-      description: "Project description coming soon.",
+      tagline: "Price book got a facelift, too.",
+      description: "My team at Forte Brands desperately needed some consistent, on-brand, and modern imagery of each of our faucets. I brought new branding into the price book design, creating a cleaner, more concise price book that salespeople would feel proud showing their customers.",
       sections: {
         photoshoot: {
           title: "Photoshoot",
@@ -356,8 +356,8 @@ export default function CreativePage() {
     },
     benttree: {
       title: "Bent Tree",
-      tagline: "Premium brand identity and packaging.",
-      description: "Complete brand development for a luxury lifestyle brand, from logo design to sophisticated packaging solutions.",
+      tagline: "Pot + 90s skate nostalgia + Vermont nature",
+      description: "I developed a logo for my homie who was starting a pot grow in Vermont. All my friend asked for was to incorporate his favorite tree on his property into the logo somehow.",
       sections: {
         logo: {
           title: "Logo",
@@ -901,7 +901,7 @@ export default function CreativePage() {
                           (projectDescriptions.nitro.sections[activeSection].tagline || projectDescriptions.nitro.tagline) :
                           (activeOverlay === 'thriftcon' && projectDescriptions.thriftcon.sections[activeSection]) ?
                           (projectDescriptions.thriftcon.sections[activeSection].tagline || projectDescriptions.thriftcon.tagline) :
-                          projectDescriptions[activeOverlay]?.tagline || "Creative project showcase"
+                          projectDescriptions[activeOverlay]?.tagline || ""
                         }
                       </div>
                       <p className="text-sm md:text-base text-[#202020] leading-normal font-benton">
@@ -923,7 +923,7 @@ export default function CreativePage() {
                           (projectDescriptions.nitro.sections[activeSection].description || projectDescriptions.nitro.description) :
                           (activeOverlay === 'thriftcon' && projectDescriptions.thriftcon.sections[activeSection]) ?
                           (projectDescriptions.thriftcon.sections[activeSection].description || projectDescriptions.thriftcon.description) :
-                          projectDescriptions[activeOverlay]?.description || "Project description coming soon."
+                          projectDescriptions[activeOverlay]?.description || ""
                         }
                       </p>
                     </div>
@@ -1069,7 +1069,7 @@ export default function CreativePage() {
                         (projectDescriptions.nitro.sections[activeSection].tagline || projectDescriptions.nitro.tagline) :
                         (activeOverlay === 'thriftcon' && projectDescriptions.thriftcon.sections[activeSection]) ?
                         (projectDescriptions.thriftcon.sections[activeSection].tagline || projectDescriptions.thriftcon.tagline) :
-                        projectDescriptions[activeOverlay]?.tagline || "Creative project showcase"
+                        projectDescriptions[activeOverlay]?.tagline || ""
                       }
                     </div>
                     <p className={`${windowHeight > 0 && windowHeight < 860 ? 'text-sm' : 'text-sm lg:text-base xl:text-lg'} text-[#202020] mt-6 md:mt-8 leading-normal font-benton text-right`}>
@@ -1091,7 +1091,7 @@ export default function CreativePage() {
                         (projectDescriptions.nitro.sections[activeSection].description || projectDescriptions.nitro.description) :
                         (activeOverlay === 'thriftcon' && projectDescriptions.thriftcon.sections[activeSection]) ?
                         (projectDescriptions.thriftcon.sections[activeSection].description || projectDescriptions.thriftcon.description) :
-                        projectDescriptions[activeOverlay]?.description || "Project description coming soon."
+                        projectDescriptions[activeOverlay]?.description || ""
                       }
                     </p>
                   </div>
