@@ -7,24 +7,6 @@ import { useRouter } from 'next/navigation'
 
 export default function MusicPage()   {
   const router = useRouter()
-  const projects = [
-    {
-      title: "Songwriting",
-      image: "/images/music/songwriting.jpg",
-      href: "/music/songwriting"
-    },
-    {
-      title: "Production",
-      image: "/images/music/production.jpg", 
-      href: "/music/production"
-    },
-    {
-      title: "Performance",
-      image: "/images/music/performance.jpg",
-      href: "/music/performance"
-    }
-  ]
-
   const collageImages = [
     { src: '/images/cradenza.webp', left:-250, top: 452, width: 667, height: 406, mobilePosition: { left: -480, top: 452 } },
     { src: '/images/window-plant.png', left: 1183, top: 183, width: 493, height: 606, mobilePosition: { left: 350 } },
@@ -34,10 +16,10 @@ export default function MusicPage()   {
     { src: '/images/table.png', left: 603, top: 942, width: 482.63, height: 370, mobilePosition: { left: 100, top: 942 } },
     { src: '/images/couch-front.png', left: 988, top: 1058, width: 817, height: 453, mobilePosition: { left: 280, top: 1108 } },
     { src: '/images/poster.png', left: 400, top: 306.81, width: 182.36, height: 224.13, mobilePosition: { left: 70, top: 66.81 } },
-    { src: '/images/outside.png', left: 1150, top: 800, width: 150, height: 150, href: '/music/outside', mobilePosition: { left: 450, top: 704, scale: 4, mobileWidth: 250, mobileHeight: 250 } },
-    { src: '/images/musicvideos.png', left: -120, top: 160, width: 500, height: 300, href: '/music/musicvideos', mobilePosition: { left: -470, top: 160, scale: 3, mobileWidth: 600, mobileHeight: 360 } },
+    { src: '/images/outside.png', left: 1150, top: 800, width: 150, height: 150, href: '/music/outside', label: 'Outside EP', mobilePosition: { left: 450, top: 704, scale: 4, mobileWidth: 250, mobileHeight: 250 } },
+    { src: '/images/musicvideos.png', left: -120, top: 160, width: 500, height: 300, href: '/music/musicvideos', label: 'Music videos', mobilePosition: { left: -470, top: 160, scale: 3, mobileWidth: 600, mobileHeight: 360 } },
     { src: '/images/content.png', left: 730, top: 980, width: 100, height: 200, href: '/music/content', mobilePosition: { left: 130, top: 980, scale: 3, mobileWidth: 150, mobileHeight: 300 } },
-    { src: '/images/singlecovers.png', left: 600, top: 480, width: 150, height: 150, href: '/music/singlecovers', mobilePosition: { left: 110, top: 290, scale: 4, mobileWidth: 250, mobileHeight: 250 } },
+    { src: '/images/singlecovers.png', left: 600, top: 480, width: 150, height: 150, href: '/music/singlecovers', label: 'Single covers', mobilePosition: { left: 110, top: 290, scale: 4, mobileWidth: 250, mobileHeight: 250 } },
   ]
 
   function getInitialPosition(left, top) {
@@ -227,7 +209,7 @@ export default function MusicPage()   {
       )}
 
         <div className="absolute top-12 left-0 w-full z-50 overflow-hidden">
-          <div className="flex whitespace-nowrap animate-marquee text-[10rem] font-bold font-benton text-white space-x-16 w-[200%] leading-[1.2]">
+          <div aria-hidden="true" className="flex whitespace-nowrap animate-marquee text-[10rem] font-bold font-benton text-white space-x-16 w-[200%] leading-[1.2]">
             {Array.from({ length: 10 }).map((_, i) => (
               <span key={i} className="flex items-center gap-4">
                 music & personal projects
@@ -333,7 +315,7 @@ export default function MusicPage()   {
                       >
                         <Image
                           src={img.src}
-                          alt=""
+                          alt={img.label ?? ''}
                           width={windowWidth < 768 && img.mobilePosition && img.mobilePosition.mobileWidth ? img.mobilePosition.mobileWidth : img.width}
                           height={windowWidth < 768 && img.mobilePosition && img.mobilePosition.mobileHeight ? img.mobilePosition.mobileHeight : img.height}
                           sizes={`${renderedWidth()}px`}
@@ -497,7 +479,7 @@ export default function MusicPage()   {
                           projectDescriptions.outside.sections[activeSection].tagline :
                           (activeOverlay === 'musicvideos' && projectDescriptions.musicvideos.sections[activeSection]) ?
                           projectDescriptions.musicvideos.sections[activeSection].tagline :
-                          projectDescriptions[activeOverlay]?.tagline || "Creative project showcase"
+                          projectDescriptions[activeOverlay]?.tagline || ""
                         }
                       </div>
                       <p className="text-sm md:text-base text-[#202020] leading-normal font-benton">
@@ -505,7 +487,7 @@ export default function MusicPage()   {
                           projectDescriptions.outside.sections[activeSection].description :
                           (activeOverlay === 'musicvideos' && projectDescriptions.musicvideos.sections[activeSection]) ?
                           projectDescriptions.musicvideos.sections[activeSection].description :
-                          projectDescriptions[activeOverlay]?.description || "Project description coming soon."
+                          projectDescriptions[activeOverlay]?.description || ""
                         }
                       </p>
                     </div>
@@ -637,7 +619,7 @@ export default function MusicPage()   {
                         projectDescriptions.outside.sections[activeSection].tagline :
                         (activeOverlay === 'musicvideos' && projectDescriptions.musicvideos.sections[activeSection]) ?
                         projectDescriptions.musicvideos.sections[activeSection].tagline :
-                        projectDescriptions[activeOverlay]?.tagline || "Creative project showcase"
+                        projectDescriptions[activeOverlay]?.tagline || ""
                       }
                     </div>
                     <p className="text-base md:text-lg text-[#202020] mt-6 md:mt-8 leading-normal font-benton text-right">
@@ -645,7 +627,7 @@ export default function MusicPage()   {
                         projectDescriptions.outside.sections[activeSection].description :
                         (activeOverlay === 'musicvideos' && projectDescriptions.musicvideos.sections[activeSection]) ?
                         projectDescriptions.musicvideos.sections[activeSection].description :
-                        projectDescriptions[activeOverlay]?.description || "Project description coming soon."
+                        projectDescriptions[activeOverlay]?.description || ""
                       }
                     </p>
                   </div>
@@ -912,6 +894,7 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
               <iframe 
                 style={{border: 'none', margin: 0, padding: 0, display: 'block'}} 
                 src="https://open.spotify.com/embed/album/4pIX210BAdULta4cK2H2cl?utm_source=generator" 
+                title="Outside EP on Spotify"
                 width="100%" 
                 height="500" 
                 frameBorder="0" 

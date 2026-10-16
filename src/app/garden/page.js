@@ -160,7 +160,7 @@ export default function GardenPage() {
     <>
       {/* Scrolling marquee text */}
       <div className="absolute top-0 left-0 w-full z-[999] overflow-hidden">
-        <div className="flex whitespace-nowrap animate-marquee text-[10rem] font-bold font-benton space-x-16 w-[200%] leading-[1.2]" style={{ color: '#FFFDE6' }}>
+        <div aria-hidden="true" className="flex whitespace-nowrap animate-marquee text-[10rem] font-bold font-benton space-x-16 w-[200%] leading-[1.2]" style={{ color: '#FFFDE6' }}>
           {Array.from({ length: 10 }).map((_, i) => (
             <span key={i} className="flex items-center gap-4">
               Gardening

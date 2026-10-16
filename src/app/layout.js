@@ -1,26 +1,29 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Script from "next/script";
+import { SITE, OG_IMAGE, PERSON_JSON_LD } from "@/lib/seo";
 
-const SITE_TITLE = "Zach Ardente | One Man. Many Hats";
-const SITE_DESCRIPTION = "I swear there's actually cool stuff on this site. Check it out and let me know!";
+const SITE_TITLE = "Zach Ardente | Designer, Creative Director & Musician";
+const SITE_DESCRIPTION = "One man, many hats. Zach Ardente does branding, web design, art direction and music. Drag a hat onto my head to get started. I swear it's cool.";
 
 export const metadata = {
-  metadataBase: new URL("https://zachardente.com"),
-  title: SITE_TITLE,
+  metadataBase: new URL(SITE),
+  title: { default: SITE_TITLE, template: "%s | Zach Ardente" },
   description: SITE_DESCRIPTION,
+  alternates: { canonical: "/" },
   openGraph: {
-    title: "One Man. Many Hats",
+    title: "Zach Ardente | One Man. Many Hats",
     description: SITE_DESCRIPTION,
-    url: "https://zachardente.com",
+    url: "/",
+    siteName: "Zach Ardente",
     type: "website",
-    images: [{ url: "/images/og-image.jpg" }],
+    images: [{ url: OG_IMAGE }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "One Man. Many Hats",
+    title: "Zach Ardente | One Man. Many Hats",
     description: SITE_DESCRIPTION,
-    images: ["/images/og-image.jpg"],
+    images: [OG_IMAGE],
   },
 };
 
@@ -83,6 +86,7 @@ export default function RootLayout({ children }) {
 
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(PERSON_JSON_LD) }} />
         {children}
       </body>
     </html>
