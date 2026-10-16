@@ -2,6 +2,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Script from "next/script";
 import { SITE, OG_IMAGE, PERSON_JSON_LD } from "@/lib/seo";
+import ContactButton from "./ContactButton";
 
 const SITE_TITLE = "Zach Ardente | Designer, Creative Director & Musician";
 const SITE_DESCRIPTION = "One man, many hats. Zach Ardente does branding, web design, art direction and music. Drag a hat onto my head to get started. I swear it's cool.";
@@ -88,6 +89,7 @@ export default function RootLayout({ children }) {
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(PERSON_JSON_LD) }} />
         {children}
+        <ContactButton />
       </body>
     </html>
   );
