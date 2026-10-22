@@ -2,8 +2,9 @@
 import Image from 'next/image'
 import { useEffect, useLayoutEffect, useState, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { useRouter } from 'next/navigation'
 import { PROJECTS } from '@/lib/seo'
+import { useOverlay } from '@/lib/useOverlay'
+import HatNav from '@/components/HatNav'
 
 // Image with Loading Component
 function ImageWithLoading({ src, alt, width, height, className, style, priority = false, imgRef = null }) {
@@ -99,7 +100,6 @@ const THRIFTCON_SLIDES = {
 }
 
 export default function CreativePage() {
-  const router = useRouter()
 
   // Enhanced collage image system with more mobile controls
   const collageImages = [
@@ -384,7 +384,7 @@ export default function CreativePage() {
   const [scale, setScale] = useState(1)
   const [hasMounted, setHasMounted] = useState(false)
   const [mouse, setMouse] = useState({ x: 0, y: 0 })
-  const [activeOverlay, setActiveOverlay] = useState(null)
+  const [activeOverlay, setActiveOverlay, dialogRef] = useOverlay(PROJECT_SLUGS)
   const [windowWidth, setWindowWidth] = useState(0)
   const [windowHeight, setWindowHeight] = useState(0)
   const starRef = useRef(null)
@@ -397,27 +397,6 @@ export default function CreativePage() {
   const collageRef = useRef(null) // Add ref for collage container
   // --- ScrollSpy state for overlays ---
   const [activeSection, setActiveSection] = useState('branding');
-
-  // Shareable links: /creative-director?project=nitro-bar opens that project
-  const overlayFromUrl = () => {
-    const slug = new URLSearchParams(window.location.search).get('project')
-    return Object.keys(PROJECT_SLUGS).find((key) => PROJECT_SLUGS[key] === slug) || null
-  }
-  const [urlSyncReady, setUrlSyncReady] = useState(false)
-
-  useEffect(() => {
-    setActiveOverlay(overlayFromUrl())
-    setUrlSyncReady(true)
-    const onPopState = () => setActiveOverlay(overlayFromUrl())
-    window.addEventListener('popstate', onPopState)
-    return () => window.removeEventListener('popstate', onPopState)
-  }, [])
-
-  useEffect(() => {
-    if (!urlSyncReady || overlayFromUrl() === activeOverlay) return
-    const url = activeOverlay ? `?project=${PROJECT_SLUGS[activeOverlay]}` : window.location.pathname
-    window.history.pushState(null, '', url)
-  }, [activeOverlay, urlSyncReady])
 
   // Dynamic sections based on active overlay
   const getSections = (overlay) => {
@@ -562,7 +541,7 @@ export default function CreativePage() {
   return (
     <main
       onMouseMove={(e) => setMouse({ x: e.clientX, y: e.clientY })}
-      className="w-screen h-screen bg-black text-white flex items-center justify-center overflow-hidden"
+      className="w-screen h-dvh bg-black text-white flex items-center justify-center overflow-hidden"
       style={{
         backgroundImage: 'url("/images/creative/creative-background.webp")',
         backgroundSize: 'cover',
@@ -572,29 +551,15 @@ export default function CreativePage() {
       }}
     >
       {/* Home Icon - Top Left - Only on main creative page */}
-      {!activeOverlay && (
-        <button
-          onClick={() => router.push('/')}
-          className="fixed top-6 left-6 z-[1001] cursor-pointer hover:scale-110 transition-transform duration-200"
-          style={{ pointerEvents: 'auto' }}
-        >
-          <Image 
-            src="/images/home-icon.svg" 
-            alt="Home" 
-            width={60} 
-            height={60} 
-            className="drop-shadow-lg"
-          />
-        </button>
-      )}
+      {!activeOverlay && <HatNav />}
 
       {/* Scrolling Text Banner with top-0 and color #FFFDE6 */}
       <div className="absolute top-0 left-0 w-full z-50 overflow-hidden">
-        <div aria-hidden="true" className="flex whitespace-nowrap animate-marquee text-[10rem] font-bold font-benton space-x-16 w-[200%] leading-[1.2]" style={{ color: '#FFFDE6' }}>
+        <div aria-hidden="true" className="flex whitespace-nowrap animate-marquee text-[5rem] md:text-[10rem] font-bold font-benton space-x-16 w-[200%] leading-[1.2]" style={{ color: '#FFFDE6' }}>
           {Array.from({ length: 10 }).map((_, i) => (
             <span key={i} className="flex items-center gap-4">
               Creative & Art Direction
-              <Image src="/images/star.svg" alt="star" width={50} height={50} className="inline-block align-middle translate-y-1" />
+              <Image src="/images/star.svg" alt="" width={50} height={50} className="inline-block align-middle translate-y-1" />
             </span>
           ))}
         </div>
@@ -733,9 +698,9 @@ export default function CreativePage() {
                         }}
                       >
                         {img.overlay ? (
-                          <div onClick={() => setActiveOverlay(img.overlay)}>
+                          <button type="button" onClick={() => setActiveOverlay(img.overlay)} aria-label={projectDescriptions[img.overlay]?.title} className="block cursor-none">
                             {content}
-                          </div>
+                          </button>
                         ) : (
                           content
                         )}
@@ -756,7 +721,12 @@ export default function CreativePage() {
               animate={{ x: 0 }}
               exit={{ x: '-100%' }}
               transition={{ duration: 0.6, ease: 'easeInOut' }}
-              className="fixed top-0 left-0 w-full h-full z-[999] bg-[#FAF8E9] flex flex-col md:flex-row"
+              ref={dialogRef}
+              role="dialog"
+              aria-modal="true"
+              aria-label={projectDescriptions[activeOverlay]?.title}
+              tabIndex={-1}
+              className="fixed top-0 left-0 w-full h-full z-[999] bg-[#FAF8E9] flex flex-col md:flex-row outline-none"
               style={{ cursor: 'auto' }}
             >
               {/* Left Scrollable Column with Project Images */}
@@ -820,7 +790,7 @@ export default function CreativePage() {
                       >
                         <Image
                           src="/images/star-background.svg"
-                          alt="Star Badge Shadow"
+                          alt=""
                           width={100}
                           height={100}
                           className="object-contain"
@@ -842,7 +812,7 @@ export default function CreativePage() {
                       >
                         <Image
                           src="/images/star-front.svg"
-                          alt="Star Badge"
+                          alt=""
                           width={100}
                           height={100}
                           className="object-contain"
@@ -944,10 +914,11 @@ export default function CreativePage() {
                         setHasToggled(true)
                         setIsCollapsed(true)
                       }}
-                      className="bg-[#FAF8E9] rounded-full w-10 h-10 flex items-center justify-center cursor-pointer hover:bg-[#F5F3E5] transition-colors border border-[#202020]/10"
+                      aria-label="Collapse project info"
+                      className="ink-control rounded-full w-10 h-10 flex items-center justify-center cursor-pointer transition-transform duration-150 hover:scale-105 active:scale-95"
                       style={{ pointerEvents: 'auto' }}
                     >
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#202020" strokeWidth="2">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFFDE6" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M18 15l-6-6-6 6"/>
                       </svg>
                     </button>
@@ -992,7 +963,7 @@ export default function CreativePage() {
                       >
                         <Image
                           src="/images/star-background.svg"
-                          alt="Star Badge Shadow"
+                          alt=""
                           fill
                           className="object-contain"
                         />
@@ -1013,7 +984,7 @@ export default function CreativePage() {
                       >
                         <Image
                           src="/images/star-front.svg"
-                          alt="Star Badge"
+                          alt=""
                           fill
                           className="object-contain"
                         />
@@ -1112,8 +1083,8 @@ export default function CreativePage() {
                       <Image 
                         src="/images/back-arrow.svg" 
                         alt="Back" 
-                        width={24} 
-                        height={24} 
+                        width={32} 
+                        height={32} 
                       />
                     </button>
 
@@ -1152,10 +1123,11 @@ export default function CreativePage() {
                         setHasToggled(true)
                         setIsCollapsed(false)
                       }}
-                      className="bg-[#FAF8E9] rounded-full w-10 h-10 flex items-center justify-center cursor-pointer hover:bg-[#F5F3E5] transition-colors border border-[#202020]/10"
+                      aria-label="Expand project info"
+                      className="ink-control rounded-full w-10 h-10 flex items-center justify-center cursor-pointer transition-transform duration-150 hover:scale-105 active:scale-95"
                       style={{ pointerEvents: 'auto' }}
                     >
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#202020" strokeWidth="2">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFFDE6" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M6 9l6 6 6-6"/>
                       </svg>
                     </button>
@@ -1239,7 +1211,7 @@ function ScrollSpyNav({ sections, activeSection, onNavClick }) {
           ref={el => navRefs.current[idx] = el}
           onClick={() => onNavClick(section.id)}
           className={`relative text-left transition-colors duration-300 w-full ${activeSection === section.id ? 'font-bold' : 'font-normal'}`}
-          style={{ background: 'none', border: 'none', padding: 0, margin: 0, cursor: 'pointer', minHeight: '2.5rem', display: 'flex', alignItems: 'center', color: activeSection === section.id ? '#202020' : '#bdbdbd', transition: 'color 0.3s' }}
+          style={{ background: 'none', border: 'none', padding: 0, margin: 0, cursor: 'pointer', minHeight: '2.5rem', display: 'flex', alignItems: 'center', color: activeSection === section.id ? '#202020' : '#6b6b6b', transition: 'color 0.3s' }}
         >
           {section.label}
         </button>
@@ -1263,7 +1235,7 @@ function HorizontalScrollSpyNav({ sections, activeSection, onNavClick }) {
           <button
             key={section.id}
             onClick={() => onNavClick(section.id)}
-            className={`relative transition-colors duration-300 px-2 py-1 ${activeSection === section.id ? 'font-bold text-[#202020]' : 'font-normal text-[#bdbdbd]'}`}
+            className={`relative transition-colors duration-300 px-2 py-1 ${activeSection === section.id ? 'font-bold text-[#202020]' : 'font-normal text-[#6b6b6b]'}`}
             style={{ background: 'none', border: 'none', cursor: 'pointer' }}
           >
             {section.label}
@@ -1280,7 +1252,7 @@ function HorizontalScrollSpyNav({ sections, activeSection, onNavClick }) {
             <button
               key={section.id}
               onClick={() => onNavClick(section.id)}
-              className={`relative transition-colors duration-300 px-2 py-1 ${activeSection === section.id ? 'font-bold text-[#202020]' : 'font-normal text-[#bdbdbd]'}`}
+              className={`relative transition-colors duration-300 px-2 py-1 ${activeSection === section.id ? 'font-bold text-[#202020]' : 'font-normal text-[#6b6b6b]'}`}
               style={{ background: 'none', border: 'none', cursor: 'pointer' }}
             >
               {section.label}

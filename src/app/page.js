@@ -6,10 +6,11 @@ import { useRef, useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 
 
+// Labels match the hat tray (HatNav) on the inner pages
 const hats = [
-  { label: 'Creative Director', image: '/images/creative-hat.png', href: '/creative-director' },
-  { label: 'Musician', image: '/images/music-hat.png', href: '/music' },
-  { label: 'Designer', image: '/images/garden-hat.png', href: '/designer' }, // garden hat goes to /designer for drag, override below
+  { label: 'Creative', image: '/images/creative-hat.png', href: '/creative-director' },
+  { label: 'Music', image: '/images/music-hat.png', href: '/music' },
+  { label: 'Garden', image: '/images/garden-hat.png', href: '/garden' },
 ]
 
 // Background elements with precise coordinates from Figma
@@ -20,6 +21,13 @@ const backgroundElements = [
   { src: '/images/home/flowers.webp', left: -198, top: 662, width: 2206, height: 618, mobilePosition: { left: -650, top: 502 } },
   { src: '/images/home/tree.webp', left: -200, top: -21, width: 695.28, height: 1179, mobilePosition: { left: -550, top: -21 } },
 ]
+
+// Picked once: re-rolling in render made the whole scene fly in again on every resize
+const backgroundEntries = backgroundElements.map(() => ({
+  x: [Math.random() > 0.5 ? -80 : 80, Math.random() > 0.5 ? -40 : 40, 0],
+  y: [Math.random() > 0.5 ? -80 : 80, Math.random() > 0.5 ? -40 : 40, 0],
+  opacity: [0, 1, 1],
+}))
 
 // ZachPuppet component
 function ZachPuppet({ zachRef }) {
@@ -215,19 +223,7 @@ export default function Home() {
                 <motion.div
                   key={img.src}
                   initial={{ x: 0, y: 0, opacity: 0 }}
-                  animate={{
-                    x: [
-                      Math.random() > 0.5 ? -80 : 80,
-                      Math.random() > 0.5 ? -40 : 40,
-                      0
-                    ],
-                    y: [
-                      Math.random() > 0.5 ? -80 : 80, 
-                      Math.random() > 0.5 ? -40 : 40,
-                      0
-                    ],
-                    opacity: [0, 1, 1]
-                  }}
+                  animate={backgroundEntries[index]}
                   transition={{
                     duration: 0.5,
                     times: [0, 0.5, 1],
@@ -284,7 +280,7 @@ export default function Home() {
             drag
             dragConstraints={{ left: -600, right: 600, top: -200, bottom: 600 }}
             dragElastic={0.5}
-            className="pointer-events-auto cursor-grab"
+            className="group relative pointer-events-auto cursor-grab active:cursor-grabbing"
             style={{ zIndex: 100 }}
             whileDrag={{ scale: 1.15 }}
             onDragStart={() => setShowStar(false)}
@@ -293,8 +289,7 @@ export default function Home() {
               const hatRect = hatElem ? hatElem.getBoundingClientRect() : null;
               const zachRect = zachRef.current ? zachRef.current.getBoundingClientRect() : null;
               if (hatRect && zachRect && isOverlapping(hatRect, zachRect)) {
-                const path = hat.label === 'Designer' ? '/garden' : hat.href;
-                setTimeout(() => router.push(path), 250); // match animation duration
+                setTimeout(() => router.push(hat.href), 250); // match animation duration
               }
             }}
           >
@@ -313,6 +308,9 @@ export default function Home() {
                 draggable={false}
               />
             </motion.div>
+            <span aria-hidden="true" className="pointer-events-none absolute left-1/2 top-full mt-1 -translate-x-1/2 whitespace-nowrap rounded-full bg-[#FFFDE6] px-3 py-1 font-benton text-sm text-[#202020] opacity-0 shadow-[0_0_14px_rgba(0,0,0,0.15)] transition-opacity duration-150 group-hover:opacity-100">
+              {hat.label}
+            </span>
           </motion.div>
         ))}
       </div>

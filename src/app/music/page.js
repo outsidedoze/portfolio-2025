@@ -1,12 +1,18 @@
 'use client'
 import Image from 'next/image'
-import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useEffect, useState, useRef } from 'react'
-import { useRouter } from 'next/navigation'
+import { useOverlay } from '@/lib/useOverlay'
+import HatNav from '@/components/HatNav'
+
+const MUSIC_SLUGS = { outside: 'outside', musicvideos: 'music-videos', singlecovers: 'single-covers' }
+const randomEntry = () => ({
+  x: [Math.random() > 0.5 ? -80 : 80, Math.random() > 0.5 ? -40 : 40, 0],
+  y: [Math.random() > 0.5 ? -80 : 80, Math.random() > 0.5 ? -40 : 40, 0],
+  opacity: [0, 1, 1],
+})
 
 export default function MusicPage()   {
-  const router = useRouter()
   const collageImages = [
     { src: '/images/cradenza.webp', left:-250, top: 452, width: 667, height: 406, mobilePosition: { left: -480, top: 452 } },
     { src: '/images/window-plant.png', left: 1183, top: 183, width: 493, height: 606, mobilePosition: { left: 350 } },
@@ -18,7 +24,7 @@ export default function MusicPage()   {
     { src: '/images/poster.png', left: 400, top: 306.81, width: 182.36, height: 224.13, mobilePosition: { left: 70, top: 66.81 } },
     { src: '/images/outside.png', left: 1150, top: 800, width: 150, height: 150, href: '/music/outside', label: 'Outside EP', mobilePosition: { left: 450, top: 704, scale: 4, mobileWidth: 250, mobileHeight: 250 } },
     { src: '/images/musicvideos.png', left: -120, top: 160, width: 500, height: 300, href: '/music/musicvideos', label: 'Music videos', mobilePosition: { left: -470, top: 160, scale: 3, mobileWidth: 600, mobileHeight: 360 } },
-    { src: '/images/content.png', left: 730, top: 980, width: 100, height: 200, href: '/music/content', mobilePosition: { left: 130, top: 980, scale: 3, mobileWidth: 150, mobileHeight: 300 } },
+    { src: '/images/content.png', left: 730, top: 980, width: 100, height: 200, mobilePosition: { left: 130, top: 980, scale: 3, mobileWidth: 150, mobileHeight: 300 } },
     { src: '/images/singlecovers.png', left: 600, top: 480, width: 150, height: 150, href: '/music/singlecovers', label: 'Single covers', mobilePosition: { left: 110, top: 290, scale: 4, mobileWidth: 250, mobileHeight: 250 } },
   ]
 
@@ -35,7 +41,9 @@ export default function MusicPage()   {
 
   const [scale, setScale] = useState(1)
   const [hasMounted, setHasMounted] = useState(false)
-  const [activeOverlay, setActiveOverlay] = useState(null)
+  const [activeOverlay, setActiveOverlay, dialogRef] = useOverlay(MUSIC_SLUGS)
+  // Picked once: re-rolling on every render made the whole room fly in again on resize or closing a project
+  const [entries] = useState(() => collageImages.map(randomEntry))
   const [windowWidth, setWindowWidth] = useState(0)
   const [isMobile, setIsMobile] = useState(false)
   const [isCollapsed, setIsCollapsed] = useState(false)
@@ -183,7 +191,7 @@ export default function MusicPage()   {
 
   return (
 <main
-  className="w-screen h-screen bg-black text-white flex items-center justify-center overflow-hidden"
+  className="w-screen h-dvh bg-black text-white flex items-center justify-center overflow-hidden"
   style={{
     backgroundImage: 'url("/images/music-background.webp")',
     backgroundSize: 'cover',
@@ -192,28 +200,14 @@ export default function MusicPage()   {
   }}
 >
       {/* Home Icon - Top Left - Only on main music page */}
-      {!activeOverlay && (
-        <button
-          onClick={() => router.push('/')}
-          className="fixed top-6 left-6 z-[1001] cursor-pointer hover:scale-110 transition-transform duration-200"
-          style={{ pointerEvents: 'auto' }}
-        >
-          <Image 
-            src="/images/home-icon.svg" 
-            alt="Home" 
-            width={60} 
-            height={60} 
-            className="drop-shadow-lg"
-          />
-        </button>
-      )}
+      {!activeOverlay && <HatNav />}
 
         <div className="absolute top-12 left-0 w-full z-50 overflow-hidden">
-          <div aria-hidden="true" className="flex whitespace-nowrap animate-marquee text-[10rem] font-bold font-benton text-white space-x-16 w-[200%] leading-[1.2]">
+          <div aria-hidden="true" className="flex whitespace-nowrap animate-marquee text-[5rem] md:text-[10rem] font-bold font-benton text-white space-x-16 w-[200%] leading-[1.2]">
             {Array.from({ length: 10 }).map((_, i) => (
               <span key={i} className="flex items-center gap-4">
                 music & personal projects
-                <Image src="/images/star.svg" alt="star" width={50} height={50} className="inline-block align-middle translate-y-1" />
+                <Image src="/images/star.svg" alt="" width={50} height={50} className="inline-block align-middle translate-y-1" />
               </span>
             ))}
           </div>
@@ -249,19 +243,7 @@ export default function MusicPage()   {
                   <motion.div
                     key={img.src}
                     initial={{ x: 0, y: 0, opacity: 0 }}
-                    animate={{
-                      x: [
-                        Math.random() > 0.5 ? -80 : 80,
-                        Math.random() > 0.5 ? -40 : 40,
-                        0
-                      ],
-                      y: [
-                        Math.random() > 0.5 ? -80 : 80,
-                        Math.random() > 0.5 ? -40 : 40,
-                        0
-                      ],
-                      opacity: [0, 1, 1]
-                    }}
+                    animate={entries[index]}
                     transition={{
                       duration: 0.5,
                       times: [0, 0.5, 1],
@@ -298,17 +280,11 @@ export default function MusicPage()   {
                     }}
                   >
                     {img.href ? (
-                      <motion.div 
-                        onClick={() => {
-                          if (img.href === '/music/outside') {
-                            setActiveOverlay('outside')
-                          } else if (img.href === '/music/musicvideos') {
-                            setActiveOverlay('musicvideos')
-                          } else if (img.href === '/music/singlecovers') {
-                            setActiveOverlay('singlecovers')
-                          }
-                        }}
-                        className={`${img.href ? 'cursor-pointer transition-transform hover:scale-105' : ''}`}
+                      <motion.button
+                        type="button"
+                        onClick={() => setActiveOverlay(img.href.split('/').pop())}
+                        aria-label={img.label}
+                        className="block cursor-pointer transition-transform hover:scale-105"
                         variants={createAnimationVariant(index % 4)}
                         initial="initial"
                         animate="animate"
@@ -323,7 +299,7 @@ export default function MusicPage()   {
                           priority={isCanvasPiece()}
                           loading={isCanvasPiece() ? undefined : 'eager'}
                         />
-                      </motion.div>
+                      </motion.button>
                     ) : (
                       <Image
                         src={img.src}
@@ -362,7 +338,12 @@ export default function MusicPage()   {
               animate={{ x: 0 }}
               exit={{ x: '-100%' }}
               transition={{ duration: 0.6, ease: 'easeInOut' }}
-              className="fixed top-0 left-0 w-full h-full z-[999] bg-[#FAF8E9] flex flex-col md:flex-row"
+              ref={dialogRef}
+              role="dialog"
+              aria-modal="true"
+              aria-label={projectDescriptions[activeOverlay]?.title}
+              tabIndex={-1}
+              className="fixed top-0 left-0 w-full h-full z-[999] bg-[#FAF8E9] flex flex-col md:flex-row outline-none"
               style={{ cursor: 'auto' }}
             >
               {/* Left Scrollable Column with Project Images */}
@@ -423,7 +404,7 @@ export default function MusicPage()   {
                       >
                         <Image
                           src="/images/star-background.svg"
-                          alt="Star Badge Shadow"
+                          alt=""
                           width={100}
                           height={100}
                           className="object-contain"
@@ -445,7 +426,7 @@ export default function MusicPage()   {
                       >
                         <Image
                           src="/images/star-front.svg"
-                          alt="Star Badge"
+                          alt=""
                           width={100}
                           height={100}
                           className="object-contain"
@@ -519,10 +500,11 @@ export default function MusicPage()   {
                         setHasToggled(true)
                         setIsCollapsed(true)
                       }}
-                      className="bg-[#FAF8E9] rounded-full w-10 h-10 flex items-center justify-center cursor-pointer hover:bg-[#F5F3E5] transition-colors border border-[#202020]/10"
+                      aria-label="Collapse project info"
+                      className="ink-control rounded-full w-10 h-10 flex items-center justify-center cursor-pointer transition-transform duration-150 hover:scale-105 active:scale-95"
                       style={{ pointerEvents: 'auto' }}
                     >
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#202020" strokeWidth="2">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFFDE6" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M18 15l-6-6-6 6"/>
                       </svg>
                     </button>
@@ -567,7 +549,7 @@ export default function MusicPage()   {
                       >
                         <Image
                           src="/images/star-background.svg"
-                          alt="Star Badge Shadow"
+                          alt=""
                           fill
                           className="object-contain"
                         />
@@ -588,7 +570,7 @@ export default function MusicPage()   {
                       >
                         <Image
                           src="/images/star-front.svg"
-                          alt="Star Badge"
+                          alt=""
                           fill
                           className="object-contain"
                         />
@@ -659,8 +641,8 @@ export default function MusicPage()   {
                       <Image 
                         src="/images/back-arrow.svg" 
                         alt="Back" 
-                        width={24} 
-                        height={24} 
+                        width={32} 
+                        height={32} 
                       />
                     </button>
 
@@ -685,10 +667,11 @@ export default function MusicPage()   {
                         setHasToggled(true)
                         setIsCollapsed(false)
                       }}
-                      className="bg-[#FAF8E9] rounded-full w-10 h-10 flex items-center justify-center cursor-pointer hover:bg-[#F5F3E5] transition-colors border border-[#202020]/10"
+                      aria-label="Expand project info"
+                      className="ink-control rounded-full w-10 h-10 flex items-center justify-center cursor-pointer transition-transform duration-150 hover:scale-105 active:scale-95"
                       style={{ pointerEvents: 'auto' }}
                     >
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#202020" strokeWidth="2">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFFDE6" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M6 9l6 6 6-6"/>
                       </svg>
                     </button>
@@ -1086,7 +1069,7 @@ function ScrollSpyNav({ sections, activeSection, onNavClick }) {
           ref={el => navRefs.current[idx] = el}
           onClick={() => onNavClick(section.id)}
           className={`relative text-left transition-colors duration-300 w-full ${activeSection === section.id ? 'font-bold' : 'font-normal'}`}
-          style={{ background: 'none', border: 'none', padding: 0, margin: 0, cursor: 'pointer', minHeight: '2.5rem', display: 'flex', alignItems: 'center', color: activeSection === section.id ? '#202020' : '#bdbdbd', transition: 'color 0.3s' }}
+          style={{ background: 'none', border: 'none', padding: 0, margin: 0, cursor: 'pointer', minHeight: '2.5rem', display: 'flex', alignItems: 'center', color: activeSection === section.id ? '#202020' : '#6b6b6b', transition: 'color 0.3s' }}
         >
           {section.label}
         </button>
@@ -1110,7 +1093,7 @@ function HorizontalScrollSpyNav({ sections, activeSection, onNavClick }) {
           <button
             key={section.id}
             onClick={() => onNavClick(section.id)}
-            className={`relative transition-colors duration-300 px-2 py-1 ${activeSection === section.id ? 'font-bold text-[#202020]' : 'font-normal text-[#bdbdbd]'}`}
+            className={`relative transition-colors duration-300 px-2 py-1 ${activeSection === section.id ? 'font-bold text-[#202020]' : 'font-normal text-[#6b6b6b]'}`}
             style={{ background: 'none', border: 'none', cursor: 'pointer' }}
           >
             {section.label}
@@ -1127,7 +1110,7 @@ function HorizontalScrollSpyNav({ sections, activeSection, onNavClick }) {
             <button
               key={section.id}
               onClick={() => onNavClick(section.id)}
-              className={`relative transition-colors duration-300 px-2 py-1 ${activeSection === section.id ? 'font-bold text-[#202020]' : 'font-normal text-[#bdbdbd]'}`}
+              className={`relative transition-colors duration-300 px-2 py-1 ${activeSection === section.id ? 'font-bold text-[#202020]' : 'font-normal text-[#6b6b6b]'}`}
               style={{ background: 'none', border: 'none', cursor: 'pointer' }}
             >
               {section.label}

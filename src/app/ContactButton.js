@@ -120,23 +120,26 @@ export default function ContactButton() {
       <motion.button
         ref={buttonRef}
         onClick={() => (open ? close() : (setOpen(true), setStatus('idle')))}
-        aria-label={open ? 'Close contact form' : 'Contact Zach'}
+        aria-label={open ? 'Close contact form' : undefined}
         aria-expanded={open}
         animate={{ y: [0, -6, 0] }}
-        transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
-        whileHover={{ scale: 1.1 }}
-        className="flex h-[52px] w-[52px] items-center justify-center rounded-full bg-[#FFFDE6] shadow-[0_0_14px_rgba(0,0,0,0.15)]"
+        // A few bobs to get noticed, then it sits still so it doesn't pull focus while people read
+        transition={{ duration: 2.4, repeat: 3, ease: 'easeInOut' }}
+        whileHover={{ scale: 1.03 }}
+        whileTap={{ scale: 0.95 }}
+        className="ink-control flex h-11 cursor-pointer items-center gap-2 rounded-full pl-3.5 pr-4"
       >
-        {open ? (
-          <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
-            <path d="M5 5L17 17M17 5L5 17" stroke="black" strokeWidth="2" strokeLinecap="round" />
-          </svg>
-        ) : (
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <rect x="2" y="5" width="20" height="14" rx="1" stroke="black" strokeWidth="2" strokeLinejoin="round" />
-            <path d="M2.5 6L12 13L21.5 6" stroke="black" strokeWidth="2" strokeLinejoin="round" />
-          </svg>
-        )}
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          {open ? (
+            <path d="M6 6l12 12M18 6L6 18" />
+          ) : (
+            <>
+              <rect x="3" y="5.5" width="18" height="13" rx="2" />
+              <path d="m3.5 7 8.5 6.5L20.5 7" />
+            </>
+          )}
+        </svg>
+        <span className="font-benton text-[17px] italic leading-none">{open ? 'Close' : 'Say hi'}</span>
       </motion.button>
     </div>
   )

@@ -2,8 +2,10 @@
 import Image from 'next/image'
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { useOverlay } from '@/lib/useOverlay'
+import HatNav from '@/components/HatNav'
+
+const GARDEN_SLUGS = { 2022: '2022', 2023: '2023', 2024: '2024', 2025: '2025' }
 
 // Image with Loading Component (same as creative page)
 function ImageWithLoading({ src, alt, width, height, className, style, priority = false, imgRef = null }) {
@@ -81,9 +83,8 @@ function ImageWithLoading({ src, alt, width, height, className, style, priority 
 }
 
 export default function GardenPage() {
-  const router = useRouter()
   const [windowWidth, setWindowWidth] = useState(0)
-  const [activeOverlay, setActiveOverlay] = useState(null)
+  const [activeOverlay, setActiveOverlay, dialogRef] = useOverlay(GARDEN_SLUGS)
   const [isMobile, setIsMobile] = useState(false)
   const [isCollapsed, setIsCollapsed] = useState(false)
   const [hasToggled, setHasToggled] = useState(false)
@@ -157,14 +158,15 @@ export default function GardenPage() {
   }
 
   return (
-    <>
+    // overflow-hidden: collage pieces deliberately hang off the edges; without it phones scroll sideways
+    <main className="relative h-dvh w-full overflow-hidden">
       {/* Scrolling marquee text */}
       <div className="absolute top-0 left-0 w-full z-[999] overflow-hidden">
-        <div aria-hidden="true" className="flex whitespace-nowrap animate-marquee text-[10rem] font-bold font-benton space-x-16 w-[200%] leading-[1.2]" style={{ color: '#FFFDE6' }}>
+        <div aria-hidden="true" className="flex whitespace-nowrap animate-marquee text-[5rem] md:text-[10rem] font-bold font-benton space-x-16 w-[200%] leading-[1.2]" style={{ color: '#FFFDE6' }}>
           {Array.from({ length: 10 }).map((_, i) => (
             <span key={i} className="flex items-center gap-4">
               Gardening
-              <Image src="/images/star.svg" alt="star" width={50} height={50} className="inline-block align-middle translate-y-1" />
+              <Image src="/images/star.svg" alt="" width={50} height={50} className="inline-block align-middle translate-y-1" />
             </span>
           ))}
         </div>
@@ -172,30 +174,18 @@ export default function GardenPage() {
       <div className="absolute inset-0 -z-10">
         <Image
           src="/images/garden/garden-background.webp"
-          alt="Garden Background"
+          alt=""
           fill
           className="object-cover"
           priority
         />
       </div>
       {/* Home icon in top left corner - only show when no overlay */}
-      {!activeOverlay && (
-        <div className="fixed top-4 left-4 z-[9999]">
-          <Link href="/" passHref>
-            <Image
-              src="/images/home-icon.svg"
-              alt="Home"
-              width={70}
-              height={70}
-              className="cursor-pointer transition-transform duration-300 hover:rotate-12"
-              priority
-            />
-          </Link>
-        </div>
-      )}
+      {!activeOverlay && <HatNav />}
       
       {/* Collage Images */}
-      {collageImages.map((img) => {
+      {/* Wait for the real viewport width so phones don't flash the desktop layout first */}
+      {windowWidth > 0 && collageImages.map((img) => {
         const style = isMobile ? img.mobile : img.desktop
         if (img.hideOnMobile && isMobile) return null
         
@@ -217,9 +207,9 @@ export default function GardenPage() {
             style={{ ...style, position: 'absolute', zIndex: style.zIndex }}
           >
             {img.overlay ? (
-              <div onClick={() => setActiveOverlay(img.overlay)}>
+              <button type="button" onClick={() => setActiveOverlay(img.overlay)} aria-label={projectDescriptions[img.overlay].title} className="block cursor-pointer">
                 {content}
-              </div>
+              </button>
             ) : (
               content
             )}
@@ -246,7 +236,7 @@ export default function GardenPage() {
                 >
                   <Image
                     src="/images/star-background.svg"
-                    alt="Star Badge Shadow"
+                    alt=""
                     fill
                     className="object-contain"
                   />
@@ -261,7 +251,7 @@ export default function GardenPage() {
                 >
                   <Image
                     src="/images/star-front.svg"
-                    alt="Star Badge"
+                    alt=""
                     fill
                     className="object-contain"
                   />
@@ -299,7 +289,12 @@ export default function GardenPage() {
             animate={{ x: 0 }}
             exit={{ x: '-100%' }}
             transition={{ duration: 0.6, ease: 'easeInOut' }}
-            className="fixed top-0 left-0 w-full h-full z-[999] bg-[#FAF8E9] flex flex-col md:flex-row"
+            ref={dialogRef}
+            role="dialog"
+            aria-modal="true"
+            aria-label={projectDescriptions[activeOverlay]?.title}
+            tabIndex={-1}
+            className="fixed top-0 left-0 w-full h-full z-[999] bg-[#FAF8E9] flex flex-col md:flex-row outline-none"
             style={{ cursor: 'auto' }}
           >
             {/* Left Scrollable Column with Garden Images */}
@@ -351,7 +346,7 @@ export default function GardenPage() {
                       >
                         <Image
                           src="/images/star-background.svg"
-                          alt="Star Badge Shadow"
+                          alt=""
                           width={100}
                           height={100}
                           className="object-contain"
@@ -366,7 +361,7 @@ export default function GardenPage() {
                       >
                         <Image
                           src="/images/star-front.svg"
-                          alt="Star Badge"
+                          alt=""
                           width={100}
                           height={100}
                           className="object-contain"
@@ -410,10 +405,11 @@ export default function GardenPage() {
                         setHasToggled(true)
                         setIsCollapsed(true)
                       }}
-                      className="bg-[#FAF8E9] rounded-full w-10 h-10 flex items-center justify-center cursor-pointer hover:bg-[#F5F3E5] transition-colors border border-[#202020]/10"
+                      aria-label="Collapse project info"
+                      className="ink-control rounded-full w-10 h-10 flex items-center justify-center cursor-pointer transition-transform duration-150 hover:scale-105 active:scale-95"
                       style={{ pointerEvents: 'auto' }}
                     >
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#202020" strokeWidth="2">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFFDE6" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M18 15l-6-6-6 6"/>
                       </svg>
                     </button>
@@ -431,7 +427,7 @@ export default function GardenPage() {
                       >
                         <Image
                           src="/images/star-background.svg"
-                          alt="Star Badge Shadow"
+                          alt=""
                           fill
                           className="object-contain"
                         />
@@ -445,7 +441,7 @@ export default function GardenPage() {
                       >
                         <Image
                           src="/images/star-front.svg"
-                          alt="Star Badge"
+                          alt=""
                           fill
                           className="object-contain"
                         />
@@ -504,8 +500,8 @@ export default function GardenPage() {
                       <Image 
                         src="/images/back-arrow.svg" 
                         alt="Back" 
-                        width={24} 
-                        height={24} 
+                        width={32} 
+                        height={32} 
                       />
                     </button>
 
@@ -522,10 +518,11 @@ export default function GardenPage() {
                         setHasToggled(true)
                         setIsCollapsed(false)
                       }}
-                      className="bg-[#FAF8E9] rounded-full w-10 h-10 flex items-center justify-center cursor-pointer hover:bg-[#F5F3E5] transition-colors border border-[#202020]/10"
+                      aria-label="Expand project info"
+                      className="ink-control rounded-full w-10 h-10 flex items-center justify-center cursor-pointer transition-transform duration-150 hover:scale-105 active:scale-95"
                       style={{ pointerEvents: 'auto' }}
                     >
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#202020" strokeWidth="2">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFFDE6" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M6 9l6 6 6-6"/>
                       </svg>
                     </button>
@@ -536,7 +533,7 @@ export default function GardenPage() {
           </motion.div>
         )}
       </AnimatePresence>
-    </>
+    </main>
   )
 }
 
