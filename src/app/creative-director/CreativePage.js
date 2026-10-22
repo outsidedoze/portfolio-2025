@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { PROJECTS } from '@/lib/seo'
 import { useOverlay } from '@/lib/useOverlay'
 import HatNav from '@/components/HatNav'
-import { ProjectBar, SectionChips } from '@/components/ProjectBar'
+import { ProjectBar, SectionChips, SectionIntro } from '@/components/ProjectBar'
 
 // Image with Loading Component
 function ImageWithLoading({ src, alt, width, height, className, style, priority = false, imgRef = null }) {
@@ -455,6 +455,7 @@ export default function CreativePage() {
   };
   
   const sections = getSections(activeOverlay);
+  const hasSectionText = Object.values(projectDescriptions[activeOverlay]?.sections ?? {}).some((s) => s.tagline || s.description)
   // --- ---
 
   useEffect(() => {
@@ -730,6 +731,7 @@ export default function CreativePage() {
               <ProjectBar title={projectDescriptions[activeOverlay]?.title} backLabel="Creative" onBack={() => setActiveOverlay(null)} />
               {/* Left Scrollable Column with Project Images */}
               <LeftColumnImages
+                sectionText={projectDescriptions[activeOverlay]?.sections}
                 key={activeOverlay} // Force re-render when overlay changes
                 activeOverlay={activeOverlay}
                 setActiveOverlay={setActiveOverlay}
@@ -816,6 +818,7 @@ export default function CreativePage() {
 
                     {/* Title and description - with top margin to account for star */}
                     <div className="text-center" style={{ marginTop: '70px', marginBottom: '10px' }}>
+                      {!hasSectionText && (<>
                       <div className="text-[#202020] font-benton-compressed text-2xl md:text-4xl leading-none mb-4">
                         {(activeOverlay === 'landmade' && projectDescriptions.landmade.sections[activeSection]) ?
                           projectDescriptions.landmade.sections[activeSection].tagline :
@@ -860,6 +863,7 @@ export default function CreativePage() {
                           projectDescriptions[activeOverlay]?.description || ""
                         }
                       </p>
+                        </>)}
                     </div>
 
                   </div>
@@ -1085,7 +1089,7 @@ function ScrollSpyNav({ sections, activeSection, onNavClick }) {
 }
 
 
-function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, sections, activeSection, isMobile, figmaLoading, setFigmaLoading }) {
+function LeftColumnImages({ sectionText, activeOverlay, setActiveOverlay, setActiveSection, sections, activeSection, isMobile, figmaLoading, setFigmaLoading }) {
   const firstImgRef = useRef(null);
   const leftColRef = useRef(null);
 
@@ -1252,6 +1256,7 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
       ) : activeOverlay === 'sorette' ? (
         <div className="w-full">
           <div id="webdesign">
+            <SectionIntro text={sectionText?.webdesign} />
             <ImageWithLoading
               imgRef={firstImgRef}
               src="/images/creative/sorette/sorette-1.jpg"
@@ -1294,6 +1299,7 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
       ) : activeOverlay === 'landmade' ? (
         <div className="w-full">
           <div id="branding">
+            <SectionIntro text={sectionText?.branding} />
             <ImageWithLoading
               imgRef={firstImgRef}
               src="/images/creative/landmade/landmade-1.jpg"
@@ -1312,6 +1318,7 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
             />
           </div>
           <div id="photoshoot">
+            <SectionIntro text={sectionText?.photoshoot} />
             <ImageWithLoading
               src="/images/creative/landmade/landmade-3.gif"
               alt="Landmade project image 3"
@@ -1322,6 +1329,7 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
             />
           </div>
           <div id="pricebook">
+            <SectionIntro text={sectionText?.pricebook} />
             <ImageWithLoading
               src="/images/creative/landmade/landmade-4.webp"
               alt="Landmade project image 4"
@@ -1346,6 +1354,7 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
             />
           </div>
           <div id="website">
+            <SectionIntro text={sectionText?.website} />
             <ImageWithLoading
               src="/images/creative/landmade/website.gif"
               alt="Landmade project image 7"
@@ -1370,6 +1379,7 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
             />
           </div>
           <div id="finishesbox">
+            <SectionIntro text={sectionText?.finishesbox} />
             <ImageWithLoading
               src={isMobile ? "/images/creative/landmade/finishes-box-mobile.webp" : "/images/creative/landmade/landmade-8.webp"}
               alt="Landmade finishes box"
@@ -1379,6 +1389,7 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
             />
           </div>
           <div id="displaymedia">
+            <SectionIntro text={sectionText?.displaymedia} />
             <ImageWithLoading
               src="/images/creative/landmade/landmade-9.jpg"
               alt="Landmade project image 9"
@@ -1391,6 +1402,7 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
       ) : activeOverlay === 'omi' ? (
         <div className="w-full">
           <div id="branding">
+            <SectionIntro text={sectionText?.branding} />
             <ImageWithLoading
               imgRef={firstImgRef}
               src="/images/creative/omi/omi-heading.webp"
@@ -1409,6 +1421,7 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
             />
           </div>
           <div id="posters">
+            <SectionIntro text={sectionText?.posters} />
             <ImageWithLoading
               src="/images/creative/omi/poster-1.webp"
               alt="Omi poster 1"
@@ -1418,6 +1431,7 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
             />
           </div>
           <div id="website">
+            <SectionIntro text={sectionText?.website} />
             <ImageWithLoading
               src="/images/creative/omi/website-v1.webp"
               alt="Omi website v1"
@@ -1451,6 +1465,7 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
       ) : activeOverlay === 'colorblock' ? (
         <div className="w-full">
           <div id="branding">
+            <SectionIntro text={sectionText?.branding} />
             <ImageWithLoading
               imgRef={firstImgRef}
               src="/images/creative/colorblock/colorblock-1.jpg"
@@ -1479,6 +1494,7 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
       ) : activeOverlay === 'gas' ? (
         <div className="w-full">
           <div id="supercoolsign">
+            <SectionIntro text={sectionText?.supercoolsign} />
             <ImageWithLoading
               imgRef={firstImgRef}
               src="/images/creative/gasstation/gasstation-1.webp"
@@ -1490,6 +1506,7 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
             />
           </div>
           <div id="moodboard">
+            <SectionIntro text={sectionText?.moodboard} />
             {/* Figma mood board embed */}
             <div className="w-full relative" style={{margin: 0, padding: 0, height: '600px'}}>
               {/* Figma iframe - always visible so it can show native loading */}
@@ -1528,6 +1545,7 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
             </div>
           </div>
           <div id="branding">
+            <SectionIntro text={sectionText?.branding} />
             <ImageWithLoading
               src="/images/creative/gasstation/final-logo.webp"
               alt="Gas Station final logo"
@@ -1573,6 +1591,7 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
       ) : activeOverlay === 'crosswater' ? (
         <div className="w-full">
           <div id="photoshoot">
+            <SectionIntro text={sectionText?.photoshoot} />
             <ImageWithLoading
               imgRef={firstImgRef}
               src="/images/creative/crosswater/crosswater-1.webp"
@@ -1591,6 +1610,7 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
             />
           </div>
           <div id="brandingrefresh">
+            <SectionIntro text={sectionText?.brandingrefresh} />
             <ImageWithLoading
               src="/images/creative/crosswater/crosswater-3.webp"
               alt="Crosswater branding refresh image 3"
@@ -1628,6 +1648,7 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
             />
           </div>
           <div id="pricebook">
+            <SectionIntro text={sectionText?.pricebook} />
             <ImageWithLoading
               src="/images/creative/crosswater/crosswater-8.webp"
               alt="Crosswater price book"
@@ -1640,6 +1661,7 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
       ) : activeOverlay === 'thriftcon' ? (
         <div className="w-full">
           <div id="posters">
+            <SectionIntro text={sectionText?.posters} />
             <div className="flex justify-center bg-[#202020] p-4 md:p-6">
               <ImageWithLoading
                 imgRef={firstImgRef}
@@ -1665,6 +1687,7 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
             </div>
           </div>
           <div id="complexcon">
+            <SectionIntro text={sectionText?.complexcon} />
             <div className="grid grid-cols-2">
               {THRIFTCON_SLIDES.complexcon.map((file, idx) => (
                 <ImageWithLoading
@@ -1701,6 +1724,7 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
       ) : activeOverlay === 'benttree' ? (
         <div className="w-full">
           <div id="logo">
+            <SectionIntro text={sectionText?.logo} />
             <ImageWithLoading
               imgRef={firstImgRef}
               src="/images/creative/benttree/benttree-1.webp"
@@ -1726,6 +1750,7 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
             />
           </div>
           <div id="packaging">
+            <SectionIntro text={sectionText?.packaging} />
             <ImageWithLoading
               src="/images/creative/benttree/benttree-4.webp"
               alt="Bent Tree packaging image 4"

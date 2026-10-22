@@ -90,3 +90,15 @@ export function SectionChips({ sections, activeSection }) {
     </nav>
   )
 }
+
+// Mobile only: on desktop the side panel swaps its text as you scroll; here each section
+// opens with its own tagline + description instead, so none of it scrolls away unseen
+export function SectionIntro({ text }) {
+  if (!text?.tagline && !text?.description) return null
+  return (
+    <div className="md:hidden bg-[#FAF8E9] px-6 pt-8 pb-6 text-center">
+      {text.tagline && <h3 className="font-benton-compressed text-2xl leading-none text-[#202020]">{text.tagline}</h3>}
+      {text.description && <p className="mt-3 font-benton text-sm leading-normal text-[#202020]">{text.description}</p>}
+    </div>
+  )
+}

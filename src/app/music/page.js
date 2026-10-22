@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useEffect, useState, useRef } from 'react'
 import { useOverlay } from '@/lib/useOverlay'
 import HatNav from '@/components/HatNav'
-import { ProjectBar, SectionChips } from '@/components/ProjectBar'
+import { ProjectBar, SectionChips, SectionIntro } from '@/components/ProjectBar'
 
 const MUSIC_SLUGS = { outside: 'outside', musicvideos: 'music-videos', singlecovers: 'single-covers' }
 const randomEntry = () => ({
@@ -135,6 +135,8 @@ export default function MusicPage()   {
       description: "Each one of these singles was made with actual images from actual magazines, hand ripped, and with some images like flowers or gems I collected over time. They all exist in a notebook in my studio, each page is a different cover. I'll show you in my interview if you'd like to see it!"
     }
   }
+
+  const hasSectionText = Object.values(projectDescriptions[activeOverlay]?.sections ?? {}).some((s) => s.tagline || s.description)
 
   const createAnimationVariant = (index) => ({
     initial: { scale: 1, rotate: 0 },
@@ -347,6 +349,7 @@ export default function MusicPage()   {
               <ProjectBar title={projectDescriptions[activeOverlay]?.title} backLabel="Music" onBack={() => setActiveOverlay(null)} />
               {/* Left Scrollable Column with Project Images */}
               <LeftColumnImages
+                sectionText={projectDescriptions[activeOverlay]?.sections}
                 activeOverlay={activeOverlay}
                 setActiveOverlay={setActiveOverlay}
                 setActiveSection={setActiveSection}
@@ -430,6 +433,7 @@ export default function MusicPage()   {
 
                     {/* Title and description */}
                     <div className="text-center" style={{ marginTop: '70px', marginBottom: '10px' }}>
+                      {!hasSectionText && (<>
                       <div className="text-[#202020] font-benton-compressed text-2xl md:text-4xl leading-none mb-4">
                         {(activeOverlay === 'outside' && projectDescriptions.outside.sections[activeSection]) ?
                           projectDescriptions.outside.sections[activeSection].tagline :
@@ -446,6 +450,7 @@ export default function MusicPage()   {
                           projectDescriptions[activeOverlay]?.description || ""
                         }
                       </p>
+                        </>)}
                     </div>
 
                   </div>
@@ -566,7 +571,7 @@ export default function MusicPage()   {
 }
 
 // Left Column Images Component
-function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, sections, activeSection, isMobile }) {
+function LeftColumnImages({ sectionText, activeOverlay, setActiveOverlay, setActiveSection, sections, activeSection, isMobile }) {
   const leftColRef = useRef(null);
 
   // ScrollSpy: update active section on scroll
@@ -695,6 +700,7 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
       {activeOverlay === 'outside' && (
         <div className="w-full">
           <div id="albumcover">
+            <SectionIntro text={sectionText?.albumcover} />
             <Image
               src="/images/outside-cover.jpg"
               alt="Outside album cover"
@@ -751,6 +757,7 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
             </div>
           </div>
           <div id="music">
+            <SectionIntro text={sectionText?.music} />
             {/* Spotify Album Embed */}
             <div style={{borderRadius: '0', overflow: 'hidden', margin: '0 0 16px 0'}}>
               <iframe 
@@ -767,6 +774,7 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
             </div>
           </div>
           <div id="merch">
+            <SectionIntro text={sectionText?.merch} />
             <Image
               src="/images/outside/IMG_1248.jpeg"
               alt="Outside merch"
@@ -785,6 +793,7 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
             />
           </div>
           <div id="content">
+            <SectionIntro text={sectionText?.content} />
             <div className="grid grid-cols-2 gap-4 p-4">
               <div className="flex flex-col">
                 <Image
@@ -817,6 +826,7 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
       {activeOverlay === 'musicvideos' && (
         <div className="w-full">
           <div id="outside">
+            <SectionIntro text={sectionText?.outside} />
             <div style={{borderRadius: '0', overflow: 'hidden', margin: '0 0 16px 0'}}>
               <iframe 
                 width="100%" 
@@ -831,6 +841,7 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
             </div>
           </div>
           <div id="shadow">
+            <SectionIntro text={sectionText?.shadow} />
             <div style={{borderRadius: '0', overflow: 'hidden', margin: '0 0 16px 0'}}>
               <iframe 
                 width="100%" 
@@ -845,6 +856,7 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
             </div>
           </div>
           <div id="leaves">
+            <SectionIntro text={sectionText?.leaves} />
             <div style={{borderRadius: '0', overflow: 'hidden', margin: '0 0 16px 0'}}>
               <iframe 
                 width="100%" 
@@ -859,6 +871,7 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
             </div>
           </div>
           <div id="weight">
+            <SectionIntro text={sectionText?.weight} />
             <div style={{borderRadius: '0', overflow: 'hidden', margin: '0 0 16px 0'}}>
               <iframe 
                 width="100%" 
