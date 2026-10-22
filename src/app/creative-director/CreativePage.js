@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { PROJECTS } from '@/lib/seo'
 import { useOverlay } from '@/lib/useOverlay'
 import HatNav from '@/components/HatNav'
+import { ProjectBar, SectionChips } from '@/components/ProjectBar'
 
 // Image with Loading Component
 function ImageWithLoading({ src, alt, width, height, className, style, priority = false, imgRef = null }) {
@@ -391,8 +392,6 @@ export default function CreativePage() {
   const headingRef = useRef(null)
   const [headingGap, setHeadingGap] = useState(null)
   const [isMobile, setIsMobile] = useState(false)
-  const [isCollapsed, setIsCollapsed] = useState(false)
-  const [hasToggled, setHasToggled] = useState(false)
   const [figmaLoading, setFigmaLoading] = useState({})
   const collageRef = useRef(null) // Add ref for collage container
   // --- ScrollSpy state for overlays ---
@@ -460,7 +459,6 @@ export default function CreativePage() {
 
   useEffect(() => {
     if (activeOverlay) {
-      setIsCollapsed(false)
       // Reset loading states for Figma embeds
       setFigmaLoading({})
       // Force re-render of images by changing key
@@ -489,7 +487,7 @@ export default function CreativePage() {
   }, [activeOverlay])
 
   useLayoutEffect(() => {
-    if (!activeOverlay || isMobile || isCollapsed) return
+    if (!activeOverlay || isMobile) return
     const star = starRef.current
     const heading = headingRef.current
     if (!star || !heading) return
@@ -499,7 +497,7 @@ export default function CreativePage() {
     const clearOfStar = starRect.top + starRect.width * 1.29 + 14
     const next = Math.max(0, Math.round(clearOfStar - naturalTop))
     setHeadingGap((prev) => (prev === null || Math.abs(prev - next) > 1 ? next : prev))
-  }, [activeOverlay, activeSection, windowWidth, windowHeight, isMobile, isCollapsed])
+  }, [activeOverlay, activeSection, windowWidth, windowHeight, isMobile])
 
   useEffect(() => {
     setHasMounted(true)
@@ -726,9 +724,10 @@ export default function CreativePage() {
               aria-modal="true"
               aria-label={projectDescriptions[activeOverlay]?.title}
               tabIndex={-1}
-              className="fixed top-0 left-0 w-full h-full z-[999] bg-[#FAF8E9] flex flex-col md:flex-row outline-none"
+              className="fixed top-0 left-0 w-full h-full z-[999] bg-[#FAF8E9] flex flex-col md:flex-row outline-none overflow-y-auto overscroll-contain md:overflow-visible"
               style={{ cursor: 'auto' }}
             >
+              <ProjectBar title={projectDescriptions[activeOverlay]?.title} backLabel="Creative" onBack={() => setActiveOverlay(null)} />
               {/* Left Scrollable Column with Project Images */}
               <LeftColumnImages
                 key={activeOverlay} // Force re-render when overlay changes
@@ -737,41 +736,17 @@ export default function CreativePage() {
                 setActiveSection={setActiveSection}
                 sections={sections}
                 activeSection={activeSection}
-                isCollapsed={isCollapsed}
                 isMobile={isMobile}
                 figmaLoading={figmaLoading}
                 setFigmaLoading={setFigmaLoading}
               />
               
               {/* Right Fixed Column with Project Info and Sticky Nav */}
-              <AnimatePresence mode="wait">
-                {!isCollapsed && (
-                  <motion.div
-                    key="expanded"
-                    initial={hasToggled ? { y: '-100%' } : false}
-                    animate={{ y: 0 }}
-                    exit={{ y: '-100%' }}
-                    transition={{ duration: 0.3, ease: 'easeInOut' }}
-                    className="order-1 md:order-2 md:w-[40%] w-full md:h-full h-auto p-6 md:p-12 pb-16 relative text-center md:text-left overflow-visible md:overflow-hidden"
+              <div
+                    className="order-1 md:order-2 md:w-[40%] w-full md:h-full h-auto p-6 md:p-12 pb-6 md:pb-16 relative text-center md:text-left overflow-visible md:overflow-hidden"
                   >
                   {/* MOBILE LAYOUT */}
-                  <div className="md:hidden">
-                    {/* Back button for mobile - top left */}
-                    <button
-                      onClick={() => {
-                        setActiveOverlay(null)
-                        setHasToggled(false)
-                      }}
-                      className="fixed top-4 left-4 z-[1000] cursor-pointer"
-                      style={{ pointerEvents: 'auto' }}
-                    >
-                      <Image 
-                        src="/images/back-arrow.svg" 
-                        alt="Back" 
-                        width={32} 
-                        height={32} 
-                      />
-                    </button>
+                  <div className="md:hidden" data-project-header>
 
                     {/* Mobile view star and title - AT TOP, positioned absolutely to overflow window */}
                     <div className="absolute left-1/2 transform -translate-x-1/2 w-[100px] h-[100px]" style={{ top: '-25px' }}>
@@ -887,42 +862,8 @@ export default function CreativePage() {
                       </p>
                     </div>
 
-                    {/* Navigation menu - horizontal and center aligned at bottom - FOR LANDMADE, OMI, COLORBLOCK, GAS, SORETTE, CROSSWATER AND benttree */}
-                    {(activeOverlay === 'landmade' || activeOverlay === 'omi' || activeOverlay === 'colorblock' || activeOverlay === 'gas' || activeOverlay === 'sorette' || activeOverlay === 'crosswater' || activeOverlay === 'benttree' || activeOverlay === 'nitro' || activeOverlay === 'thriftcon') && (
-                      <div className="flex justify-center">
-                        <HorizontalScrollSpyNav
-                          sections={sections}
-                          activeSection={activeSection}
-                          onNavClick={(id) => {
-                            const leftCol = document.querySelector('.order-2');
-                            if (leftCol) {
-                              const sectionEl = leftCol.querySelector(`#${id}`);
-                              if (sectionEl) {
-                                sectionEl.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
-                              }
-                            }
-                          }}
-                        />
-                      </div>
-                    )}
                   </div>
 
-                  {/* Collapse toggle - positioned at bottom of overlay - MOBILE ONLY */}
-                  <div className="md:hidden absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 z-[1002]">
-                    <button
-                      onClick={() => {
-                        setHasToggled(true)
-                        setIsCollapsed(true)
-                      }}
-                      aria-label="Collapse project info"
-                      className="ink-control rounded-full w-10 h-10 flex items-center justify-center cursor-pointer transition-transform duration-150 hover:scale-105 active:scale-95"
-                      style={{ pointerEvents: 'auto' }}
-                    >
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFFDE6" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M18 15l-6-6-6 6"/>
-                      </svg>
-                    </button>
-                  </div>
 
                   {/* DESKTOP LAYOUT */}
                   <div className="hidden md:block">
@@ -1055,86 +996,9 @@ export default function CreativePage() {
                       }
                     </p>
                   </div>
-                </motion.div>
-                )}
-              </AnimatePresence>
+                </div>
+              <SectionChips sections={sections} activeSection={activeSection} />
 
-              {/* Collapsed Tab - Mobile Only - AT TOP */}
-              <AnimatePresence mode="wait">
-                {isCollapsed && (
-                  <motion.div
-                    key="collapsed"
-                    initial={hasToggled ? { y: '-100%' } : false}
-                    animate={{ y: 0 }}
-                    exit={{ y: '-100%' }}
-                    transition={{ duration: 0.3, ease: 'easeInOut' }}
-                    className="md:hidden fixed top-0 left-0 right-0 z-[1000] bg-[#FAF8E9] border-b border-[#202020]/20"
-                  >
-                  <div className="flex items-center justify-between p-4">
-                    {/* Back button */}
-                    <button
-                      onClick={() => {
-                        setActiveOverlay(null)
-                        setHasToggled(false)
-                      }}
-                      className="cursor-pointer"
-                      style={{ pointerEvents: 'auto' }}
-                    >
-                      <Image 
-                        src="/images/back-arrow.svg" 
-                        alt="Back" 
-                        width={32} 
-                        height={32} 
-                      />
-                    </button>
-
-                    {/* Current section name */}
-                    <div className="flex-1 text-center font-benton-compressed text-lg text-[#202020]">
-                      {(activeOverlay === 'landmade' && projectDescriptions.landmade.sections[activeSection]) ?
-                        projectDescriptions.landmade.sections[activeSection].title :
-                        (activeOverlay === 'omi' && projectDescriptions.omi.sections[activeSection]) ?
-                        projectDescriptions.omi.sections[activeSection].title :
-                        (activeOverlay === 'colorblock' && projectDescriptions.colorblock.sections[activeSection]) ?
-                        projectDescriptions.colorblock.sections[activeSection].title :
-                        (activeOverlay === 'gas' && projectDescriptions.gas.sections[activeSection]) ?
-                        projectDescriptions.gas.sections[activeSection].title :
-                        (activeOverlay === 'sorette' && projectDescriptions.sorette.sections[activeSection]) ?
-                        projectDescriptions.sorette.sections[activeSection].title :
-                        (activeOverlay === 'crosswater' && projectDescriptions.crosswater.sections[activeSection]) ?
-                        projectDescriptions.crosswater.sections[activeSection].title :
-                        (activeOverlay === 'benttree' && projectDescriptions.benttree.sections[activeSection]) ?
-                        projectDescriptions.benttree.sections[activeSection].title :
-                        (activeOverlay === 'nitro' && projectDescriptions.nitro.sections[activeSection]) ?
-                        projectDescriptions.nitro.sections[activeSection].title :
-                        (activeOverlay === 'thriftcon' && projectDescriptions.thriftcon.sections[activeSection]) ?
-                        projectDescriptions.thriftcon.sections[activeSection].title :
-                        projectDescriptions[activeOverlay]?.title || activeOverlay
-                      }
-                    </div>
-
-                    {/* Empty space for symmetry */}
-                    <div className="w-6"></div>
-                  </div>
-
-                  {/* Bottom expand toggle - half circle */}
-                  <div className="absolute -bottom-5 left-1/2 transform -translate-x-1/2 z-[1002]">
-                    <button
-                      onClick={() => {
-                        setHasToggled(true)
-                        setIsCollapsed(false)
-                      }}
-                      aria-label="Expand project info"
-                      className="ink-control rounded-full w-10 h-10 flex items-center justify-center cursor-pointer transition-transform duration-150 hover:scale-105 active:scale-95"
-                      style={{ pointerEvents: 'auto' }}
-                    >
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFFDE6" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M6 9l6 6 6-6"/>
-                      </svg>
-                    </button>
-                  </div>
-                </motion.div>
-                )}
-              </AnimatePresence>
             </motion.div>
           )}
         </AnimatePresence>
@@ -1220,54 +1084,8 @@ function ScrollSpyNav({ sections, activeSection, onNavClick }) {
   );
 }
 
-// New horizontal navigation component for mobile
-function HorizontalScrollSpyNav({ sections, activeSection, onNavClick }) {
-  // Dynamically split sections for different layouts
-  const midpoint = Math.ceil(sections.length / 2);
-  const firstLine = sections.slice(0, midpoint);
-  const secondLine = sections.slice(midpoint);
-  
-  return (
-    <nav className="flex flex-col items-center gap-y-2 font-benton-compressed text-sm">
-      {/* First line */}
-      <div className="flex gap-x-4">
-        {firstLine.map((section) => (
-          <button
-            key={section.id}
-            onClick={() => onNavClick(section.id)}
-            className={`relative transition-colors duration-300 px-2 py-1 ${activeSection === section.id ? 'font-bold text-[#202020]' : 'font-normal text-[#6b6b6b]'}`}
-            style={{ background: 'none', border: 'none', cursor: 'pointer' }}
-          >
-            {section.label}
-            {activeSection === section.id && (
-              <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-4 h-0.5 bg-[#202020] rounded"></div>
-            )}
-          </button>
-        ))}
-      </div>
-      {/* Second line - only show if there are items */}
-      {secondLine.length > 0 && (
-        <div className="flex gap-x-4">
-          {secondLine.map((section) => (
-            <button
-              key={section.id}
-              onClick={() => onNavClick(section.id)}
-              className={`relative transition-colors duration-300 px-2 py-1 ${activeSection === section.id ? 'font-bold text-[#202020]' : 'font-normal text-[#6b6b6b]'}`}
-              style={{ background: 'none', border: 'none', cursor: 'pointer' }}
-            >
-              {section.label}
-              {activeSection === section.id && (
-                <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-4 h-0.5 bg-[#202020] rounded"></div>
-              )}
-            </button>
-          ))}
-        </div>
-      )}
-    </nav>
-  );
-}
 
-function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, sections, activeSection, isCollapsed, isMobile, figmaLoading, setFigmaLoading }) {
+function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, sections, activeSection, isMobile, figmaLoading, setFigmaLoading }) {
   const firstImgRef = useRef(null);
   const leftColRef = useRef(null);
 
@@ -1275,18 +1093,19 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
   useEffect(() => {
     const ref = leftColRef.current;
     if (!ref || sections.length === 0) return;
+    const scroller = isMobile ? ref.closest('[role=dialog]') : ref;
     
     // Scroll to top when component mounts
-    ref.scrollTop = 0;
+    scroller.scrollTop = 0;
     
     const handleScroll = () => {
-      const parentRect = ref.getBoundingClientRect();
+      const parentRect = scroller.getBoundingClientRect();
       let newActiveSection = null;
 
       // Check if we're near the bottom of the scroll container
-      const scrollTop = ref.scrollTop;
-      const scrollHeight = ref.scrollHeight;
-      const clientHeight = ref.clientHeight;
+      const scrollTop = scroller.scrollTop;
+      const scrollHeight = scroller.scrollHeight;
+      const clientHeight = scroller.clientHeight;
       const isNearBottom = scrollTop + clientHeight >= scrollHeight - 100;
 
       // If near bottom, set last section as active
@@ -1359,15 +1178,15 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
       }
     };
     
-    ref.addEventListener('scroll', handleScroll);
+    scroller.addEventListener('scroll', handleScroll);
     handleScroll();
-    return () => ref.removeEventListener('scroll', handleScroll);
+    return () => scroller.removeEventListener('scroll', handleScroll);
   }, [activeOverlay, isMobile]);
 
   return (
     <div 
       ref={leftColRef}
-      className="order-2 md:order-1 md:w-[60%] w-full h-full overflow-y-scroll relative p-0 m-0"
+      className="order-2 md:order-1 md:w-[60%] w-full md:h-full md:overflow-y-scroll relative p-0 m-0"
       style={{
         scrollbarWidth: 'thin',
         scrollbarColor: '#202020 #FAF8E9',

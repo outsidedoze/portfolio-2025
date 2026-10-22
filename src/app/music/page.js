@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useEffect, useState, useRef } from 'react'
 import { useOverlay } from '@/lib/useOverlay'
 import HatNav from '@/components/HatNav'
+import { ProjectBar, SectionChips } from '@/components/ProjectBar'
 
 const MUSIC_SLUGS = { outside: 'outside', musicvideos: 'music-videos', singlecovers: 'single-covers' }
 const randomEntry = () => ({
@@ -46,8 +47,6 @@ export default function MusicPage()   {
   const [entries] = useState(() => collageImages.map(randomEntry))
   const [windowWidth, setWindowWidth] = useState(0)
   const [isMobile, setIsMobile] = useState(false)
-  const [isCollapsed, setIsCollapsed] = useState(false)
-  const [hasToggled, setHasToggled] = useState(false)
   const [activeSection, setActiveSection] = useState('albumcover')
 
   // Dynamic sections based on active overlay
@@ -153,7 +152,6 @@ export default function MusicPage()   {
 
   useEffect(() => {
     if (activeOverlay) {
-      setIsCollapsed(false)
       // Set the default active section to the first section of the overlay
       if (activeOverlay === 'outside') {
         setActiveSection('albumcover')
@@ -343,9 +341,10 @@ export default function MusicPage()   {
               aria-modal="true"
               aria-label={projectDescriptions[activeOverlay]?.title}
               tabIndex={-1}
-              className="fixed top-0 left-0 w-full h-full z-[999] bg-[#FAF8E9] flex flex-col md:flex-row outline-none"
+              className="fixed top-0 left-0 w-full h-full z-[999] bg-[#FAF8E9] flex flex-col md:flex-row outline-none overflow-y-auto overscroll-contain md:overflow-visible"
               style={{ cursor: 'auto' }}
             >
+              <ProjectBar title={projectDescriptions[activeOverlay]?.title} backLabel="Music" onBack={() => setActiveOverlay(null)} />
               {/* Left Scrollable Column with Project Images */}
               <LeftColumnImages
                 activeOverlay={activeOverlay}
@@ -353,39 +352,15 @@ export default function MusicPage()   {
                 setActiveSection={setActiveSection}
                 sections={sections}
                 activeSection={activeSection}
-                isCollapsed={isCollapsed}
                 isMobile={isMobile}
               />
               
               {/* Right Fixed Column with Project Info */}
-              <AnimatePresence mode="wait">
-                {!isCollapsed && (
-                  <motion.div
-                    key="expanded"
-                    initial={hasToggled ? { y: '-100%' } : false}
-                    animate={{ y: 0 }}
-                    exit={{ y: '-100%' }}
-                    transition={{ duration: 0.3, ease: 'easeInOut' }}
-                    className="order-1 md:order-2 md:w-[40%] w-full md:h-full h-auto p-6 md:p-12 pb-16 relative text-center md:text-left overflow-visible md:overflow-hidden"
+              <div
+                    className="order-1 md:order-2 md:w-[40%] w-full md:h-full h-auto p-6 md:p-12 pb-6 md:pb-16 relative text-center md:text-left overflow-visible md:overflow-hidden"
                   >
                   {/* MOBILE LAYOUT */}
-                  <div className="md:hidden">
-                    {/* Back button for mobile - top left */}
-                    <button
-                      onClick={() => {
-                        setActiveOverlay(null)
-                        setHasToggled(false)
-                      }}
-                      className="fixed top-4 left-4 z-[1000] cursor-pointer"
-                      style={{ pointerEvents: 'auto' }}
-                    >
-                      <Image 
-                        src="/images/back-arrow.svg" 
-                        alt="Back" 
-                        width={32} 
-                        height={32} 
-                      />
-                    </button>
+                  <div className="md:hidden" data-project-header>
 
                     {/* Mobile view star and title */}
                     <div className="absolute left-1/2 transform -translate-x-1/2 w-[100px] h-[100px]" style={{ top: '-25px' }}>
@@ -473,42 +448,8 @@ export default function MusicPage()   {
                       </p>
                     </div>
 
-                    {/* Navigation menu - horizontal and center aligned at bottom */}
-                    {(activeOverlay === 'outside' || activeOverlay === 'musicvideos') && (
-                      <div className="flex justify-center">
-                        <HorizontalScrollSpyNav
-                          sections={sections}
-                          activeSection={activeSection}
-                          onNavClick={(id) => {
-                            const leftCol = document.querySelector('.order-2');
-                            if (leftCol) {
-                              const sectionEl = leftCol.querySelector(`#${id}`);
-                              if (sectionEl) {
-                                sectionEl.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
-                              }
-                            }
-                          }}
-                        />
-                      </div>
-                    )}
                   </div>
 
-                  {/* Collapse toggle - positioned at bottom of overlay - MOBILE ONLY */}
-                  <div className="md:hidden absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 z-[1002]">
-                    <button
-                      onClick={() => {
-                        setHasToggled(true)
-                        setIsCollapsed(true)
-                      }}
-                      aria-label="Collapse project info"
-                      className="ink-control rounded-full w-10 h-10 flex items-center justify-center cursor-pointer transition-transform duration-150 hover:scale-105 active:scale-95"
-                      style={{ pointerEvents: 'auto' }}
-                    >
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFFDE6" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M18 15l-6-6-6 6"/>
-                      </svg>
-                    </button>
-                  </div>
 
                   {/* DESKTOP LAYOUT */}
                   <div className="hidden md:block">
@@ -613,72 +554,9 @@ export default function MusicPage()   {
                       }
                     </p>
                   </div>
-                </motion.div>
-                )}
-              </AnimatePresence>
+                </div>
+              <SectionChips sections={sections} activeSection={activeSection} />
 
-              {/* Collapsed Tab - Mobile Only - AT TOP */}
-              <AnimatePresence mode="wait">
-                {isCollapsed && (
-                  <motion.div
-                    key="collapsed"
-                    initial={hasToggled ? { y: '-100%' } : false}
-                    animate={{ y: 0 }}
-                    exit={{ y: '-100%' }}
-                    transition={{ duration: 0.3, ease: 'easeInOut' }}
-                    className="md:hidden fixed top-0 left-0 right-0 z-[1000] bg-[#FAF8E9] border-b border-[#202020]/20"
-                  >
-                  <div className="flex items-center justify-between p-4">
-                    {/* Back button */}
-                    <button
-                      onClick={() => {
-                        setActiveOverlay(null)
-                        setHasToggled(false)
-                      }}
-                      className="cursor-pointer"
-                      style={{ pointerEvents: 'auto' }}
-                    >
-                      <Image 
-                        src="/images/back-arrow.svg" 
-                        alt="Back" 
-                        width={32} 
-                        height={32} 
-                      />
-                    </button>
-
-                    {/* Current section name */}
-                    <div className="flex-1 text-center font-benton-compressed text-lg text-[#202020]">
-                      {(activeOverlay === 'outside' && projectDescriptions.outside.sections[activeSection]) ?
-                        projectDescriptions.outside.sections[activeSection].title :
-                        (activeOverlay === 'musicvideos' && projectDescriptions.musicvideos.sections[activeSection]) ?
-                        projectDescriptions.musicvideos.sections[activeSection].title :
-                        projectDescriptions[activeOverlay]?.title || activeOverlay
-                      }
-                    </div>
-
-                    {/* Empty space for symmetry */}
-                    <div className="w-6"></div>
-                  </div>
-
-                  {/* Bottom expand toggle */}
-                  <div className="absolute -bottom-5 left-1/2 transform -translate-x-1/2 z-[1002]">
-                    <button
-                      onClick={() => {
-                        setHasToggled(true)
-                        setIsCollapsed(false)
-                      }}
-                      aria-label="Expand project info"
-                      className="ink-control rounded-full w-10 h-10 flex items-center justify-center cursor-pointer transition-transform duration-150 hover:scale-105 active:scale-95"
-                      style={{ pointerEvents: 'auto' }}
-                    >
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFFDE6" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M6 9l6 6 6-6"/>
-                      </svg>
-                    </button>
-                  </div>
-                </motion.div>
-                )}
-              </AnimatePresence>
             </motion.div>
           )}
         </AnimatePresence>
@@ -688,22 +566,23 @@ export default function MusicPage()   {
 }
 
 // Left Column Images Component
-function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, sections, activeSection, isCollapsed, isMobile }) {
+function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, sections, activeSection, isMobile }) {
   const leftColRef = useRef(null);
 
   // ScrollSpy: update active section on scroll
   useEffect(() => {
     const ref = leftColRef.current;
     if (!ref || sections.length === 0) return;
+    const scroller = isMobile ? ref.closest('[role=dialog]') : ref;
     
     const handleScroll = () => {
-      const parentRect = ref.getBoundingClientRect();
+      const parentRect = scroller.getBoundingClientRect();
       let newActiveSection = null;
 
       // Check if we're near the bottom of the scroll container
-      const scrollTop = ref.scrollTop;
-      const scrollHeight = ref.scrollHeight;
-      const clientHeight = ref.clientHeight;
+      const scrollTop = scroller.scrollTop;
+      const scrollHeight = scroller.scrollHeight;
+      const clientHeight = scroller.clientHeight;
       const isNearBottom = scrollTop + clientHeight >= scrollHeight - 100;
 
       // If near bottom, set last section as active
@@ -776,15 +655,15 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
       }
     };
     
-    ref.addEventListener('scroll', handleScroll);
+    scroller.addEventListener('scroll', handleScroll);
     handleScroll();
-    return () => ref.removeEventListener('scroll', handleScroll);
+    return () => scroller.removeEventListener('scroll', handleScroll);
   }, [sections, isMobile]); // Key fix: removed activeSection from dependencies
 
   return (
     <div 
       ref={leftColRef}
-      className="order-2 md:order-1 md:w-[60%] w-full h-full overflow-y-scroll relative p-0 m-0"
+      className="order-2 md:order-1 md:w-[60%] w-full md:h-full md:overflow-y-scroll relative p-0 m-0"
       style={{
         scrollbarWidth: 'thin',
         scrollbarColor: '#202020 #FAF8E9',
@@ -1074,53 +953,6 @@ function ScrollSpyNav({ sections, activeSection, onNavClick }) {
           {section.label}
         </button>
       ))}
-    </nav>
-  );
-}
-
-// Horizontal Navigation Component for Mobile
-function HorizontalScrollSpyNav({ sections, activeSection, onNavClick }) {
-  // Dynamically split sections for different layouts
-  const midpoint = Math.ceil(sections.length / 2);
-  const firstLine = sections.slice(0, midpoint);
-  const secondLine = sections.slice(midpoint);
-  
-  return (
-    <nav className="flex flex-col items-center gap-y-2 font-benton-compressed text-sm">
-      {/* First line */}
-      <div className="flex gap-x-4">
-        {firstLine.map((section) => (
-          <button
-            key={section.id}
-            onClick={() => onNavClick(section.id)}
-            className={`relative transition-colors duration-300 px-2 py-1 ${activeSection === section.id ? 'font-bold text-[#202020]' : 'font-normal text-[#6b6b6b]'}`}
-            style={{ background: 'none', border: 'none', cursor: 'pointer' }}
-          >
-            {section.label}
-            {activeSection === section.id && (
-              <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-4 h-0.5 bg-[#202020] rounded"></div>
-            )}
-          </button>
-        ))}
-      </div>
-      {/* Second line - only show if there are items */}
-      {secondLine.length > 0 && (
-        <div className="flex gap-x-4">
-          {secondLine.map((section) => (
-            <button
-              key={section.id}
-              onClick={() => onNavClick(section.id)}
-              className={`relative transition-colors duration-300 px-2 py-1 ${activeSection === section.id ? 'font-bold text-[#202020]' : 'font-normal text-[#6b6b6b]'}`}
-              style={{ background: 'none', border: 'none', cursor: 'pointer' }}
-            >
-              {section.label}
-              {activeSection === section.id && (
-                <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-4 h-0.5 bg-[#202020] rounded"></div>
-              )}
-            </button>
-          ))}
-        </div>
-      )}
     </nav>
   );
 }
