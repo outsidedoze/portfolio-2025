@@ -1,12 +1,19 @@
 'use client'
 import Image from 'next/image'
-import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useEffect, useState, useRef } from 'react'
-import { useRouter } from 'next/navigation'
+import { useOverlay } from '@/lib/useOverlay'
+import HatNav from '@/components/HatNav'
+import { ProjectBar, SectionChips, SectionIntro } from '@/components/ProjectBar'
+
+const MUSIC_SLUGS = { outside: 'outside', musicvideos: 'music-videos', singlecovers: 'single-covers' }
+const randomEntry = () => ({
+  x: [Math.random() > 0.5 ? -80 : 80, Math.random() > 0.5 ? -40 : 40, 0],
+  y: [Math.random() > 0.5 ? -80 : 80, Math.random() > 0.5 ? -40 : 40, 0],
+  opacity: [0, 1, 1],
+})
 
 export default function MusicPage()   {
-  const router = useRouter()
   const collageImages = [
     { src: '/images/cradenza.webp', left:-250, top: 452, width: 667, height: 406, mobilePosition: { left: -480, top: 452 } },
     { src: '/images/window-plant.png', left: 1183, top: 183, width: 493, height: 606, mobilePosition: { left: 350 } },
@@ -18,7 +25,7 @@ export default function MusicPage()   {
     { src: '/images/poster.png', left: 400, top: 306.81, width: 182.36, height: 224.13, mobilePosition: { left: 70, top: 66.81 } },
     { src: '/images/outside.png', left: 1150, top: 800, width: 150, height: 150, href: '/music/outside', label: 'Outside EP', mobilePosition: { left: 450, top: 704, scale: 4, mobileWidth: 250, mobileHeight: 250 } },
     { src: '/images/musicvideos.png', left: -120, top: 160, width: 500, height: 300, href: '/music/musicvideos', label: 'Music videos', mobilePosition: { left: -470, top: 160, scale: 3, mobileWidth: 600, mobileHeight: 360 } },
-    { src: '/images/content.png', left: 730, top: 980, width: 100, height: 200, href: '/music/content', mobilePosition: { left: 130, top: 980, scale: 3, mobileWidth: 150, mobileHeight: 300 } },
+    { src: '/images/content.png', left: 730, top: 980, width: 100, height: 200, mobilePosition: { left: 130, top: 980, scale: 3, mobileWidth: 150, mobileHeight: 300 } },
     { src: '/images/singlecovers.png', left: 600, top: 480, width: 150, height: 150, href: '/music/singlecovers', label: 'Single covers', mobilePosition: { left: 110, top: 290, scale: 4, mobileWidth: 250, mobileHeight: 250 } },
   ]
 
@@ -35,11 +42,11 @@ export default function MusicPage()   {
 
   const [scale, setScale] = useState(1)
   const [hasMounted, setHasMounted] = useState(false)
-  const [activeOverlay, setActiveOverlay] = useState(null)
+  const [activeOverlay, setActiveOverlay, dialogRef] = useOverlay(MUSIC_SLUGS)
+  // Picked once: re-rolling on every render made the whole room fly in again on resize or closing a project
+  const [entries] = useState(() => collageImages.map(randomEntry))
   const [windowWidth, setWindowWidth] = useState(0)
   const [isMobile, setIsMobile] = useState(false)
-  const [isCollapsed, setIsCollapsed] = useState(false)
-  const [hasToggled, setHasToggled] = useState(false)
   const [activeSection, setActiveSection] = useState('albumcover')
 
   // Dynamic sections based on active overlay
@@ -129,6 +136,8 @@ export default function MusicPage()   {
     }
   }
 
+  const hasSectionText = Object.values(projectDescriptions[activeOverlay]?.sections ?? {}).some((s) => s.tagline || s.description)
+
   const createAnimationVariant = (index) => ({
     initial: { scale: 1, rotate: 0 },
     animate: { 
@@ -145,7 +154,6 @@ export default function MusicPage()   {
 
   useEffect(() => {
     if (activeOverlay) {
-      setIsCollapsed(false)
       // Set the default active section to the first section of the overlay
       if (activeOverlay === 'outside') {
         setActiveSection('albumcover')
@@ -183,7 +191,7 @@ export default function MusicPage()   {
 
   return (
 <main
-  className="w-screen h-screen bg-black text-white flex items-center justify-center overflow-hidden"
+  className="w-screen h-dvh bg-black text-white flex items-center justify-center overflow-hidden"
   style={{
     backgroundImage: 'url("/images/music-background.webp")',
     backgroundSize: 'cover',
@@ -192,28 +200,14 @@ export default function MusicPage()   {
   }}
 >
       {/* Home Icon - Top Left - Only on main music page */}
-      {!activeOverlay && (
-        <button
-          onClick={() => router.push('/')}
-          className="fixed top-6 left-6 z-[1001] cursor-pointer hover:scale-110 transition-transform duration-200"
-          style={{ pointerEvents: 'auto' }}
-        >
-          <Image 
-            src="/images/home-icon.svg" 
-            alt="Home" 
-            width={60} 
-            height={60} 
-            className="drop-shadow-lg"
-          />
-        </button>
-      )}
+      {!activeOverlay && <HatNav />}
 
         <div className="absolute top-12 left-0 w-full z-50 overflow-hidden">
-          <div aria-hidden="true" className="flex whitespace-nowrap animate-marquee text-[10rem] font-bold font-benton text-white space-x-16 w-[200%] leading-[1.2]">
+          <div aria-hidden="true" className="flex whitespace-nowrap animate-marquee text-[5rem] md:text-[10rem] font-bold font-benton text-white space-x-16 w-[200%] leading-[1.2]">
             {Array.from({ length: 10 }).map((_, i) => (
               <span key={i} className="flex items-center gap-4">
                 music & personal projects
-                <Image src="/images/star.svg" alt="star" width={50} height={50} className="inline-block align-middle translate-y-1" />
+                <Image src="/images/star.svg" alt="" width={50} height={50} className="inline-block align-middle translate-y-1" />
               </span>
             ))}
           </div>
@@ -249,19 +243,7 @@ export default function MusicPage()   {
                   <motion.div
                     key={img.src}
                     initial={{ x: 0, y: 0, opacity: 0 }}
-                    animate={{
-                      x: [
-                        Math.random() > 0.5 ? -80 : 80,
-                        Math.random() > 0.5 ? -40 : 40,
-                        0
-                      ],
-                      y: [
-                        Math.random() > 0.5 ? -80 : 80,
-                        Math.random() > 0.5 ? -40 : 40,
-                        0
-                      ],
-                      opacity: [0, 1, 1]
-                    }}
+                    animate={entries[index]}
                     transition={{
                       duration: 0.5,
                       times: [0, 0.5, 1],
@@ -298,17 +280,11 @@ export default function MusicPage()   {
                     }}
                   >
                     {img.href ? (
-                      <motion.div 
-                        onClick={() => {
-                          if (img.href === '/music/outside') {
-                            setActiveOverlay('outside')
-                          } else if (img.href === '/music/musicvideos') {
-                            setActiveOverlay('musicvideos')
-                          } else if (img.href === '/music/singlecovers') {
-                            setActiveOverlay('singlecovers')
-                          }
-                        }}
-                        className={`${img.href ? 'cursor-pointer transition-transform hover:scale-105' : ''}`}
+                      <motion.button
+                        type="button"
+                        onClick={() => setActiveOverlay(img.href.split('/').pop())}
+                        aria-label={img.label}
+                        className="block cursor-pointer transition-transform hover:scale-105"
                         variants={createAnimationVariant(index % 4)}
                         initial="initial"
                         animate="animate"
@@ -323,7 +299,7 @@ export default function MusicPage()   {
                           priority={isCanvasPiece()}
                           loading={isCanvasPiece() ? undefined : 'eager'}
                         />
-                      </motion.div>
+                      </motion.button>
                     ) : (
                       <Image
                         src={img.src}
@@ -362,49 +338,32 @@ export default function MusicPage()   {
               animate={{ x: 0 }}
               exit={{ x: '-100%' }}
               transition={{ duration: 0.6, ease: 'easeInOut' }}
-              className="fixed top-0 left-0 w-full h-full z-[999] bg-[#FAF8E9] flex flex-col md:flex-row"
+              ref={dialogRef}
+              role="dialog"
+              aria-modal="true"
+              aria-label={projectDescriptions[activeOverlay]?.title}
+              tabIndex={-1}
+              className="fixed top-0 left-0 w-full h-full z-[999] bg-[#FAF8E9] flex flex-col md:flex-row outline-none overflow-y-auto overscroll-contain md:overflow-visible"
               style={{ cursor: 'auto' }}
             >
+              <ProjectBar title={projectDescriptions[activeOverlay]?.title} backLabel="Music" onBack={() => setActiveOverlay(null)} />
               {/* Left Scrollable Column with Project Images */}
               <LeftColumnImages
+                sectionText={projectDescriptions[activeOverlay]?.sections}
                 activeOverlay={activeOverlay}
                 setActiveOverlay={setActiveOverlay}
                 setActiveSection={setActiveSection}
                 sections={sections}
                 activeSection={activeSection}
-                isCollapsed={isCollapsed}
                 isMobile={isMobile}
               />
               
               {/* Right Fixed Column with Project Info */}
-              <AnimatePresence mode="wait">
-                {!isCollapsed && (
-                  <motion.div
-                    key="expanded"
-                    initial={hasToggled ? { y: '-100%' } : false}
-                    animate={{ y: 0 }}
-                    exit={{ y: '-100%' }}
-                    transition={{ duration: 0.3, ease: 'easeInOut' }}
-                    className="order-1 md:order-2 md:w-[40%] w-full md:h-full h-auto p-6 md:p-12 pb-16 relative text-center md:text-left overflow-visible md:overflow-hidden"
+              <div
+                    className="order-1 md:order-2 md:w-[40%] w-full md:h-full h-auto p-6 md:p-12 pb-6 md:pb-16 relative text-center md:text-left overflow-visible md:overflow-hidden"
                   >
                   {/* MOBILE LAYOUT */}
-                  <div className="md:hidden">
-                    {/* Back button for mobile - top left */}
-                    <button
-                      onClick={() => {
-                        setActiveOverlay(null)
-                        setHasToggled(false)
-                      }}
-                      className="fixed top-4 left-4 z-[1000] cursor-pointer"
-                      style={{ pointerEvents: 'auto' }}
-                    >
-                      <Image 
-                        src="/images/back-arrow.svg" 
-                        alt="Back" 
-                        width={32} 
-                        height={32} 
-                      />
-                    </button>
+                  <div className="md:hidden" data-project-header>
 
                     {/* Mobile view star and title */}
                     <div className="absolute left-1/2 transform -translate-x-1/2 w-[100px] h-[100px]" style={{ top: '-25px' }}>
@@ -423,7 +382,7 @@ export default function MusicPage()   {
                       >
                         <Image
                           src="/images/star-background.svg"
-                          alt="Star Badge Shadow"
+                          alt=""
                           width={100}
                           height={100}
                           className="object-contain"
@@ -445,7 +404,7 @@ export default function MusicPage()   {
                       >
                         <Image
                           src="/images/star-front.svg"
-                          alt="Star Badge"
+                          alt=""
                           width={100}
                           height={100}
                           className="object-contain"
@@ -474,6 +433,7 @@ export default function MusicPage()   {
 
                     {/* Title and description */}
                     <div className="text-center" style={{ marginTop: '70px', marginBottom: '10px' }}>
+                      {!hasSectionText && (<>
                       <div className="text-[#202020] font-benton-compressed text-2xl md:text-4xl leading-none mb-4">
                         {(activeOverlay === 'outside' && projectDescriptions.outside.sections[activeSection]) ?
                           projectDescriptions.outside.sections[activeSection].tagline :
@@ -490,43 +450,11 @@ export default function MusicPage()   {
                           projectDescriptions[activeOverlay]?.description || ""
                         }
                       </p>
+                        </>)}
                     </div>
 
-                    {/* Navigation menu - horizontal and center aligned at bottom */}
-                    {(activeOverlay === 'outside' || activeOverlay === 'musicvideos') && (
-                      <div className="flex justify-center">
-                        <HorizontalScrollSpyNav
-                          sections={sections}
-                          activeSection={activeSection}
-                          onNavClick={(id) => {
-                            const leftCol = document.querySelector('.order-2');
-                            if (leftCol) {
-                              const sectionEl = leftCol.querySelector(`#${id}`);
-                              if (sectionEl) {
-                                sectionEl.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
-                              }
-                            }
-                          }}
-                        />
-                      </div>
-                    )}
                   </div>
 
-                  {/* Collapse toggle - positioned at bottom of overlay - MOBILE ONLY */}
-                  <div className="md:hidden absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 z-[1002]">
-                    <button
-                      onClick={() => {
-                        setHasToggled(true)
-                        setIsCollapsed(true)
-                      }}
-                      className="bg-[#FAF8E9] rounded-full w-10 h-10 flex items-center justify-center cursor-pointer hover:bg-[#F5F3E5] transition-colors border border-[#202020]/10"
-                      style={{ pointerEvents: 'auto' }}
-                    >
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#202020" strokeWidth="2">
-                        <path d="M18 15l-6-6-6 6"/>
-                      </svg>
-                    </button>
-                  </div>
 
                   {/* DESKTOP LAYOUT */}
                   <div className="hidden md:block">
@@ -567,7 +495,7 @@ export default function MusicPage()   {
                       >
                         <Image
                           src="/images/star-background.svg"
-                          alt="Star Badge Shadow"
+                          alt=""
                           fill
                           className="object-contain"
                         />
@@ -588,7 +516,7 @@ export default function MusicPage()   {
                       >
                         <Image
                           src="/images/star-front.svg"
-                          alt="Star Badge"
+                          alt=""
                           fill
                           className="object-contain"
                         />
@@ -631,71 +559,9 @@ export default function MusicPage()   {
                       }
                     </p>
                   </div>
-                </motion.div>
-                )}
-              </AnimatePresence>
+                </div>
+              <SectionChips sections={sections} activeSection={activeSection} />
 
-              {/* Collapsed Tab - Mobile Only - AT TOP */}
-              <AnimatePresence mode="wait">
-                {isCollapsed && (
-                  <motion.div
-                    key="collapsed"
-                    initial={hasToggled ? { y: '-100%' } : false}
-                    animate={{ y: 0 }}
-                    exit={{ y: '-100%' }}
-                    transition={{ duration: 0.3, ease: 'easeInOut' }}
-                    className="md:hidden fixed top-0 left-0 right-0 z-[1000] bg-[#FAF8E9] border-b border-[#202020]/20"
-                  >
-                  <div className="flex items-center justify-between p-4">
-                    {/* Back button */}
-                    <button
-                      onClick={() => {
-                        setActiveOverlay(null)
-                        setHasToggled(false)
-                      }}
-                      className="cursor-pointer"
-                      style={{ pointerEvents: 'auto' }}
-                    >
-                      <Image 
-                        src="/images/back-arrow.svg" 
-                        alt="Back" 
-                        width={24} 
-                        height={24} 
-                      />
-                    </button>
-
-                    {/* Current section name */}
-                    <div className="flex-1 text-center font-benton-compressed text-lg text-[#202020]">
-                      {(activeOverlay === 'outside' && projectDescriptions.outside.sections[activeSection]) ?
-                        projectDescriptions.outside.sections[activeSection].title :
-                        (activeOverlay === 'musicvideos' && projectDescriptions.musicvideos.sections[activeSection]) ?
-                        projectDescriptions.musicvideos.sections[activeSection].title :
-                        projectDescriptions[activeOverlay]?.title || activeOverlay
-                      }
-                    </div>
-
-                    {/* Empty space for symmetry */}
-                    <div className="w-6"></div>
-                  </div>
-
-                  {/* Bottom expand toggle */}
-                  <div className="absolute -bottom-5 left-1/2 transform -translate-x-1/2 z-[1002]">
-                    <button
-                      onClick={() => {
-                        setHasToggled(true)
-                        setIsCollapsed(false)
-                      }}
-                      className="bg-[#FAF8E9] rounded-full w-10 h-10 flex items-center justify-center cursor-pointer hover:bg-[#F5F3E5] transition-colors border border-[#202020]/10"
-                      style={{ pointerEvents: 'auto' }}
-                    >
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#202020" strokeWidth="2">
-                        <path d="M6 9l6 6 6-6"/>
-                      </svg>
-                    </button>
-                  </div>
-                </motion.div>
-                )}
-              </AnimatePresence>
             </motion.div>
           )}
         </AnimatePresence>
@@ -705,22 +571,23 @@ export default function MusicPage()   {
 }
 
 // Left Column Images Component
-function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, sections, activeSection, isCollapsed, isMobile }) {
+function LeftColumnImages({ sectionText, activeOverlay, setActiveOverlay, setActiveSection, sections, activeSection, isMobile }) {
   const leftColRef = useRef(null);
 
   // ScrollSpy: update active section on scroll
   useEffect(() => {
     const ref = leftColRef.current;
     if (!ref || sections.length === 0) return;
+    const scroller = isMobile ? ref.closest('[role=dialog]') : ref;
     
     const handleScroll = () => {
-      const parentRect = ref.getBoundingClientRect();
+      const parentRect = scroller.getBoundingClientRect();
       let newActiveSection = null;
 
       // Check if we're near the bottom of the scroll container
-      const scrollTop = ref.scrollTop;
-      const scrollHeight = ref.scrollHeight;
-      const clientHeight = ref.clientHeight;
+      const scrollTop = scroller.scrollTop;
+      const scrollHeight = scroller.scrollHeight;
+      const clientHeight = scroller.clientHeight;
       const isNearBottom = scrollTop + clientHeight >= scrollHeight - 100;
 
       // If near bottom, set last section as active
@@ -793,15 +660,15 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
       }
     };
     
-    ref.addEventListener('scroll', handleScroll);
+    scroller.addEventListener('scroll', handleScroll);
     handleScroll();
-    return () => ref.removeEventListener('scroll', handleScroll);
+    return () => scroller.removeEventListener('scroll', handleScroll);
   }, [sections, isMobile]); // Key fix: removed activeSection from dependencies
 
   return (
     <div 
       ref={leftColRef}
-      className="order-2 md:order-1 md:w-[60%] w-full h-full overflow-y-scroll relative p-0 m-0"
+      className="order-2 md:order-1 md:w-[60%] w-full md:h-full md:overflow-y-scroll relative p-0 m-0"
       style={{
         scrollbarWidth: 'thin',
         scrollbarColor: '#202020 #FAF8E9',
@@ -833,6 +700,7 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
       {activeOverlay === 'outside' && (
         <div className="w-full">
           <div id="albumcover">
+            <SectionIntro text={sectionText?.albumcover} />
             <Image
               src="/images/outside-cover.jpg"
               alt="Outside album cover"
@@ -889,6 +757,7 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
             </div>
           </div>
           <div id="music">
+            <SectionIntro text={sectionText?.music} />
             {/* Spotify Album Embed */}
             <div style={{borderRadius: '0', overflow: 'hidden', margin: '0 0 16px 0'}}>
               <iframe 
@@ -905,6 +774,7 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
             </div>
           </div>
           <div id="merch">
+            <SectionIntro text={sectionText?.merch} />
             <Image
               src="/images/outside/IMG_1248.jpeg"
               alt="Outside merch"
@@ -923,6 +793,7 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
             />
           </div>
           <div id="content">
+            <SectionIntro text={sectionText?.content} />
             <div className="grid grid-cols-2 gap-4 p-4">
               <div className="flex flex-col">
                 <Image
@@ -955,6 +826,7 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
       {activeOverlay === 'musicvideos' && (
         <div className="w-full">
           <div id="outside">
+            <SectionIntro text={sectionText?.outside} />
             <div style={{borderRadius: '0', overflow: 'hidden', margin: '0 0 16px 0'}}>
               <iframe 
                 width="100%" 
@@ -969,6 +841,7 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
             </div>
           </div>
           <div id="shadow">
+            <SectionIntro text={sectionText?.shadow} />
             <div style={{borderRadius: '0', overflow: 'hidden', margin: '0 0 16px 0'}}>
               <iframe 
                 width="100%" 
@@ -983,6 +856,7 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
             </div>
           </div>
           <div id="leaves">
+            <SectionIntro text={sectionText?.leaves} />
             <div style={{borderRadius: '0', overflow: 'hidden', margin: '0 0 16px 0'}}>
               <iframe 
                 width="100%" 
@@ -997,6 +871,7 @@ function LeftColumnImages({ activeOverlay, setActiveOverlay, setActiveSection, s
             </div>
           </div>
           <div id="weight">
+            <SectionIntro text={sectionText?.weight} />
             <div style={{borderRadius: '0', overflow: 'hidden', margin: '0 0 16px 0'}}>
               <iframe 
                 width="100%" 
@@ -1086,58 +961,11 @@ function ScrollSpyNav({ sections, activeSection, onNavClick }) {
           ref={el => navRefs.current[idx] = el}
           onClick={() => onNavClick(section.id)}
           className={`relative text-left transition-colors duration-300 w-full ${activeSection === section.id ? 'font-bold' : 'font-normal'}`}
-          style={{ background: 'none', border: 'none', padding: 0, margin: 0, cursor: 'pointer', minHeight: '2.5rem', display: 'flex', alignItems: 'center', color: activeSection === section.id ? '#202020' : '#bdbdbd', transition: 'color 0.3s' }}
+          style={{ background: 'none', border: 'none', padding: 0, margin: 0, cursor: 'pointer', minHeight: '2.5rem', display: 'flex', alignItems: 'center', color: activeSection === section.id ? '#202020' : '#6b6b6b', transition: 'color 0.3s' }}
         >
           {section.label}
         </button>
       ))}
-    </nav>
-  );
-}
-
-// Horizontal Navigation Component for Mobile
-function HorizontalScrollSpyNav({ sections, activeSection, onNavClick }) {
-  // Dynamically split sections for different layouts
-  const midpoint = Math.ceil(sections.length / 2);
-  const firstLine = sections.slice(0, midpoint);
-  const secondLine = sections.slice(midpoint);
-  
-  return (
-    <nav className="flex flex-col items-center gap-y-2 font-benton-compressed text-sm">
-      {/* First line */}
-      <div className="flex gap-x-4">
-        {firstLine.map((section) => (
-          <button
-            key={section.id}
-            onClick={() => onNavClick(section.id)}
-            className={`relative transition-colors duration-300 px-2 py-1 ${activeSection === section.id ? 'font-bold text-[#202020]' : 'font-normal text-[#bdbdbd]'}`}
-            style={{ background: 'none', border: 'none', cursor: 'pointer' }}
-          >
-            {section.label}
-            {activeSection === section.id && (
-              <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-4 h-0.5 bg-[#202020] rounded"></div>
-            )}
-          </button>
-        ))}
-      </div>
-      {/* Second line - only show if there are items */}
-      {secondLine.length > 0 && (
-        <div className="flex gap-x-4">
-          {secondLine.map((section) => (
-            <button
-              key={section.id}
-              onClick={() => onNavClick(section.id)}
-              className={`relative transition-colors duration-300 px-2 py-1 ${activeSection === section.id ? 'font-bold text-[#202020]' : 'font-normal text-[#bdbdbd]'}`}
-              style={{ background: 'none', border: 'none', cursor: 'pointer' }}
-            >
-              {section.label}
-              {activeSection === section.id && (
-                <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-4 h-0.5 bg-[#202020] rounded"></div>
-              )}
-            </button>
-          ))}
-        </div>
-      )}
     </nav>
   );
 }

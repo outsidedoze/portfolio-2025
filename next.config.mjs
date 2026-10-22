@@ -15,7 +15,12 @@ const nextConfig = {
     return [{ source: '/:path*', headers: securityHeaders }];
   },
   async redirects() {
-    return [{ source: '/designer', destination: '/garden', permanent: false }];
+    // Retired routes: keep old links working
+    return [
+      { source: '/designer', destination: '/garden', permanent: true },
+      { source: '/projects', destination: '/', permanent: true },
+      { source: '/creative-director/them', destination: '/creative-director?project=them', permanent: true },
+    ];
   },
 };
 
